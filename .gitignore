@@ -1,0 +1,21 @@
+.tmp
+dist
+deploy
+
+.DS_Store
+.sass-cache
+node_modules
+app/bower_components
+components
+
+
+*.sublime-*
+.wdrc
+report
+
+# tmp omit before custom add back
+app/images
+app/font
+app/scripts/open
+app/scripts/base
+app/styles/component
