@@ -25,6 +25,10 @@ define(['base/index'], function() {
         $routeHelperProvider.configChild('system', systemMenuList);
     });
 
+    function wrapTable(data, opt) {
+        _.extend(data, opt || {});
+    }
+
     /* Controllers defined here */
     systemApp.controller('systemCtrl', function($scope) {
         // extract to i18n
@@ -32,10 +36,29 @@ define(['base/index'], function() {
     });
 
     systemApp.controller('systemPartnerCtrl', function($scope) {
+        // pickup from resp.data with specfic fields
+        // add raw item for each row, which include other info which not to show
+        $scope.tableHead = ['合作方名称', '合作方 ID', '接口访问次数限制', '操作'];
         $scope.tableData = [
-            ['联想', 'Lneno', '3', 4],
-            ['联想', 'Lneno', '3', 5]
+            ['联想', 'Lneno', '3'],
+            ['联想', 'Lneno', '3']
         ];
+        wrapTable($scope.tableData, {
+            editable: true,
+            deletable: true,
+            type: 'partner'
+        });
+
+        // Todo: 为什么 child 访问不到？！
+        // 离开的时候，恢复$root
+        $scope.$root.onEdit = function(type, row) {
+            // row.raw - default item resource data
+            console.log(arguments);
+        };
+        $scope.onDel = function(type, row) {
+            // row.raw - default item resource data
+            console.log(arguments);
+        };
     });
 
     systemApp.controller('systemAccountCtrl', function($scope) {

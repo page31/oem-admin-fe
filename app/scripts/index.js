@@ -32,6 +32,8 @@ define(['routes',
         $urlRouterProvider.otherwise('/system');
     });
 
+
+    // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)
     oemApp.directive('sTable', function() {
         return {
             templateUrl: 'templates/_tpls/data-table.html',

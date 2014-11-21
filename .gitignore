@@ -16,6 +16,4 @@ report
 # tmp omit before custom add back
 app/images
 app/font
-app/scripts/open
-app/scripts/base
 app/styles/component

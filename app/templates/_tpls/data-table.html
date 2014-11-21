@@ -4,5 +4,14 @@
     </tr>
     <tr ng-repeat="row in dataList">
         <td ng-repeat="i in row">{{i}}</td>
+        <td ng-if="dataList.editable || dataList.deletable">
+            <!-- Add if check -->
+            <a ng-click="$root.onEdit(dataList.type, row)">
+                <i class="icon-edit"></i>
+            </a>
+            <a ng-click="onDel(dataList.type, row)">
+                <i class="icon-trash"></i>
+            </a>
+        </td>
     </tr>
 </table>
