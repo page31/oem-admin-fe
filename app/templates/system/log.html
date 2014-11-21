@@ -1,0 +1,13 @@
+<div>
+    <h2>查看日志</h2>
+    <p class="text-mute">查看各账户的写操作日志</p>
+
+    <!-- daterange with trigger btn -->
+    <p>
+        <div date-range-picker></div>
+        <button class="w-btn">查询</button>
+    </p>
+    <div s-table row-list="tableData"
+        head-list="['时间', '账户', '日志内容']">
+    </div>
+</div>
