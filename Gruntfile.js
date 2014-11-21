@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 
         compass: {
             options: {
-                importPath: '<%= paths.app %>/bower_components',
+                importPath: '<%= paths.app %>/components',
                 sassDir: '<%= paths.sass %>',
                 cssDir: '<%= paths.css %>',
                 imagesDir: '<%= paths.app %>/images',
@@ -118,9 +118,9 @@ module.exports = function(grunt) {
             },
             bower: {
                 expand: true,
-                cwd: '<%= paths.app %>/bower_components/',
+                cwd: '<%= paths.app %>/components/',
                 src: ['**/*'],
-                dest: '<%= paths.tmp %>/bower_components/'
+                dest: '<%= paths.tmp %>/components/'
             },
             html: {
                 expand: true,

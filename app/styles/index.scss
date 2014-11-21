@@ -1,7 +1,13 @@
-@import "biz_module/open";
+@import "biz_module/app_vertical";
+@import "biz_module/system";
 
 .pmt-main-section {
     h2 {
         font-size: 20px;
     }
+}
+
+.pmt-content-wrapper {
+    width: 640px;
+    float: right;
 }
