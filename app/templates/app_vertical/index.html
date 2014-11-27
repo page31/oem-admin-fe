@@ -1,28 +1,46 @@
-<ul class="pmt-sidebar-nav">
+<!-- Todo: move configCtrl link to route -->
+<!-- Remove: extra wrapper div -->
+<div ng-controller="configCtrl">
+    <ul class="pmt-sidebar-nav">
 
-    <!-- Todo: refact to directive globally used -->
-    <li class="pmt-sidebar-nav-header">
-        <span class="pmt-btn-dropdown" dropdown ng-if="configData.length > 1">
-            <button class="btn-dropdown w-btn">
+        <!-- Todo: refact to directive globally used -->
+        <li class="pmt-sidebar-nav-header">
+            <span class="pmt-btn-dropdown" dropdown ng-if="configData.length > 1">
+                <button class="btn-dropdown w-btn">
+                    {{currentConfig.alias}}
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="i in configData" ng-click="switchCurrentConfig(i)">
+                            <a>{{i.alias}}</a>
+                        </li>
+                    </ul>
+                </button>
+            </span>
+            <span class="sidebar-nav-header-style" ng-if="configData.length == 1">
                 {{currentConfig.alias}}
-                <span class="caret"></span>
-                <ul class="dropdown-menu">
-                    <li ng-repeat="i in configData" ng-click="switchCurrentConfig(i)">
-                        <a>{{i.alias}}</a>
-                    </li>
-                </ul>
-            </button>
-        </span>
-        <span class="sidebar-nav-header-style" ng-if="configData.length == 1">
-            {{currentConfig.alias}}
-        </span>
-    </li>
+            </span>
+        </li>
+        <li ng-repeat="item in subNavList">
+            <a class="nav-item" ui-sref="appVertical({alias: currentConfig.alias,type: item.key})"
+            ui-sref-active="active">{{item.name}}</a>
+        </li>
+    </ul>
+    <div style="width: 640px;float: right;"
+        ng-switch on="currentConfigType.key">
+        <div ng-switch-when="channel">
+            <div ng-include="'templates/app_vertical/config-index.html'"></div>
+        </div>
 
-    <li ng-repeat="item in subNavList">
-        <a class="nav-item" ng-href="/open-api/config/{{currentConfig.alias}}/{{item.key}}"
-        ng-class="{'active': currentConfigType.key == item.key}">{{item.name}}</a>
-    </li>
-</ul>
-<div class="pmt-content-wrapper">
-    <div ui-view></div>
+        <div ng-switch-when="banner">
+            <div ng-include="'templates/app_vertical/config-banner.html'"></div>
+        </div>
+
+        <div ng-switch-when="app">
+            <div ng-include="'templates/app_vertical/config-app.html'"></div>
+        </div>
+
+        <div ng-switch-default>
+            <div ng-include="'templates/app_vertical/config-general.html'"></div>
+        </div>
+    </div>
 </div>

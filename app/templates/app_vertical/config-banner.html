@@ -8,7 +8,7 @@
                 <a class="w-btn" ng-click="mode = 'position'">调整 banner 顺序</a>
             </div>
         </header>
-        <div pmt-include="/templates/open/partials/config-banner-table.html"></div>
+        <div pmt-include="templates/app_vertical/partials/banner-table.html"></div>
     </div>
 
     <div ng-show="mode=='position'" class="config-page">
@@ -23,11 +23,11 @@
                 <a class="w-btn" ng-click="mode = 'index'">取消</a>
             </div>
         </header>
-        <div pmt-include="/templates/open/partials/config-banner-table.html"></div>
+        <div pmt-include="templates/app_vertical/partials/banner-table.html"></div>
     </div>
 
     <!-- adder form or adder mode page -->
     <div ng-show="mode=='edit'">
-        <div pmt-include="/templates/open/partials/config-banner-form.html"></div>
+        <div pmt-include="templates/app_vertical/partials/banner-form.html"></div>
     </div>
 </div>
