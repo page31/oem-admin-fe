@@ -5,7 +5,7 @@ define([
     'base/services/pmtTopNotice' // 页面顶部的通知条（如放假通知等）
 ], function() {
     'use strict';
-    angular.module('pmtBaseServices', ['pmtNotice', 'pmtHttp', 'pmtBusy', 'pmtTopNotice'])
+    angular.module('pmtServices', ['pmtNotice', 'pmtHttp', 'pmtBusy', 'pmtTopNotice'])
         .factory('downloadFile', function() {
             return function downloadFile(url) {
                 var iFrame = $('#download-file-iframe');

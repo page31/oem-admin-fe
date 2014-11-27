@@ -1,5 +1,6 @@
 define(['routes',
-    'system/index'
+    'system/index',
+    'app_vertical/index'
 ], function(routeInfo) {
 
     /* Base Setup here */
@@ -20,18 +21,14 @@ define(['routes',
         'ngAnimate',
         'ui.router',
         'ui.bootstrap',
-        'systemApp'
+        'systemApp',
+        'appVerticalApp'
     ]);
 
     /* base routes defined here */
     oemApp.config(function($stateProvider, $urlRouterProvider) {
-        _.each(routeInfo, function(opt, name) {
-            $stateProvider.state(name, opt);
-        });
-
         $urlRouterProvider.otherwise('/system');
     });
-
 
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)
     oemApp.directive('sTable', function() {

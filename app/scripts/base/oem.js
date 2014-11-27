@@ -13,6 +13,11 @@ define([], function() {
                     });
                 });
             };
+            this.configFromDict = function(dict) {
+                _.each(dict, function(opt, name) {
+                    $stateProvider.state(name, opt);
+                });
+            };
             this.$get = {};
         });
 });

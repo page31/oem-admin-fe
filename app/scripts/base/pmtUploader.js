@@ -1,8 +1,4 @@
-define([
-    'fineuploader'
-], function(
-    fineuploader
-) {
+define([], function() {
     'use strict';
     angular.module('pmtUploader', [])
         .factory('pmtUploadManager', ['$rootScope', '$q',
