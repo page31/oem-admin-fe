@@ -1,0 +1,124 @@
+@import "compass";
+
+@import "../Adonis/reset";
+@import "../Adonis/typography";
+@import "../Adonis/button";
+
+@import "../component/base";
+@import "../component/form";
+@import "../component/header";
+@import "../component/white-box";
+@import "../component/table";
+@import "../component/pagination";
+@import "../component/tab-btn";
+@import "../component/popup";
+@import "../component/notice";
+@import "../component/dropdown";
+
+@import "../component/font-icon";
+
+.pmt-account-field{
+  z-index: 1000;
+}
+
+.pmt-helper-float-right{
+  float: right;
+}
+.pmt-helper-float-left{
+  float: left;
+}
+.big-textarea-row {
+    textarea {
+        width: 300px;
+    }
+    .w-text-warning {
+        display: block;
+        margin: 10px 0 0;
+    }
+}
+.pmt-btn-dropdown{
+  .dropdown-menu {
+    & > li{
+      min-width: 120px;
+    }
+  }
+}
+.big-textarea-row textarea {
+  width: 500px;
+  height: 180px;
+}
+
+.open-api-report .popup-container {
+  width: 400px;
+}
+
+.pmt-main-section{
+  position: relative;
+}
+.pmt-open .notice {
+  position: absolute;
+  z-index: 1000;
+  right: 10px;
+  margin-top: -40px;
+  top: 0;
+  bottom: initial;
+}
+
+.pmt-sidebar-nav{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  width:160px;
+  float:left;
+  li{
+    margin: 3px 0;
+  }
+  .pmt-sidebar-nav-header{
+    margin-bottom: 10px;
+  }
+  .sidebar-nav-header-style{
+    color: #222;
+    padding: 3px;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  & > li > a{
+    color: #777;
+    padding: 3px 15px;
+    display: block;
+    text-decoration: none;
+    transition: none;
+    &:hover, &.active{
+      background: #F5F5F5;
+    }
+    &.active{
+      color: #3BAA24;
+    }
+  }
+
+  .btn-dropdown {
+    min-width: 120px;
+  }
+}
+.config-page header{
+  @include pie-clearfix;
+
+  .header-title {
+    float: left;
+  }
+  .header-actions{
+    float: right;
+  }
+}
+.config-page table {
+  tr{
+    &.drag{
+      opacity: 0.5;
+    }
+    &.over{
+      outline: 2px dashed #999;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div ng-repeat="quota in quotas">
+    <h3>ID: {{quota.tokenId}} 使用统计</h3>
+    <table class="pmt-standard-table">
+        <tr>
+            <th>资源</th><th>总量</th><th>目前使用</th><th>距离下次重置</th>
+            <!-- <th>分布</th> -->
+        </tr>
+        <tr ng-repeat="i in quota.resources">
+            <td>{{i.name}}</td>
+            <td>{{i.totalCount}}</td>
+            <td>{{i.usedCount}}</td>
+            <td>{{i.nextReset}}</td>
+            <!-- <td>{{i.apiStatus}}</td> -->
+        </tr>
+    </table>
+</div>

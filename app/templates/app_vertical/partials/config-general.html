@@ -1,0 +1,26 @@
+<div ng-controller="configGeneralCtrl">
+    <div style="margin-bottom: 10px;">
+        <p ng-bind-html="currentConfigType.description" style="margin: 0;display:inline-block;"></p> &nbsp;&nbsp;
+        <span class="pmt-btn-dropdown" dropdown ng-if="currentConfigType.key == 'recommends'">
+            <button class="btn-dropdown w-btn">
+                {{currentRecommend.name}}
+                <span class="caret"></span>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="i in recommendsCandidates" ng-click="switchRecommendHandler(i)">
+                        <a>{{i.name}}</a>
+                    </li>
+                </ul>
+            </button>
+        </span>
+    </div>
+    <button class="w-btn w-btn-primary pmt-helper-float-right"
+        ng-click="saveBdConfigHandler()">保存配置</button>
+    <form class="pmt-form">
+        <div class="pmt-form-row big-textarea-row">
+            <div class="pmt-form-controls">
+                <textarea  text-area-elastic ng-model="currentConfigTextarea" required>
+                </textarea>
+            </div>
+        </div>
+    </form>
+</div>

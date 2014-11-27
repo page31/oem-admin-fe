@@ -1,0 +1,27 @@
+<table class="pmt-standard-table">
+    <tr>
+        <th>ID</th>
+        <th>所在区域</th>
+        <th>标题</th>
+        <th>目标链接</th>
+        <th>当前是否活动</th>
+        <th>banner</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="banner in bannerList track by $index"
+        id="drag-banner-{{$index}}" draggable droppable drop="dragPosition">
+        <td>{{banner.id}}</td>
+        <td>{{positionAliasDict[banner.position]}}</td>
+        <td>{{banner.title}}</td>
+        <td><a ng-href="{{banner.url}}">{{banner.url}}</a></td>
+        <td>{{banner.itemStatus?'是':'否'}}</td>
+        <td><img ng-src="{{banner.banner}}"></td>
+        <td ng-show="mode=='index'">
+            <a ng-click="editBannerHandler(banner)"><i class="icon-edit"></i></a>
+            &nbsp;&nbsp;<a ng-click="delBanner(banner)"><i class="icon-trash"></i></a>
+        </td>
+        <td ng-show="mode=='position'">
+            <a><i class="icon-move"></i></a>
+        </td>
+    </tr>
+</table>

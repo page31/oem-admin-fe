@@ -1,0 +1,33 @@
+<div ng-controller="configBannerCtrl" ng-init="mode='index'">
+    <div ng-show="mode=='index'" class="config-page">
+        <header>
+            <p class="header-title">您已经上传的 Banner 和位置信息如下</p>
+            <div class="header-actions">
+                <!-- banner adder, reorder btn -->
+                <a class="w-btn" ng-click="addBannerHandler()">添加新 banner</a>&nbsp;&nbsp;
+                <a class="w-btn" ng-click="mode = 'position'">调整 banner 顺序</a>
+            </div>
+        </header>
+        <div pmt-include="/templates/open/partials/config-banner-table.html"></div>
+    </div>
+
+    <div ng-show="mode=='position'" class="config-page">
+        <header>
+            <div class="header-title pmt-form pmt-form-controls">
+                选择您要调整的 Banner 区域
+                <select ng-model="currentBannerPosition"
+                    ng-options="val.name as val.alias for val in positionChoices"></select>
+            </div>
+            <div class="header-actions">
+                <a class="w-btn w-btn-primary" ng-click="updatePosition()">更新</a>&nbsp;&nbsp;
+                <a class="w-btn" ng-click="mode = 'index'">取消</a>
+            </div>
+        </header>
+        <div pmt-include="/templates/open/partials/config-banner-table.html"></div>
+    </div>
+
+    <!-- adder form or adder mode page -->
+    <div ng-show="mode=='edit'">
+        <div pmt-include="/templates/open/partials/config-banner-form.html"></div>
+    </div>
+</div>

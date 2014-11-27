@@ -1,0 +1,28 @@
+<ul class="pmt-sidebar-nav">
+
+    <!-- Todo: refact to directive globally used -->
+    <li class="pmt-sidebar-nav-header">
+        <span class="pmt-btn-dropdown" dropdown ng-if="configData.length > 1">
+            <button class="btn-dropdown w-btn">
+                {{currentConfig.alias}}
+                <span class="caret"></span>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="i in configData" ng-click="switchCurrentConfig(i)">
+                        <a>{{i.alias}}</a>
+                    </li>
+                </ul>
+            </button>
+        </span>
+        <span class="sidebar-nav-header-style" ng-if="configData.length == 1">
+            {{currentConfig.alias}}
+        </span>
+    </li>
+
+    <li ng-repeat="item in subNavList">
+        <a class="nav-item" ng-href="/open-api/config/{{currentConfig.alias}}/{{item.key}}"
+        ng-class="{'active': currentConfigType.key == item.key}">{{item.name}}</a>
+    </li>
+</ul>
+<div class="pmt-content-wrapper">
+    <div ui-view></div>
+</div>

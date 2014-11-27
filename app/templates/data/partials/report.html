@@ -1,0 +1,60 @@
+<div>查看配置&nbsp;&nbsp;
+    <span class="pmt-btn-dropdown" dropdown>
+        <button class="btn-dropdown w-btn">
+            {{currentReport.tokenId}}
+            <span class="caret"></span>
+            <ul class="dropdown-menu">
+                <li ng-repeat="i in reportData track by $index">
+                    <a ng-href="/open-api/report/{{i.tokenId}}">{{i.tokenId}}</a>
+                </li>
+            </ul>
+        </button>
+    </span>
+    <!-- <button class="w-btn w-btn-primary pmt-helper-float-right" ng-click="isShowExportData = true">导出数据</button> -->
+    <form class="pmt-form" name="dateRangeForm" style="display: inline-block;margin-left: 15px;">
+        <span>统计日期：</span>
+        <input type="text" pmt-date-picker ng-model="startDate" id="startDate" name="startDate" picker="{format: 'Y-m-d', onShow: $root.dateRangeStart}">
+        <span>&nbsp;至&nbsp;</span>
+        <input type="text" pmt-date-picker ng-model="endDate" id="endDate" name="endDate" picker="{format: 'Y-m-d', maxDate: 0}">
+        <button class="w-btn" ng-click="dataQueryHandler()">查询</button>
+    </form>
+    <button class="w-btn" ng-click="exportCSV()"> 导出 CSV </button>
+</div>
+<table class="pmt-standard-table">
+    <tr>
+        <th>日期</th>
+        <th>请求量</th>
+        <th>下载量</th>
+        <th>收入</th>
+        <th>分成</th>
+        <th>DAU</th>
+        <th>DLU</th>
+        <th>MAU</th>
+        <th>启动次数</th>
+    </tr>
+    <tr ng-repeat="i in currentReport.data">
+        <td>{{i.date}}</td>
+        <td>{{i.requestsCount}}</td>
+        <td>{{i.downloadCount}}</td>
+        <td>{{i.profit}}</td>
+        <td>{{i.share}}</td>
+        <td>{{i.dayActiveUsers}}</td>
+        <td>{{i.dayLaunchUsers}}</td>
+        <td>{{i.monthActiveUsers}}</td>
+        <td>{{i.launchCount}}</td>
+    </tr>
+</table>
+<hr>
+<!-- Todo: add appDonwload Report P title -->
+<table class="pmt-standard-table">
+    <tr>
+        <th>日期</th>
+        <th>包名</th>
+        <th>下载量</th>
+    </tr>
+    <tr ng-repeat="i in currentAppDownloadReport.data">
+        <td>{{i.date}}</td>
+        <td>{{i.packageName}}</td>
+        <td>{{i.downloadCount}}</td>
+    </tr>
+</table>

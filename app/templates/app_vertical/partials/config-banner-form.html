@@ -1,0 +1,81 @@
+<div class="popup-container popup-container-medium">
+    <p class="popup-title">添加新 Banner</p>
+    <div class="popup-content">
+        <form class="pmt-form pmt-form-stacked" name="bannerForm" id="bannerForm"
+            novalidate validate-submit="addBanner()" ng-init="bannerInfo={}">
+
+            <div inputfield labeltext="所在区域：" labelfor="position">
+                <select name="position" ng-model="bannerInfo.position" id="position"
+                    required ng-options="i.type as i.alias for i in positionChoices">
+                    <option value="">请选择</option>
+                </select>
+                <!-- <input class="pmt-form-width-large" type="position"
+                    name="position" ng-model="bannerInfo.position" id="position"
+                    required ng-minlength="2"> -->
+                <div message for="position"></div>
+            </div>
+
+            <div inputfield labeltext="对应类型：" labelfor="type">
+                <select name="type" ng-model="bannerInfo.type" id="type"
+                    required ng-options="i.type as i.alias for i in typeChoices">
+                    <option value="">请选择</option>
+                </select>
+
+                <!-- <input class="pmt-form-width-large" type="type"
+                    name="type" ng-model="bannerInfo.type" id="type"
+                    required ng-minlength="2"> -->
+                <div message for="type"></div>
+            </div>
+
+            <div inputfield labeltext="对应链接：" labelfor="url">
+                <input class="pmt-form-width-large" type="url" http-prefix
+                    name="url" ng-model="bannerInfo.url" id="url"
+                    required ng-minlength="2">
+                <div message for="url"></div>
+            </div>
+
+            <div inputfield labeltext="专题 Alias：" labelfor="alias">
+                <input class="pmt-form-width-large" type="text"
+                    name="alias" ng-model="bannerInfo.alias" id="alias" ng-minlength="2">
+                <div message for="alias"></div>
+            </div>
+
+            <div inputfield labeltext="应用 Banner 包名：" labelfor="packageName">
+                <input class="pmt-form-width-large" type="text"
+                    name="packageName" ng-model="bannerInfo.packageName" id="packageName"
+                    required ng-minlength="2">
+                <div message for="packageName"></div>
+            </div>
+
+            <div inputfield labeltext="是否为当前活动页：" labelfor="itemStatus">
+                <select name="itemStatus" id="itemStatus"
+                    ng-model="bannerInfo.itemStatus" required>
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+                <div message for="itemStatus"></div>
+            </div>
+
+            <div inputfield labeltext="对应标题：" labelfor="title">
+                <input class="pmt-form-width-large" type="text"
+                    name="title" ng-model="bannerInfo.title" id="title"
+                    required ng-minlength="2">
+                <div message for="title"></div>
+            </div>
+
+            <div inputfield labeltext="上传 banner" labelfor="banner">
+                <img ng-src="{{bannerInfo.banner}}" ng-if="editMode"
+                    style="max-height: 100px;margin-bottom: 20px;"><br>
+                <input class="pmt-form-width-large" type="file" required
+                    file-model="bannerInfo.banner" name="banner" id="banner">
+                <div message for="banner"></div>
+            </div>
+
+            <div class="pmt-form-row">
+                <button class="w-btn w-btn-grand w-btn-primary" type="submit">保存配置</button>
+                <a class="w-btn w-btn-grand" ng-click="mode = 'index'">取消</a>
+            </div>
+        </form>
+    </div>
+</div>

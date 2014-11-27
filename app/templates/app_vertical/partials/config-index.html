@@ -1,0 +1,21 @@
+<div  ng-controller="configIndexCtrl">
+    <p>目前已经配置的渠道如下所示：</p>
+    <table class="pmt-standard-table">
+        <tr>
+            <th>渠道名称</th>
+        </tr>
+        <tr ng-repeat="item in currentConfig.sources track by $index">
+            <td>{{item}}</td>
+        </tr>
+    </table>
+
+    <button class="w-btn" ng-click="isShowNewForm=true">新增渠道</button>
+
+    <form class="pmt-form pmt-form-horizontal" action="" ng-show="isShowNewForm">
+        <hr><p>备注：请填写渠道名称及 ID（其中渠道名称应可读性良好，方便查询；渠道 ID 为豌豆荚的分包 Source 信息）</p>
+        <label for="">渠道名称：&nbsp;&nbsp;<input type="text" ng-model="configChannel.name"></label>&nbsp;&nbsp;
+        <label for="">渠道ID：&nbsp;&nbsp;<input type="text" ng-model="configChannel.id"></label>
+        &nbsp;&nbsp;<button class="w-btn w-btn-primary" ng-click="addConfigHandler()">保存</button>
+        &nbsp;&nbsp;<button class="w-btn" ng-click="isShowNewForm=false">取消</button>
+    </form>
+</div>
