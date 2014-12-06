@@ -97,9 +97,8 @@ define([], function() {
                         return config;
                     },
                     response: function(response) {
-                        // ga('send', 'event', '_http', 'response', response.config.url); // stats
-                        if (response.config.url.indexOf('/api') >= 0) {
-                            // ga('send', 'event', '_http', 'response-time', response.config.url.replace(PMT_SERVER_PATH, ''), ((new Date()).getTime() - _gaApiTimeMap[response.config.url])); // stats
+                        if (!response.config) {
+                            return response;
                         }
                         restoreUrl(response.config);
                         unwrapResponse(response);

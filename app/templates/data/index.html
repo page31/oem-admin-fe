@@ -1,0 +1,38 @@
+<!-- Todo: use layout master for app_vertical and data module -->
+<!-- Todo: move configCtrl link to route -->
+<!-- Remove: extra wrapper div -->
+<div ng-controller="configCtrl">
+    <ul class="pmt-sidebar-nav">
+
+        <!-- Todo: refact to directive globally used -->
+        <li class="pmt-sidebar-nav-header">
+            <span class="pmt-btn-dropdown" dropdown ng-if="configData.length > 1">
+                <button class="btn-dropdown w-btn">
+                    {{currentConfig.alias}}
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="i in configData" ng-click="switchCurrentConfig(i)">
+                            <a>{{i.alias}}</a>
+                        </li>
+                    </ul>
+                </button>
+            </span>
+            <span class="sidebar-nav-header-style" ng-if="configData.length == 1">
+                {{currentConfig.alias}}
+            </span>
+        </li>
+        <li>
+            <a ui-sref="data.index" class="item" ui-sref-active="active">
+                查看数据
+            </a>
+        </li>
+        <li>
+            <a ui-sref="data.appDownload" class="item" ui-sref-active="active">
+                应用下载数据
+            </a>
+        </li>
+    </ul>
+    <div style="width: 640px;float: right;">
+        <div ui-view></div>
+    </div>
+</div>

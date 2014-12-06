@@ -1,9 +1,9 @@
-<div class="control-group">
-    <label class="control-label" for="{{options.key}}">
+<div class="control-group pmt-form-row">
+    <label class="pmt-form-label" for="{{options.key}}">
         {{options.label|capitalize}} {{options.required ? '*' : ''}}
     </label>
-    <div class="controls" ng-switch on="options.type">
-        <input ng-switch-default
+    <div class="pmt-form-controls" ng-switch on="options.type">
+        <input ng-switch-default class="pmt-form-width-large"
             placeholder="{{options.placeholder||options.label}}"
             id="{{options.key}}" name="{{options.key}}"
             type="{{options.type || 'text'}}">

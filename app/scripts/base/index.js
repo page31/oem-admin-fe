@@ -3,8 +3,9 @@ define([
     'base/filters',
     'base/services',
     'base/oem',
-    'base/formly'
+    'base/formly',
+    'base/api'
 ], function() {
     'use strict';
-    angular.module('pmtBase', ['pmtDirectives', 'pmtFilters', 'pmtServices', 'oemBase', 'formly']);
+    angular.module('pmtBase', ['pmtDirectives', 'pmtFilters', 'pmtServices', 'oemBase', 'formly', 'siva.apiUtilities']);
 });

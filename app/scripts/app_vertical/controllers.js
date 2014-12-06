@@ -6,7 +6,7 @@ define([
 
     var configCtrl = {
         name: 'configCtrl',
-        inject: ['$scope', '$state', 'dataService', '$helper'],
+        inject: ['$scope', '$state', 'dataService', '$helper', '$configData'],
         init: function() {
             var $scope = this.$scope,
                 $routeParams = this.$state.params;
@@ -25,6 +25,8 @@ define([
                     $scope.currentConfig = data[0];
                 }
             });
+
+            $scope.$root.subNavList = this.$configData.subNavList;
         }
     };
 

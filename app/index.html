@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>OEM/OpenAPI 运营平台</title>
+    <link rel="stylesheet" href="http://bootswatch.com/lumen/bootstrap.css">
+    <link rel="stylesheet" href="http://bootswatch.com/assets/css/bootswatch.min.css">
     <!-- build:css /styles/open.css -->
     <link rel="stylesheet" href="/styles/index.css">
     <!-- endbuild -->
@@ -28,7 +30,10 @@
     <script src="components/angular-animate/angular-animate.js"></script>
     <script src="components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="components/angular-classy/angular-classy.js"></script>
     <script src="components/angular-bindonce/bindonce.js"></script>
+
+    <script src="vendors/fineuploader.js"></script>
     <!-- endbuild -->
 
     <!-- all biz scripts define here -->
@@ -43,6 +48,7 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+      // Todo: change to oem
       ga('create', 'UA-15790641-48', 'auto');
       ga('create', 'UA-15790641-20', 'auto', {'name': 'newTracker'});  // New tracker.
 

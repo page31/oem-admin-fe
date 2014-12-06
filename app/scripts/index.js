@@ -1,6 +1,7 @@
 define(['routes',
     'system/index',
-    'app_vertical/index'
+    'app_vertical/index',
+    'data/index'
 ], function(routeInfo) {
 
     /* Base Setup here */
@@ -22,12 +23,38 @@ define(['routes',
         'ui.router',
         'ui.bootstrap',
         'systemApp',
-        'appVerticalApp'
+        'appVerticalApp',
+        'dataApp'
     ]);
 
     /* base routes defined here */
     oemApp.config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/system');
+    });
+
+    oemApp.run(function($state, $rootScope, apiHelper) {
+        $rootScope.$state = $state;
+
+        /* API Section */
+        var _ServerUrl = 'http://test.wandoujia.com:8080';
+
+        // Admin module
+        apiHelper.config({
+            'fetchApiPartners': 'GET /token',
+            'fetchOemPartners': 'GET /oem/bdconfig',
+
+            'fetchCandidateType': 'GET /token/candidateType',
+
+            'getMyGroups': 'GET /list',
+            'getNearbyGroups': 'GET /nearby',
+
+            'getMessages': 'GET /query',
+            'joinGroup': 'GET /join',
+            'putMessage': 'GET /message',
+            'tickleGroup': 'GET /tickle'
+        }, {
+            urlPrefix: _ServerUrl + '/api/admin'
+        });
     });
 
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)
@@ -39,10 +66,7 @@ define(['routes',
                 dataList: '=rowList',
                 headList: '='
             },
-            replace: true,
-            link: function() {
-                console.log('fdafdas');
-            }
+            replace: true
         };
     });
 

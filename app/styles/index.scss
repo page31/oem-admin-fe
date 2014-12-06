@@ -11,3 +11,31 @@
     width: 640px;
     float: right;
 }
+
+
+// fixed for formly components
+.pmt-form-row {
+    margin-bottom: 15px;
+}
+
+
+// rewrite bootstrap?!
+body {
+    padding-top: 0;
+}
+
+// specific for oem
+.oem-top-nav {
+    clear: none;
+    .main-nav {
+        float: right;
+        .nav-item {
+            line-height: 80px;
+            &.active {
+                background-color: #3baa24;
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+}

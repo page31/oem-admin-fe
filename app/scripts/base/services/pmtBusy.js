@@ -12,6 +12,7 @@ define([], function() {
 
 
                 function handleResponse(r) {
+                    if (!r.config) return;
                     if (!r.config.busy) return;
 
                     if (r.config.busy === 'global') {

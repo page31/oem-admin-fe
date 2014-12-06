@@ -95,24 +95,6 @@ define([], function() {
                 };
             }
         ])
-        .directive('logo', [
-
-            function() {
-                return {
-                    restrict: 'AE',
-                    replace: true,
-                    template: '<h1 class="logo">' +
-                        '<a class="logo-text">豌豆荚</a>' +
-                        '<span>开发者中心</span>' +
-                        '</h1>',
-                    link: function(scope, elem, attrs) {
-                        elem.find('a').click(function() {
-                            window.location = '/';
-                        });
-                    }
-                };
-            }
-        ])
         .directive('footer', [
 
             function() {

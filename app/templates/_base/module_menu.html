@@ -1,14 +1,17 @@
-<div class="pmt-nav" open-header-nav>
+<div class="pmt-nav oem-top-nav">
     <ul class="main-nav">
+        <!-- ui-sref-active="active" -->
+        <!-- ng-class="{ active: $state.includes('report.detail') }" -->
+        <!-- Todo: use repeat to abstract -->
         <li>
-            <a class="nav-item" ui-sref="appVertical">管理应用</a>
+            <a class="nav-item"
+               ui-sref-active="active" ui-sref="appVertical" >管理应用</a>
         </li>
         <li>
-            <a class="nav-item" ui-sref="data">查看数据</a>
+            <a class="nav-item" ng-class="{ active: $state.includes('data') }" ui-sref="data.index">查看数据</a>
         </li>
         <li>
-            <a class="nav-item" ui-sref="system">管理系统</a>
+            <a class="nav-item" ui-sref-active="active" ui-sref="system">管理系统</a>
         </li>
     </ul>
-    <ul class="sub-nav"></ul>
 </div>
