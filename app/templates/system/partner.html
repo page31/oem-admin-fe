@@ -2,16 +2,46 @@
     <h2>管理 OEM / API</h2>
     <tabset>
         <tab heading="OEM 合作方">
-            <button class="w-btn"> 添加 OEM 合作方</button>
-            <div s-table row-list="tableData"
-                head-list="['合作方名称', '合作方 ID', '渠道数量', '操作']">
-            </div>
+            <button class="w-btn" ng-click="$root.onAdd('oemPartner')"> 添加 OEM 合作方</button>
+            <table class="pmt-standard-table">
+                <tr>
+                    <td ng-repeat="i in ['合作方名称', '合作方 ID', '渠道数量', '操作']">{{i}}</td>
+                </tr>
+                <tr ng-repeat="item in oemPartnerList">
+                    <td>{{item.bdConfigDetail.configName}}</td>
+                    <td>{{item.bdConfigDetail.configAlias}}</td>
+                    <td>{{item.bdSourceDetails.length}}</td>
+                    <td>
+                        <a ng-click="$root.onEdit('oemPartner', item)">
+                            <i class="icon-edit"></i>
+                        </a>
+                        <a ng-click="$root.onDel('oemPartner', item)">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </tab>
         <tab heading="API 合作方">
-            <button class="w-btn"> 添加 API 合作方</button>
-            <div s-table row-list="tableData"
-                head-list="tableHead">
-            </div>
+            <button class="w-btn" ng-click="$root.onAdd('apiPartner')"> 添加 API 合作方</button>
+            <table class="pmt-standard-table">
+                <tr>
+                    <td ng-repeat="i in ['合作方名称', '合作方 ID', '接口访问次数限制', '操作']">{{i}}</td>
+                </tr>
+                <tr ng-repeat="item in apiPartnerList">
+                    <td>{{item.alias}}</td>
+                    <td>{{item.id}}</td>
+                    <td>{{$root.meta.candidateTokenType[item.type]}}</td>
+                    <td>
+                        <a ng-click="$root.onEdit('apiPartner', item)">
+                            <i class="icon-edit"></i>
+                        </a>
+                        <a ng-click="$root.onDel('apiPartner', item)">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </tab>
     </tabset>
 </div>

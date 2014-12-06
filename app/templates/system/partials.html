@@ -1,0 +1,23 @@
+<script type="text/ng-template" id="system/channel-list-snippet.html">
+<div class="pmt-form-controls">
+    <button class="w-btn" ng-click="$root.onAdd('channel')"> 添加 OEM 合作方</button>
+    <table class="pmt-standard-table">
+        <tr>
+            <td ng-repeat="i in ['渠道名称', '渠道 User Source', '操作']">{{i}}</td>
+        </tr>
+        <tr ng-repeat="item in formlyData.channels">
+            <td>{{item.bdConfigDetail.configName}}</td>
+            <td>{{item.bdConfigDetail.configAlias}}</td>
+            <td>{{item.bdSourceDetails.length}}</td>
+            <td>
+                <a ng-click="$root.onEdit('channel', item)">
+                    <i class="icon-edit"></i>
+                </a>
+                <a ng-click="$root.onDel('channel', item)">
+                    <i class="icon-trash"></i>
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+</script>
