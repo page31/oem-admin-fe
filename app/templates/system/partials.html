@@ -12,7 +12,7 @@
                 <a ng-click="$root.onEdit('channel', item, {raw: formlyData})">
                     <i class="icon-edit"></i>
                 </a>
-                <a ng-click="$root.onDel('channel', item, {raw: formlyData})">
+                <a ng-click="$root.onDel('channel', item, this)">
                     <i class="icon-trash"></i>
                 </a>
             </td>
@@ -46,14 +46,13 @@
 
 <script type="text/ng-template" id="auth/available-authorizeditem-list-snippet.html">
 <div class="pmt-form-controls">
-    <!-- toggle according to role -->
     <div class="pmt-checkbox-options">
         <label ng-repeat="(pKey, pVal) in $root.authMeta.authorizedItems.authorizedLevel1" style="display: block">
-            <input type="checkbox" value="{{pKey}}" ng-model="formly.xx[pKey]">
+            <input type="checkbox" ng-model="formlyData.authorizedItems.authorizedLevel1[pKey].selected">
             {{pVal.name}}
             <div ng-if="pVal.children" style="margin-left: 30px;">
                 <label ng-repeat="(_pKey, _pVal) in pVal.children">
-                    <input type="checkbox" value="{{_pKey}}" ng-model="formly.authorizedOem[pKey]">
+                    <input type="checkbox" ng-model="$root.authMeta.authorizedItems.authorizedLevel2[pVal.alias][_pKey].selected">
                     {{_pVal.name}}
                 </label>
             </div>

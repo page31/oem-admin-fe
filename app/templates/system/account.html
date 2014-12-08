@@ -3,7 +3,7 @@
     <p class="text-mute">管理运营账户的权限</p>
     <div>
         <h3>已有账户列表</h3>
-        <button class="w-btn" ng-click="$root.onAdd('auth')">添加新账户</button>
+        <button class="w-btn" ng-click="$root.onSet('auth', null, this)">添加新账户</button>
 
         <table class="pmt-standard-table">
             <tr>
@@ -14,15 +14,14 @@
                 <td>{{item.group.alias}}</td>
                 <td><span ng-repeat="i in item.authorizedOem">{{i.configName}}</span></td>
                 <td>
-                    <a ng-click="$root.onEdit('auth', item)">
+                    <a ng-click="$root.onSet('auth', item)">
                         <i class="icon-edit"></i>
                     </a>
-                    <a ng-click="$root.onDel('auth', item)">
+                    <a ng-click="$root.onDel('auth', item, this)">
                         <i class="icon-trash"></i>
                     </a>
                 </td>
             </tr>
         </table>
-
     </div>
 </div>

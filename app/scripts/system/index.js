@@ -1,6 +1,10 @@
 define(['base/index'], function() {
     var systemApp = angular.module('systemApp', ['pmtBase']);
 
+    _.removeItem = function(item, arr) {
+        return arr.splice(arr.indexOf(item), 1);
+    };
+
     /* Routers defined here */
     // require/define 的区别 - 导致dependence 未 ready
     // Fuck config 不能配置 factory!!
@@ -36,7 +40,7 @@ define(['base/index'], function() {
     }
 
     /* Controllers defined here */
-    systemApp.controller('systemCtrl', function($scope, formlyHelper) {
+    systemApp.controller('systemCtrl', function($scope, formlyHelper, apiHelper) {
         // extract to i18n
         $scope.menuList = systemMenuList;
 
@@ -61,7 +65,16 @@ define(['base/index'], function() {
                     label: '渠道 User Source',
                     key: 'sourceAlias',
                     placeholder: '例如， lenovo_K900'
-                }]
+                }],
+                submit: function() {
+                    // setOemSource
+                    apiHelper('setOemSource', {
+                        data: this.formlyData
+                    }).then(function() {
+                        // use ref to add updated/added res back
+                    });
+                    console.log(this.formlyData);
+                }
             },
             oemPartner: {
                 modalTitle: 'OEM 合作方',
@@ -78,7 +91,17 @@ define(['base/index'], function() {
                     controlTpl: 'system/channel-list-snippet.html'
                 }],
                 submit: function() {
+                    // setOemPartner
                     console.log(this.formlyData);
+                },
+                initCb: function() {
+                    var self = this;
+                    this.$on('oemPartner:channel:add', function(e, d) {
+                        self.formlyData.bdSourceDetails.push(d);
+                    });
+                    this.$on('oemPartner:channel:remove', function(e, d) {
+                        self.formlyData.bdSourceDetails.splice(d, 1);
+                    });
                 }
             },
             apiPartner: {
@@ -108,7 +131,10 @@ define(['base/index'], function() {
                     label: '开放的接口',
                     key: 'privileges',
                     controlTpl: 'system/api-partner-interfaces-snippet.html'
-                }] // Todo: add multi checkbox support
+                }], // Todo: add multi checkbox support
+                submit: function() {
+                    // setApiPartner
+                }
             },
             auth: {
                 modalTitle: '账户',
@@ -126,6 +152,9 @@ define(['base/index'], function() {
                         controlTpl: 'auth/available-authorizeditem-list-snippet.html' // 异步接口数据，自定义 checkbox
                     }
                 ],
+                submit: function() {
+                    console.log(this.formlyData);
+                },
                 initCb: function(e) {
                     var self = this;
                     this.$watch('formlyData.isSelectAllOems', function(val) {
@@ -142,6 +171,26 @@ define(['base/index'], function() {
                             self.formFields[2] = allOemChoicesField;
                         }
                     });
+
+                    /*this.$watch('formlyData.authorizedItems.authorizedLevel1', function(val) {
+                        _.each(val, function(i, k) {
+                            if(i.selected) {
+                                _.each(self.formlyData.authorizedItems.authorizedLevel2[i.alias], function(i) {
+                                    i.selected = true;
+                                });
+                            }
+                        });
+                    }, true);
+
+                    this.$watch('formlyData.authorizedItems.authorizedLevel2', function(val) {
+                        _.each(val, function(level1, k) {
+                            if(_.every(level1, function(level2) {
+                                return level2.selected;
+                            })) {
+                                self.formlyData.authorizedItems.authorizedLevel1[k] = true;
+                            }
+                        });
+                    }, true);*/
                 }
             }
         };
@@ -160,7 +209,8 @@ define(['base/index'], function() {
             },
             auth: function(res) {
                 /* trans authorizedOem */
-                var _authorizedOem = res.authorizedOem;
+                res = res ? res : {};
+                var _authorizedOem = res.authorizedOem ? res.authorizedOem : [];
                 res._authorizedOem = {};
                 _.each(_.pluck($scope.$root.authMeta.authorizedOem, 'configAlias'), function(i) {
                     res._authorizedOem[i] = false;
@@ -172,29 +222,51 @@ define(['base/index'], function() {
         };
 
         // Todo: 为什么 child 访问不到？！
-        // 离开的时候，恢复$root
-        $scope.$root.onEdit = function(type, item, meta) {
+        $scope.$root.onSet = function(type, item, meta) {
             BeforeTransformer[type] && BeforeTransformer[type](item, meta);
             formlyHelper.openModal(FORMMAP[type], item);
         };
+        $scope.$root.onEdit = $scope.$root.onSet;
         $scope.$root.onAdd = function(type) {
             formlyHelper.openModal(FORMMAP[type]);
         };
-        $scope.$root.onDel = function(type, item) {
+        $scope.$root.onDel = function(type, item, scope) {
             if (window.confirm('您确定要删除该资源吗？')) {
-                apiHelper('del' + type).then(function() {});
+                if (type === 'oemPartner') {
+                    apiHelper('del' + _.classify(type), {
+                        params: {
+                            configAlias: item.bdConfigDetail.configAlias
+                        }
+                    }).then(function() {
+                        _.removeItem(item, scope[type + 'List']);
+                    });
+                }
+                if (type === 'apiPartner') {
+                    apiHelper('del' + _.classify(type), {
+                        params: {
+                            tokenId: item.id
+                        }
+                    }).then(function() {
+                        _.removeItem(item, scope[type + 'List']);
+                    });
+                }
+                if (type === 'channel') {
+                    apiHelper('delOemSource', {
+                        params: _.extend({}, item, {
+                            configAlias: scope.formlyData.bdConfigDetail.configAlias
+                        })
+                    }).then(function(r) {
+                        _.removeItem(item, scope.formlyData.bdSourceDetails);
+                    });
+                }
             }
         };
-        // Todo: with formName: <账户>, type: add/modify to compute modalTitle
-        // Todo: 根据 role 的取值，需要切换 formFields 内容！ - accountPartnerForm
     });
 
     systemApp.controller('systemPartnerCtrl', function($scope, apiHelper) {
         apiHelper('fetchTokenMeta').then(function(r) {
             $scope.$root.tokenMeta = r;
         });
-        // pickup from resp.data with specfic fields
-        // add raw item for each row, which include other info which not to show
         apiHelper('fetchApiPartners').then(function(r) {
             $scope.apiPartnerList = r.beans;
         });
