@@ -78,6 +78,8 @@ define([], function(rules) {
     */
 
     'use strict';
+
+    function noop() {}
     // 'base/services/validator'
     function formlyField($http, $compile, $templateCache, $timeout) {
 
@@ -235,15 +237,20 @@ define([], function(rules) {
         .directive('formlyForm', formlyForm)
         .factory('formlyHelper', function($modal, $rootScope) {
             return {
-                openModal: function(opt) {
-                    // e.preventDefault();
+                openModal: function(opt, instance) {
                     // formFields, submit, formName, modalTitle
                     var $scope = $rootScope.$new();
+                    var titlePre = instance ? '修改' : '添加';
+                    opt.modalTitle = titlePre + opt.modalTitle;
                     _.each(opt, function(val, k) {
                         $scope[k] = val;
                     });
                     $scope.formName = 'formly';
-                    $scope.formlyData = {};
+                    $scope.formlyData = instance || {};
+                    $scope.submit = opt.submit ? opt.submit.bind($scope) : noop;
+                    if (opt.initCb) {
+                        opt.initCb.call($scope);
+                    }
 
                     $modal.open({
                         templateUrl: 'templates/_base/modal.html',
