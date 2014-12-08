@@ -31,7 +31,7 @@
                 <tr ng-repeat="item in apiPartnerList">
                     <td>{{item.alias}}</td>
                     <td>{{item.id}}</td>
-                    <td>{{$root.meta.candidateTokenType[item.type]}}</td>
+                    <td>{{$root.tokenMeta.candidateTokenType[item.type]}}</td>
                     <td>
                         <a ng-click="$root.onEdit('apiPartner', item)">
                             <i class="icon-edit"></i>

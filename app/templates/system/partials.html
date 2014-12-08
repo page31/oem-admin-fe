@@ -1,23 +1,63 @@
 <script type="text/ng-template" id="system/channel-list-snippet.html">
 <div class="pmt-form-controls">
-    <button class="w-btn" ng-click="$root.onAdd('channel')"> 添加 OEM 合作方</button>
+    <button class="w-btn" ng-click="$root.onAdd('channel')"> 添加 OEM 渠道</button>
     <table class="pmt-standard-table">
         <tr>
             <td ng-repeat="i in ['渠道名称', '渠道 User Source', '操作']">{{i}}</td>
         </tr>
-        <tr ng-repeat="item in formlyData.channels">
-            <td>{{item.bdConfigDetail.configName}}</td>
-            <td>{{item.bdConfigDetail.configAlias}}</td>
-            <td>{{item.bdSourceDetails.length}}</td>
+        <tr ng-repeat="item in formlyData.bdSourceDetails">
+            <td>{{item.sourceName}}</td>
+            <td>{{item.sourceAlias}}</td>
             <td>
-                <a ng-click="$root.onEdit('channel', item)">
+                <a ng-click="$root.onEdit('channel', item, {raw: formlyData})">
                     <i class="icon-edit"></i>
                 </a>
-                <a ng-click="$root.onDel('channel', item)">
+                <a ng-click="$root.onDel('channel', item, {raw: formlyData})">
                     <i class="icon-trash"></i>
                 </a>
             </td>
         </tr>
     </table>
+</div>
+</script>
+
+<script type="text/ng-template" id="system/api-partner-interfaces-snippet.html">
+<div class="pmt-form-controls">
+    <div class="pmt-form-checkbox" ng-repeat="(pKey, pVal) in $root.tokenMeta.candidatePrivileges">
+        <label>
+            <input type="checkbox" ng-model="formlyData.privileges[pKey]">
+            {{pVal}}
+        </label>
+    </div>
+</div>
+</script>
+
+<script type="text/ng-template" id="auth/available-partner-list-snippet.html">
+<div class="pmt-form-controls">
+    <label><input type="checkbox" ng-model="formlyData.isSelectAllOems">全选</label>
+    <div class="pmt-checkbox-options">
+        <label ng-repeat="(pKey, pVal) in $root.authMeta.authorizedOem">
+            <input type="checkbox" ng-model="formlyData._authorizedOem[pVal.configAlias]">
+            {{pVal.configName}}
+        </label>
+    </div>
+</div>
+</script>
+
+<script type="text/ng-template" id="auth/available-authorizeditem-list-snippet.html">
+<div class="pmt-form-controls">
+    <!-- toggle according to role -->
+    <div class="pmt-checkbox-options">
+        <label ng-repeat="(pKey, pVal) in $root.authMeta.authorizedItems.authorizedLevel1" style="display: block">
+            <input type="checkbox" value="{{pKey}}" ng-model="formly.xx[pKey]">
+            {{pVal.name}}
+            <div ng-if="pVal.children" style="margin-left: 30px;">
+                <label ng-repeat="(_pKey, _pVal) in pVal.children">
+                    <input type="checkbox" value="{{_pKey}}" ng-model="formly.authorizedOem[pKey]">
+                    {{_pVal.name}}
+                </label>
+            </div>
+        </label>
+    </div>
 </div>
 </script>

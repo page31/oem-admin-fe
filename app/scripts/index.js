@@ -40,18 +40,23 @@ define(['routes',
 
         // Admin module
         apiHelper.config({
+
             'fetchApiPartners': 'GET /token',
+            'delApiPartner': 'GET /token/delete',
+            'setApiPartner': 'POST /token',
+
             'fetchOemPartners': 'GET /oem/bdconfig',
+            'setOemPartner': 'POST /oem/bdconfig/edit',
+            'delOemPartner': 'GET /oem/bdconfig/delete',
+            'setOemSource': 'POST /oem/bdsource/edit',
+            'delOemSource': 'GET /oem/bdsource/delete',
 
-            'fetchCandidateType': 'GET /token/candidateType',
+            'fetchAuths': 'GET /auth',
+            'setAuth': 'POST /auth/edit',
+            'delAuth': 'GET /auth/delete',
 
-            'getMyGroups': 'GET /list',
-            'getNearbyGroups': 'GET /nearby',
-
-            'getMessages': 'GET /query',
-            'joinGroup': 'GET /join',
-            'putMessage': 'GET /message',
-            'tickleGroup': 'GET /tickle'
+            'fetchAuthMeta': 'GET /auth/candidateType',
+            'fetchTokenMeta': 'GET /token/candidateType'
         }, {
             urlPrefix: _ServerUrl + '/api/admin'
         });
