@@ -104,7 +104,7 @@ define([], function() {
         });
     });
 
-    systemApp.controller('systemAccountCtrl', function($scope, apiHelper) {
+    systemApp.controller('systemAccountCtrl', function($scope, apiHelper, $timeout) {
         var allOemChoicesField = {
             label: '可管理的 OEM/API',
             controlTpl: 'auth/available-partner-list-snippet.html' // 异步接口数据，自定义 checkbox
@@ -135,6 +135,15 @@ define([], function() {
                     controlTpl: 'auth/available-authorizeditem-list-snippet.html' // 异步接口数据，自定义 checkbox
                 }
             ],
+            del: function(item) {
+                apiHelper('delAuth', {
+                    params: {
+                        uid: item.uid
+                    }
+                }).then(function() {
+                    _.removeItem(item, $scope.authList);
+                });
+            },
             submit: function() {
                 var self = this;
                 var data = _.clone(self.formlyData);
@@ -182,8 +191,31 @@ define([], function() {
 
                 this.$root.$watch('authMeta.authorizedOem', function(v) {
                     if (!v) return;
-                    if (self.formlyData.authorizedOem) return;
-                    self.formlyData.authorizedOem = v;
+                    if (self.formlyData.authorizedOem) {
+                        _.each(self.formlyData.authorizedOem, function(i) {
+                            var x = _.find(v, function(ii) {
+                                return ii.configAlias == i.configAlias;
+                            });
+                            if (x) {
+                                x.selected = true;
+                            }
+                        });
+                    }
+                    if (!self.formlyData.group) {
+                        self.formlyData.group = $scope.$root.authMeta.groups[0];
+                        self.formlyData.authorizedOem = $scope.$root.authMeta.authorizedOem;
+                    } else {
+                        if (self.formlyData.group.alias === 'GROUP_USER_V') {
+                            self.formlyData.authorizedOem = _.find($scope.$root.authMeta.authorizedOem, function(i) {
+                                return i.configAlias == self.formlyData.authorizedOem[0].configAlias;
+                            });
+                        } else {
+                            self.formlyData.authorizedOem = v;
+                        }
+                        self.formlyData.group = _.find($scope.$root.authMeta.groups, function(i) {
+                            return i.id == self.formlyData.group.id;
+                        });
+                    }
                 });
 
                 this.$root.$watch('authMeta.authorizedItems', function(v) {

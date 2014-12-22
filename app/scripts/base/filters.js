@@ -29,5 +29,11 @@ define([], function() {
             return function(content) {
                 return content.replace(/\n/, '<br/>');
             }
+        })
+        .filter('joinArr', function() {
+            return function(arr, pickerSep) {
+                var parts = pickerSep.split(':');
+                return _.pluck(arr, parts[0]).join(parts[1]);
+            }
         });
 });

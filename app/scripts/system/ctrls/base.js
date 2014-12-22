@@ -18,15 +18,6 @@ define([], function() {
             },
             auth: function(res) {
                 /* trans authorizedOem */
-                res = res ? res : {};
-                var _authorizedOem = res.authorizedOem ? res.authorizedOem : [];
-                res._authorizedOem = {};
-                _.each(_.pluck($scope.$root.authMeta.authorizedOem, 'configAlias'), function(i) {
-                    res._authorizedOem[i] = false;
-                });
-                _.each(_authorizedOem, function(i) {
-                    res._authorizedOem[i.configAlias] = true;
-                });
             }
         };
         var DelHandlerMap = {};

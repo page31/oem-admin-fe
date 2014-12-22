@@ -11,8 +11,10 @@
             </tr>
             <tr ng-repeat="item in authList">
                 <td>{{item.email}}</td>
-                <td>{{item.group.alias}}</td>
-                <td><span ng-repeat="i in item.authorizedOem">{{i.configName}}</span></td>
+                <td>{{item.group.name}}</td>
+                <td>
+                    {{item.authorizedOem|joinArr:'configName:,'}}
+                </td>
                 <td>
                     <a ng-click="$root.onSet('auth', item)">
                         <i class="icon-edit"></i>
