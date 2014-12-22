@@ -248,27 +248,27 @@ define([], function() {
                     });
                 }, true);
 
-                this.$watch('formlyData.group', function(val) {
+                this.$watch('formlyData.group', function(val, old) {
                     if (!val) return;
                     if (val.alias === 'GROUP_USER_V') {
                         self.formFields[3] = onlyOemChoiceField;
                     } else {
                         self.formFields[3] = allOemChoicesField;
+                        if (old) {
+                            self.formlyData.authorizedOem = $scope.$root.authMeta.authorizedOem;
+                        }
+                        /*if (self.$root.authMeta.authorizedOem) {
+                            var _old = self.$root.authMeta.authorizedOem;
+                            self.$root.authMeta.authorizedOem = [];
+                            $timeout(function() {
+                                self.$root.authMeta.authorizedOem = _old;
+                            }, 100);
+                        }*/
                     }
                 });
 
                 this.$root.$watch('authMeta.authorizedOem', function(v) {
                     if (!v) return;
-                    if (self.formlyData.authorizedOem) {
-                        _.each(self.formlyData.authorizedOem, function(i) {
-                            var x = _.find(v, function(ii) {
-                                return ii.configAlias == i.configAlias;
-                            });
-                            if (x) {
-                                x.selected = true;
-                            }
-                        });
-                    }
                     if (!self.formlyData.group) {
                         self.formlyData.group = $scope.$root.authMeta.groups[0];
                         self.formlyData.authorizedOem = $scope.$root.authMeta.authorizedOem;
@@ -278,6 +278,14 @@ define([], function() {
                                 return i.configAlias == self.formlyData.authorizedOem[0].configAlias;
                             });
                         } else {
+                            _.each(self.formlyData.authorizedOem, function(i) {
+                                var x = _.find(v, function(ii) {
+                                    return ii.configAlias == i.configAlias;
+                                });
+                                if (x) {
+                                    x.selected = true;
+                                }
+                            });
                             self.formlyData.authorizedOem = v;
                         }
                         self.formlyData.group = _.find($scope.$root.authMeta.groups, function(i) {

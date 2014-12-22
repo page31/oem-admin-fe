@@ -239,6 +239,7 @@ define([], function(rules) {
             return {
                 openModal: function(opt, instance) {
                     // formFields, submit, formName, modalTitle
+                    var opt = _.clone(opt);
                     var $scope = $rootScope.$new();
                     var titlePre = instance ? '修改' : '添加';
                     $scope._editType = instance ? 'edit' : 'add';
