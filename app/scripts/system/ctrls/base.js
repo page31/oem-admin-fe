@@ -8,14 +8,7 @@ define([], function() {
             channel: function(res, meta) {
                 res.configAlias = meta.raw.bdConfigDetail.configAlias;
             },
-            apiPartner: function(res) {
-                /* trans _privileges */
-                var _privileges = res.privileges;
-                res.privileges = _.clone($scope.$root.tokenMeta.candidatePrivileges);
-                _.each(_privileges, function(i) {
-                    res.privileges[i] = true;
-                });
-            },
+            apiPartner: function(res) {},
             auth: function(res) {
                 /* trans authorizedOem */
             }
@@ -50,34 +43,6 @@ define([], function() {
         $scope.$root.onDel = function(type, item, scope) {
             if (window.confirm('您确定要删除该资源吗？')) {
                 FORMMAP[type].del && FORMMAP[type].del(item, scope);
-                return;
-                if (type === 'oemPartner') {
-                    apiHelper('del' + _.classify(type), {
-                        params: {
-                            configAlias: item.bdConfigDetail.configAlias
-                        }
-                    }).then(function() {
-                        _.removeItem(item, scope[type + 'List']);
-                    });
-                }
-                if (type === 'apiPartner') {
-                    apiHelper('del' + _.classify(type), {
-                        params: {
-                            tokenId: item.id
-                        }
-                    }).then(function() {
-                        _.removeItem(item, scope[type + 'List']);
-                    });
-                }
-                if (type === 'channel') {
-                    apiHelper('delOemSource', {
-                        params: _.extend({}, item, {
-                            configAlias: scope.formlyData.bdConfigDetail.configAlias
-                        })
-                    }).then(function(r) {
-                        _.removeItem(item, scope.formlyData.bdSourceDetails);
-                    });
-                }
             }
         };
     });

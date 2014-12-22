@@ -14,12 +14,30 @@ define([], function() {
                     key: 'sourceAlias',
                     placeholder: '例如， lenovo_K900'
                 }],
+                del: function(item, scope) {
+                    var self = this;
+                    apiHelper('delOemSource', {
+                        params: _.extend({}, item, {
+                            configAlias: scope.formlyData.bdConfigDetail.configAlias
+                        })
+                    }).then(function(r) {
+                        _.removeItem(item, scope.formlyData.bdSourceDetails);
+                    });
+                },
                 submit: function() {
                     // setOemSource
+                    var self = this;
                     apiHelper('setOemSource', {
-                        data: this.formlyData
+                        data: self.formlyData
                     }).then(function(r) {
                         // use ref to add updated/added res back
+                        if (self._editType === 'add') {
+                            // Todo: duplicate columnsAlias check
+                            $scope.columnList.push(r);
+                        } else {
+                            _.replaceWith($scope.columnList, r, self._raw);
+                        }
+                        self._modal.close();
                     });
                     console.log(this.formlyData);
                 }
@@ -38,6 +56,15 @@ define([], function() {
                     label: 'OEM 渠道',
                     controlTpl: 'system/channel-list-snippet.html'
                 }],
+                del: function(item) {
+                    apiHelper('delOemPartner', {
+                        params: {
+                            configAlias: item.bdConfigDetail.configAlias
+                        }
+                    }).then(function() {
+                        _.removeItem(item, $scope.oemPartnerList);
+                    });
+                },
                 submit: function() {
                     apiHelper('setOemPartner', {
                         data: this.formlyData
@@ -84,11 +111,52 @@ define([], function() {
                     key: 'privileges',
                     controlTpl: 'system/api-partner-interfaces-snippet.html'
                 }], // Todo: add multi checkbox support
+                del: function(item) {
+                    apiHelper('delApiPartner', {
+                        params: {
+                            tokenId: item.id
+                        }
+                    }).then(function() {
+                        _.removeItem(item, $scope.apiPartnerList);
+                    });
+                },
+                initCb: function() {
+                    var self = this;
+                    /* trans _privileges */
+                    var _privileges = self.formlyData.privileges;
+                    self.$watch('$root.tokenMeta.candidatePrivileges', function(v) {
+                        if (!v) return;
+                        var ret = _.clone(v);
+                        _.each(ret, function(v, k) {
+                            if (_.contains(_privileges, k)) {
+                                ret[k] = true;
+                            } else {
+                                ret[k] = false;
+                            }
+                        });
+                        self.formlyData.privileges = ret;
+                    });
+                },
                 submit: function() {
+                    var self = this;
+                    var data = _.clone(this.formlyData);
+                    data.privileges = [];
+                    _.each(self.formlyData.privileges, function(v, k) {
+                        if (v) {
+                            data.privileges.push(k);
+                        }
+                    });
                     apiHelper('setApiPartner', {
-                        data: this.formlyData
+                        data: {
+                            tokenData: data
+                        }
                     }).then(function(r) {
-                        // after success update store data
+                        if (self._editType === 'add') {
+                            $scope.apiPartnerList.push(r);
+                        } else {
+                            _.replaceWith($scope.apiPartnerList, r, self._raw);
+                        }
+                        self._modal.close();
                     });
                 }
             }

@@ -38,7 +38,7 @@ define(['base/index', 'system/util', 'system/ctrls/base', 'system/ctrls/biz'], f
 
             'fetchApiPartners': 'GET /token',
             'delApiPartner': 'GET /token/delete',
-            'setApiPartner': 'POST /token',
+            'setApiPartner': 'POST /token/edit',
 
             'fetchOemPartners': 'GET /oem/bdconfig',
             'setOemPartner': 'POST /oem/bdconfig/edit',
