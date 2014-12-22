@@ -184,12 +184,16 @@ define([], function() {
     });
 
     systemApp.controller('systemStatusCtrl', function($scope, apiHelper) {
-        apiHelper('fetchQuota', {
-            params: {
-                configAlias: 'antutu'
-            }
-        }).then(function(r) {
-            $scope.tableData = _.map2Arr(r, ['name', 'totalCount', 'usedCount', 'nextReset']);
+
+        $scope.$watch('currentConfigAlias', function(val) {
+            if (!val) return;
+            apiHelper('fetchQuota', {
+                params: {
+                    configAlias: val
+                }
+            }).then(function(r) {
+                $scope.tableData = _.map2Arr(r, ['name', 'totalCount', 'usedCount', 'nextReset']);
+            });
         });
     });
 

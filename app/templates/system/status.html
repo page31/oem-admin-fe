@@ -12,6 +12,7 @@
 
         <h3>设置合作方 API 运行状态</h3>
         <!--  dropdown menu for partner -->
+        <select ng-model="currentConfigAlias" ng-options="i.configAlias as i.configName for i in $root.authMeta.authorizedOem"></select>
         <div s-table row-list="tableData"
             head-list="['接口名称', '限额总量', '目前已使用', '距离下次重置']">
         </div>

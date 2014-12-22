@@ -3,7 +3,7 @@
         <td ng-repeat="i in headList">{{i}}</td>
     </tr>
     <tr ng-repeat="row in dataList track by $index">
-        <td ng-repeat="i in row">{{i}}</td>
+        <td ng-repeat="i in row track by $index">{{i}}</td>
         <td ng-if="dataList.editable || dataList.deletable">
             <!-- Add if check -->
             <a ng-click="$root.onEdit(dataList.type, row)">
