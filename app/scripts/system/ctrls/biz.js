@@ -112,19 +112,23 @@ define([], function() {
         var onlyOemChoiceField = {
             label: '可管理的 OEM/API',
             type: 'select',
-            optionStr: 'i.configAlias as i.configName for i in $root.authMeta.authorizedOem'
+            key: 'authorizedOem',
+            optionStr: 'i as i.configName for i in $root.authMeta.authorizedOem'
         };
 
         $scope.FORMMAP.auth = {
             modalTitle: '账户',
             formFields: [{
-                    label: '豌豆荚账户',
-                    key: 'wdjAccount'
+                    label: '豌豆荚账户 Uid',
+                    key: 'uid'
+                }, {
+                    label: '豌豆荚账户 Email',
+                    key: 'email'
                 }, {
                     label: '账户角色',
-                    key: 'role',
+                    key: 'group',
                     type: 'select',
-                    optionStr: 'i.name as i.alias for i in $root.authMeta.groups'
+                    optionStr: 'i as i.name for i in $root.authMeta.groups'
                 },
                 allOemChoicesField, {
                     label: '开设权限',
@@ -132,44 +136,82 @@ define([], function() {
                 }
             ],
             submit: function() {
-                console.log(this.formlyData);
+                var self = this;
+                var data = _.clone(self.formlyData);
+
+                if (data.group.alias === 'GROUP_USER_V') {
+                    data.authorizedOem = [data.authorizedOem];
+                } else {
+                    data.authorizedOem = _.map(_.filter(self.formlyData.authorizedOem, function(oem) {
+                        return oem.selected;
+                    }), function(i) {
+                        return _.omit(i, 'selected');
+                    });
+                }
+                delete data.isSelectAllOems;
+                apiHelper('setAuth', {
+                    data: {
+                        authorityData: data
+                    }
+                }).then(function(r) {
+                    if (self._editType === 'add') {
+                        $scope.authList.push(r);
+                    } else {
+                        _.replaceWith($scope.authList, r, self._raw);
+                    }
+                    self._modal.close();
+                });
             },
             initCb: function(e) {
                 var self = this;
                 this.$watch('formlyData.isSelectAllOems', function(val) {
                     if (_.isUndefined(val)) return;
-                    _.each(self.formlyData._authorizedOem, function(_val, k) {
-                        self.formlyData._authorizedOem[k] = val;
+                    _.each(self.formlyData.authorizedOem, function(i) {
+                        i.selected = val;
                     });
                 }, true);
 
-                this.$watch('formlyData.role', function(val) {
-                    if (val === 'GROUP_USER_V') {
-                        self.formFields[2] = onlyOemChoiceField;
+                this.$watch('formlyData.group', function(val) {
+                    if (!val) return;
+                    if (val.alias === 'GROUP_USER_V') {
+                        self.formFields[3] = onlyOemChoiceField;
                     } else {
-                        self.formFields[2] = allOemChoicesField;
+                        self.formFields[3] = allOemChoicesField;
                     }
                 });
 
-                /*this.$watch('formlyData.authorizedItems.authorizedLevel1', function(val) {
-                            _.each(val, function(i, k) {
-                                if(i.selected) {
-                                    _.each(self.formlyData.authorizedItems.authorizedLevel2[i.alias], function(i) {
-                                        i.selected = true;
-                                    });
-                                }
-                            });
-                        }, true);
+                this.$root.$watch('authMeta.authorizedOem', function(v) {
+                    if (!v) return;
+                    if (self.formlyData.authorizedOem) return;
+                    self.formlyData.authorizedOem = v;
+                });
 
-                        this.$watch('formlyData.authorizedItems.authorizedLevel2', function(val) {
-                            _.each(val, function(level1, k) {
-                                if(_.every(level1, function(level2) {
-                                    return level2.selected;
-                                })) {
-                                    self.formlyData.authorizedItems.authorizedLevel1[k] = true;
-                                }
-                            });
-                        }, true);*/
+                this.$root.$watch('authMeta.authorizedItems', function(v) {
+                    if (!v) return;
+                    if (self.formlyData.authorizedItems) return;
+                    self.formlyData.authorizedItems = v;
+                });
+
+                self.selectAuthorizedLevel1 = function(k, item) {
+                    item.selected = !item.selected;
+                    _.each(self.formlyData.authorizedItems.authorizedLevel2[k], function(ii) {
+                        ii.selected = item.selected;
+                    });
+                };
+                self.selectAuthorizedLevel2 = function(item, parent, all) {
+                    item.selected = !item.selected;
+
+                    if (_.every(all, function(child) {
+                        return child.selected;
+                    })) {
+                        parent.selected = true;
+                    }
+                    if (_.any(all, function(child) {
+                        return !child.selected;
+                    })) {
+                        parent.selected = false;
+                    }
+                };
             }
         };
 
@@ -273,7 +315,7 @@ define([], function() {
                 }).then(function(r) {
                     if (self._editType === 'add') {
                         // Todo: duplicate columnsAlias check
-                        $scope.columnList.push(self.formlyData);
+                        $scope.columnList.push(r);
                     } else {
                         _.replaceWith($scope.columnList, r, self._raw);
                     }
