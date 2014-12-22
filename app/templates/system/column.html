@@ -2,12 +2,29 @@
     <h2>管理 OEM 栏目</h2>
     <p class="text-mute">特定 OEM 想要单独开设新的栏目，在这里管理这些新增栏目</p>
 
-    <!-- daterange with trigger btn -->
     <div>
         <h3>已有 OEM 栏目列表</h3>
-        <button class="w-btn">添加新栏目</button>
+        <button class="w-btn"
+            ng-click="$root.onSet('column', null, this)">
+            添加新栏目
+        </button>
     </div>
-    <div s-table row-list="tableData"
-        head-list="['OEM', ' 栏目名称', '操作']">
-    </div>
+
+    <table class="pmt-standard-table">
+        <tr>
+            <td ng-repeat="i in ['OEM', ' 栏目名称', '操作']">{{i}}</td>
+        </tr>
+        <tr ng-repeat="item in columnList">
+            <td>{{item.configAlias}}</td>
+            <td>{{item.columnsName}}</td>
+            <td>
+                <a ng-click="$root.onSet('column', item)">
+                    <i class="icon-edit"></i>
+                </a>
+                <a ng-click="$root.onDel('column', item, this)">
+                    <i class="icon-trash"></i>
+                </a>
+            </td>
+        </tr>
+    </table>
 </div>

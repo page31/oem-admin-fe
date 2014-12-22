@@ -241,18 +241,24 @@ define([], function(rules) {
                     // formFields, submit, formName, modalTitle
                     var $scope = $rootScope.$new();
                     var titlePre = instance ? '修改' : '添加';
+                    $scope._editType = instance ? 'edit' : 'add';
                     opt.modalTitle = titlePre + opt.modalTitle;
                     _.each(opt, function(val, k) {
                         $scope[k] = val;
                     });
                     $scope.formName = 'formly';
-                    $scope.formlyData = instance || {};
+                    if (instance) {
+                        $scope.formlyData = _.clone(instance);
+                        $scope._raw = instance;
+                    } else {
+                        $scope.formlyData = {};
+                    }
                     $scope.submit = opt.submit ? opt.submit.bind($scope) : noop;
                     if (opt.initCb) {
                         opt.initCb.call($scope);
                     }
 
-                    $modal.open({
+                    $scope._modal = $modal.open({
                         templateUrl: 'templates/_base/modal.html',
                         size: 'lg',
                         scope: $scope // set dynamically

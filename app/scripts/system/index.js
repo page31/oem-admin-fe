@@ -54,7 +54,11 @@ define(['base/index', 'system/util', 'system/ctrls/base', 'system/ctrls/biz'], f
             'fetchTokenMeta': 'GET /token/candidateType',
 
             'fetchLog': 'GET /survey/log',
-            'fetchQuota': 'GET /survey/quota'
+            'fetchQuota': 'GET /survey/quota',
+
+            'fetchColumns': 'GET /oem/bdcolumns',
+            'setColumn': 'POST /oem/bdcolumns/edit',
+            'delColumn': 'GET /oem/bdcolumns/delete'
         }, {
             urlPrefix: window._ServerUrl + '/api/admin'
         });
