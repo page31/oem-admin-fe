@@ -1,3 +1,4 @@
+window._ServerUrl = 'http://test.wandoujia.com:8080';
 define(['routes',
     'system/index',
     'app_vertical/index',
@@ -32,34 +33,8 @@ define(['routes',
         $urlRouterProvider.otherwise('/system');
     });
 
-    oemApp.run(function($state, $rootScope, apiHelper) {
+    oemApp.run(function($state, $rootScope) {
         $rootScope.$state = $state;
-
-        /* API Section */
-        var _ServerUrl = 'http://test.wandoujia.com:8080';
-
-        // Admin module
-        apiHelper.config({
-
-            'fetchApiPartners': 'GET /token',
-            'delApiPartner': 'GET /token/delete',
-            'setApiPartner': 'POST /token',
-
-            'fetchOemPartners': 'GET /oem/bdconfig',
-            'setOemPartner': 'POST /oem/bdconfig/edit',
-            'delOemPartner': 'GET /oem/bdconfig/delete',
-            'setOemSource': 'POST /oem/bdsource/edit',
-            'delOemSource': 'GET /oem/bdsource/delete',
-
-            'fetchAuths': 'GET /auth',
-            'setAuth': 'POST /auth/edit',
-            'delAuth': 'GET /auth/delete',
-
-            'fetchAuthMeta': 'GET /auth/candidateType',
-            'fetchTokenMeta': 'GET /token/candidateType'
-        }, {
-            urlPrefix: _ServerUrl + '/api/admin'
-        });
     });
 
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)

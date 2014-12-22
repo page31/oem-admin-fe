@@ -2,7 +2,7 @@
     <tr>
         <td ng-repeat="i in headList">{{i}}</td>
     </tr>
-    <tr ng-repeat="row in dataList">
+    <tr ng-repeat="row in dataList track by $index">
         <td ng-repeat="i in row">{{i}}</td>
         <td ng-if="dataList.editable || dataList.deletable">
             <!-- Add if check -->
