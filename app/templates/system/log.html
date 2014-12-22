@@ -4,8 +4,13 @@
 
     <!-- daterange with trigger btn -->
     <p>
-        <div date-range-picker></div>
-        <button class="w-btn">查询</button>
+        <span id="reportrange">
+            <i class="fa fa-calendar fa-lg"></i>
+            <span></span>
+            <b class="caret"></b>
+        </span>
+
+        <button class="w-btn" ng-click="fetchLog()">查询</button>
     </p>
     <div s-table row-list="tableData"
         head-list="['时间', '账户', '日志内容']">
