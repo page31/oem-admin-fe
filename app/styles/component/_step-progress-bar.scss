@@ -1,0 +1,127 @@
+.pmt-step-progress-bar {
+    margin: 0 0 60px 0;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    
+    * {
+        @include transition(color 1s, border-color 1s, background-color 1s, width 1s);
+    }
+    .step-status {
+        float: left;
+        width: 140px;
+        text-align: center;
+
+        .step-status-icon {
+            display: block;
+            margin: 0 auto;
+            width: 17px;
+            height: 17px;
+            background: #fff;
+            border-radius: 100%;
+            border: 3px solid #ddd;
+            position: relative;
+            z-index: 2;
+        }
+        &:last-child {
+            float: right;
+        }
+    }
+    .step-solid-line {
+        height: 3px;
+        width: 100%;
+        background: #ddd;
+        position: absolute;
+        left: 0;
+        bottom: 7px;
+        z-index: 1;
+
+        .step-success-line {
+            height: 3px;
+            width: 0;
+            background: $standardColor;
+        }
+    }
+
+    @mixin doing() {
+        .step-status-title {
+            color: $standardColor;
+        }
+        .step-status-icon {
+            border-color: $standardColor;
+        }
+        * {
+            @include transition-delay(800ms);
+        }
+    }
+    @mixin done() {
+        .step-status-title {
+            color: $standardColor;
+        }
+        .step-status-icon {
+            border: 2px solid #fff;
+            background: $standardColor;
+        }
+    }
+
+    &.step-1 {
+        .status-1 {
+            @include doing();
+        }
+        .step-success-line {
+            width: 70px;
+        }
+    }
+    &.step-2 {
+        .status-1 {
+            @include done();
+        }
+        .status-2 {
+            @include doing();
+        }
+        .step-success-line {
+            width: 210px;
+        }
+    }
+    &.step-3 {
+        .status-1, .status-2 {
+            @include done();
+        }
+        .status-3 {
+            @include doing();
+        }
+        .step-success-line {
+            width: 350px;
+        }
+    }
+    &.step-4 {
+        .status-1, .status-2, .status-3 {
+            @include done();
+        }
+        .status-4 {
+            @include doing();
+        }
+        .step-success-line {
+            width: 490px;
+        }
+    }
+    &.step-5 {
+        .status-1, .status-2, .status-3, .status-4 {
+            @include done();
+        }
+        .status-5 {
+            @include doing();
+        }
+        .step-success-line {
+            width: 630px;
+        }
+    }
+    &.step-6 {
+        .status-1, .status-2, .status-3, .status-4, .status-5, .status-6 {
+            @include done();
+        }
+        .step-success-line {
+            width: 100%;
+        }
+    }
+}

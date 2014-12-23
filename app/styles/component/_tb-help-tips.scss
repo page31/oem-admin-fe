@@ -1,0 +1,37 @@
+.pmt-tb-help-tips {
+    font-style: normal;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    background: #ccc;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 100%;
+    color: #fff;
+    margin-left: 5px;
+    font-size: 12px;
+    position: relative;
+
+    .pmt-bubble {
+        top: 22px;
+        left: -24px;
+
+        &:before {
+            left: 20px;
+            top: -18px;
+            border-right-color: transparent;
+            border-bottom-color: #ddd;
+        }
+        &:after {
+            left: 21px;
+            top: -16px;
+            border-right-color: transparent;
+            border-bottom-color: #fff;
+        }
+    }
+
+    &:hover .pmt-bubble, &.hovered .pmt-bubble {
+        display: block;
+    }
+}

@@ -1,0 +1,178 @@
+/* Global Basic
+ ========================================================================== */
+@import "icon";
+@import "ng-animate";
+
+body {
+    color: #999;
+    background: #f2f2f2;
+    overflow: scroll;
+}
+a {
+    color: $textPrimary;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+ul, ol {
+    padding: 0;
+    margin: 0;
+}
+fieldset {
+    border: 0;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+*, *:before, *:after {
+    @include box-sizing(border-box);
+}
+.hide {
+    display: none;
+}
+
+/* Container
+ ========================================================================== */
+.pmt-container {
+    width: 940px;
+    margin: 0 auto;
+    @include pie-clearfix;
+}
+
+.pmt-main-section {
+    background: #fff;
+    margin: 20px auto 40px auto;
+    padding: 50px;
+    box-shadow: 0 2px $borderColor;
+}
+
+.pmt-footer {
+    text-align:center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pmt-step {
+    .step-header h1 {
+        color: $standardColor;
+        font-size: 34px;
+        font-weight: normal;
+        margin: 0 0 30px 0;
+    }
+    .step-subtitle {
+        font-size: 14px;
+    }
+    .step-body {
+        margin: 30px 0;
+    }
+}
+
+.green-list {
+    color: $textPrimary;
+    padding: 0 0 0 20px;
+    font-size: 13px;
+
+    li {
+        margin: 10px 0;
+    }
+}
+
+/* utilities
+ ========================================================================== */
+.no-transition {
+    -moz-transition: none !important;
+    -webkit-transition: none !important;
+    -o-transition: color 0 ease-in !important;
+    transition: none !important;
+}
+
+
+/* loading
+ ========================================================================== */
+.pmt-loader {
+    &.outer {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background: rgba(0, 0, 0, 0.35);
+        width: 60px;
+        height: 60px;
+        margin: -30px 0 0 -30px;
+        z-index: 9999;
+        border-radius: 10px;
+    }
+    &.inner{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -22px 0 0 -22px;
+        display: inline-block;
+        padding: 7px;
+        vertical-align: middle;
+        text-align: center;
+        background-color: transparent;
+        border: 4px solid transparent;
+        border-top-color: #fff;
+        border-bottom-color: #fff;
+        border-radius: 50%;
+        @include animation(spin 2s infinite);
+
+        &:after{
+            @extend .pmt-loader.inner;
+            content: '';
+            position: static;
+            margin: 0;
+            @include animation(spin 1s infinite);
+        }
+    }
+}
+
+@include keyframes(spin) {
+    0% {
+        @include transform(rotate3D(0,0,0,0deg));
+    }
+    100% {
+        @include transform(rotate3D(0,0,1,360deg));
+    }
+}
+
+.pmt-head-notice {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    .pmt-head-notice-inner{
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        width: 940px;
+        margin: 0 auto;
+        i{
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+// font-move
+.icon-move{
+    cursor: move;
+}
+
+.pmt-step{
+    position: relative;
+}
+.pmt-step .notice {
+  position: absolute;
+  z-index: 1000;
+  right: 10px;
+  bottom: 30px;
+}

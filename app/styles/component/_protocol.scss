@@ -1,0 +1,14 @@
+.pmt-step {
+    .protocol-iframe {
+        display: block;
+        width: 640px;
+        height: 320px;
+        overflow: scroll;
+        border: 1px solid $borderColor;
+        border-radius: 3px;
+        margin-top: 30px;
+    }
+    .pmt-form-checkbox {
+        margin: 15px 0;
+    }
+}

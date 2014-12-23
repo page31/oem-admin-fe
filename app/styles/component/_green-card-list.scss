@@ -1,0 +1,94 @@
+.green-card-list {
+    list-style-type: none;
+    font-size: 0;
+
+    .card-item {
+        display: inline-block;
+        padding: 10px;
+        background: #f2f2f2;
+        border-radius: 2px;
+        margin: 0 10px 10px 0;
+        border: 2px solid #f2f2f2;
+        cursor: pointer;
+        @include transition(background .2s, border .2s);
+
+        .left-part {
+            float: left;
+            margin-right: 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+            }
+            input[type="checkbox"] {
+                width: 14px;
+                height: 14px;
+                margin-top: 6px;
+            }
+        }
+        .right-part {
+            line-height: 1.8;
+            float: left;
+
+            .big-size {
+                font-size: 16px;
+                color: #777;
+                margin: 0;
+
+                .big-title {
+                    display: inline-block;
+                    vertical-align: middle;
+                    max-width: 250px;
+                    @include ellipsis(true);
+                }
+            }
+            .small-size {
+                font-size: 12px;
+                margin: 0;
+                @include ellipsis(true);
+            }
+        }
+        &.checked {
+            border: 2px solid #3baa24;
+            background-color: #f0f8ec;
+        }
+    }
+    .warning-tips {
+        font-style: normal;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        vertical-align: text-top;
+        background-color: rgb(236,2,1);
+        line-height: 16px;
+        text-align: center;
+        border-radius: 100%;
+        color: #fff;
+        margin-left: 5px;
+        font-size: 12px;
+    }
+    .help-tips {
+        @extend .warning-tips;
+        background: #ccc;
+        position: relative;
+
+        &:hover > .pmt-bubble {
+            display: block;
+        }
+    }
+    &.small-list {
+        .card-item {
+            width: 200px;
+        }
+    }
+    &.medium-list {
+        .card-item {
+            width: 270px;
+        }
+    }
+    &.large-list {
+        .card-item {
+            width: 400px;
+        }
+    }
+}

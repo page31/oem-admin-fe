@@ -1,0 +1,21 @@
+.pmt-pagination {
+    float: right;
+    a {
+        display: inline-block;
+        margin-right: 2px;
+        background: #f2f2f2;
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+    a.current, a:hover {
+        background: $standardColor;
+        color: #fff;
+    }
+}
+.pmt-pagination-wrapper {
+    text-align: center;
+    .pmt-pagination {
+        float: none;
+        display: inline-block;
+    }
+}

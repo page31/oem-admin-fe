@@ -1,0 +1,212 @@
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300); // Open Sans font
+
+.sweet-alert {
+    $width: 478px;
+    $padding: 17px;
+
+    /*background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    width: $width;
+    padding: $padding;
+    border-radius: 5px;
+    text-align: center;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -($width/2 + $padding);
+    margin-top: -200px;
+
+    overflow: hidden;
+    display: none;
+    z-index: 2000;
+*/
+    @media all and (max-width: 540px) {
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+        left: 15px;
+        right: 15px;
+    }
+
+    h2 {
+        color: #575757;
+        font-size: 30px;
+        text-align: center;
+        font-weight: 600;
+        text-transform: none;
+        position: relative;
+    }
+
+    p {
+        color: #797979;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 300;
+        position: relative;
+        margin: 0;
+        line-height: normal;
+    }
+
+    .icon {
+        $red:       #F27474;
+        $orange:    #F8BB86;
+        $blue:      #C9DAE1;
+        $green:     #A5DC86;
+
+        width: 80px;
+        height: 80px;
+        border: 4px solid gray;
+        border-radius: 50%;
+        margin: 20px auto;
+        position: relative;
+        box-sizing: content-box;
+
+        &.success {
+            border-color: $green;
+
+            &::before, &::after { // Emulate moving circular line
+                content: '';
+                border-radius: 50%;
+              position: absolute;
+              width: 60px;
+                height: 120px;
+              background: white;
+                -webkit-transform: rotate(45deg);
+              transform: rotate(45deg);
+            }
+            &::before {
+              border-radius: 120px 0 0 120px;
+              top: -7px;
+                left: -33px;
+
+               -webkit-transform: rotate(-45deg);
+              transform: rotate(-45deg);
+                -webkit-transform-origin: 60px 60px;
+              transform-origin: 60px 60px;
+            }
+            &::after {
+              border-radius: 0 120px 120px 0;
+              top: -11px;
+                left: 30px;
+
+              -webkit-transform: rotate(-45deg);
+              transform: rotate(-45deg);
+                -webkit-transform-origin: 0px 60px;
+              transform-origin: 0px 60px;
+            }
+
+            .placeholder { // Ring
+                width: 80px;
+                height: 80px;
+                border: 4px solid rgba($green, 0.2);
+                border-radius: 50%;
+                box-sizing: content-box;
+
+                position: absolute;
+                left: -4px;
+                top: -4px;
+                z-index: 2;
+            }
+
+            .fix {  // Hide corners left from animation
+                width: 5px;
+                height: 90px;
+                background-color: white;
+
+                position: absolute;
+                left: 28px;
+                top: 8px;
+                z-index: 1;
+
+                -webkit-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+            }
+
+            .line {
+                height: 5px;
+                background-color: $green;
+                display: block;
+                border-radius: 2px;
+
+                position: absolute;
+                z-index: 2;
+
+                &.tip {
+                    width: 25px;
+
+                left: 14px;
+                    top: 46px;
+
+                    -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+                }
+                &.long {
+                    width: 47px;
+
+                right: 8px;
+                    top: 38px;
+
+                    -webkit-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+
+}
+
+/*
+ * Animations
+ */
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  animation: #{$str};
+}
+
+
+// Success icon animation
+
+@include keyframes(animateSuccessTip) {
+    0%      { width: 0;         left: 1px;      top: 19px; }
+    54%     { width: 0;         left: 1px;      top: 19px; }
+    70%     { width: 50px;  left: -8px;     top: 37px; }
+    84%     { width: 17px;  left: 21px;     top: 48px; }
+    100%    { width: 25px;  left: 14px;     top: 45px; }
+}
+@include keyframes(animateSuccessLong) {
+    0%      { width: 0;         right: 46px;    top: 54px; }
+    65%     { width: 0;         right: 46px;    top: 54px; }
+    84%     { width: 55px;  right: 0px;     top: 35px; }
+    100%    { width: 47px;  right: 8px;     top: 38px; }
+}
+@include keyframes(rotatePlaceholder) {
+    0%      { transform: rotate(-45deg);    -webkit-transform: rotate(-45deg);  }
+    5%      { transform: rotate(-45deg);    -webkit-transform: rotate(-45deg);      }
+  12%   { transform: rotate(-405deg); -webkit-transform: rotate(-405deg);   }
+  100%  { transform: rotate(-405deg); -webkit-transform: rotate(-405deg);   }
+}
+
+.animateSuccessTip {
+    @include animation('animateSuccessTip 0.75s');
+}
+.animateSuccessLong {
+    @include animation('animateSuccessLong 0.75s');
+}
+.icon.success.animate::after {
+    @include animation('rotatePlaceholder 4.25s ease-in');
+}
+

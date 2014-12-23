@@ -1,0 +1,121 @@
+//
+// notices
+// --------------------------------------------------
+// Form states and notices
+// -------------------------
+// notices
+// -------------------------
+@mixin notice-variant($background, $border, $text-color) {
+  background-color: $background;
+  border-color: $border;
+  color: $text-color;
+
+  hr {
+    border-top-color: darken($border, 5%);
+  }
+  .notice-link {
+    color: darken($text-color, 10%);
+  }
+}
+
+$state-success-text:             #468847 !default;
+$state-success-bg:               #dff0d8 !default;
+$state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
+
+$state-info-text:                #3a87ad !default;
+$state-info-bg:                  #d9edf7 !default;
+$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+
+$state-warning-text:             #c09853 !default;
+$state-warning-bg:               #fcf8e3 !default;
+$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
+
+$state-error-text:              #b94a48 !default;
+$state-error-bg:                #f2dede !default;
+$state-error-border:            darken(adjust-hue($state-error-bg, -10), 5%) !default;
+
+
+$notice-padding:               15px !default;
+$notice-border-radius:         4px !default;
+$notice-link-font-weight:      bold !default;
+
+$notice-success-bg:            $state-success-bg !default;
+$notice-success-text:          $state-success-text !default;
+$notice-success-border:        $state-success-border !default;
+
+$notice-info-bg:               $state-info-bg !default;
+$notice-info-text:             $state-info-text !default;
+$notice-info-border:           $state-info-border !default;
+
+$notice-warning-bg:            $state-warning-bg !default;
+$notice-warning-text:          $state-warning-text !default;
+$notice-warning-border:        $state-warning-border !default;
+
+$notice-error-bg:             $state-error-bg !default;
+$notice-error-text:           $state-error-text !default;
+$notice-error-border:         $state-error-border !default;
+
+
+
+// Base styles
+// -------------------------
+
+.notice {
+  padding: $notice-padding;
+  margin-bottom: -20px;
+  border: 1px solid transparent;
+  border-radius: $notice-border-radius;
+
+  // Headings for larger notices
+  h4 {
+    margin-top: 0;
+    // Specified for the h4 to prevent conflicts of changing $headings-color
+    color: inherit;
+  }
+  // Provide class for links that match notices
+  .notice-link {
+    font-weight: $notice-link-font-weight;
+  }
+
+  // Improve alignment and spacing of inner content
+  > p,
+  > ul {
+    margin-bottom: 0;
+  }
+  > p + p {
+    margin-top: 5px;
+  }
+}
+
+// Dismissable notices
+//
+// Expand the right padding and account for the close button's positioning.
+
+.notice-dismissable {
+ padding-right: ($notice-padding + 20);
+
+  // Adjust close link position
+  .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+  }
+}
+
+// Alternate styles
+//
+// Generate contextual modifier classes for colorizing the notice.
+
+.notice-success {
+  @include notice-variant($notice-success-bg, $notice-success-border, $notice-success-text);
+}
+.notice-info {
+  @include notice-variant($notice-info-bg, $notice-info-border, $notice-info-text);
+}
+.notice-warning {
+  @include notice-variant($notice-warning-bg, $notice-warning-border, $notice-warning-text);
+}
+.notice-error {
+  @include notice-variant($notice-error-bg, $notice-error-border, $notice-error-text);
+}

@@ -1,0 +1,36 @@
+.pmt-step .green-step-list {
+    list-style-type: none;
+    font-size: 14px;
+
+    & > li {
+        position: relative;
+        padding-left: 60px;
+        margin: 20px 0;
+        overflow: hidden;
+
+        & > i {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            width: 38px;
+            height: 38px;
+            line-height: 38px;
+            text-align: center;
+            background: $standardColor;
+            border-radius: 100%;
+            color: #fff;
+            font-style: normal;
+        }
+        .step-title {
+            color: #666;
+            font-size: 16px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .pmt-form-row {
+            margin: 30px 0;
+            font-size: 12px;
+        }
+    }
+}

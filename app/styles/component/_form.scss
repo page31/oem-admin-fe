@@ -1,0 +1,414 @@
+/* Hooks
+ ========================================================================== */
+/*
+ * Name:            Form
+ * Description:     Defines styles for forms
+ *
+ * Component:       `pmt-form`
+ *
+ * Sub-objects:     `pmt-form-row`
+ *                  `pmt-form-help-inline`
+ *                  `pmt-form-help-block`
+ *                  `pmt-form-label`
+ *                  `pmt-form-controls`
+ *                  `pmt-form-controls-condensed`
+ *
+ * Modifiers:       `pmt-form-stacked`
+ *                  `pmt-form-horizontal`
+ *
+ * Sub-modifiers:   `pmt-form-danger`
+ *                  `pmt-form-success`
+ *                  `pmt-form-small`
+ *                  `pmt-form-large`
+ *                  `pmt-form-blank`
+ *                  `pmt-form-width-mini`
+ *                  `pmt-form-width-small`
+ *                  `pmt-form-width-medium`
+ *                  `pmt-form-width-large`
+ *                  `pmt-form-controls-text`
+ *
+ ========================================================================== */
+/* Component
+ ========================================================================== */
+button,
+input:not([type="radio"]):not([type="checkbox"]),
+select {
+  vertical-align: middle;
+}
+/*
+ * Remove margin from the last-child
+ */
+.pmt-form > :last-child {
+  margin-bottom: 0;
+}
+/*
+ * Controls
+ * Exept for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+ * 1. Must be `height` because `min-height` is not working in OSX
+ * 2. Responsiveness: Sets a maxium width relative to the parent to scale on narrower viewports
+ */
+.pmt-form select,
+.pmt-form textarea,
+.pmt-form input[type="text"],
+.pmt-form input[type="password"],
+.pmt-form input[type="datetime"],
+.pmt-form input[type="datetime-local"],
+.pmt-form input[type="date"],
+.pmt-form input[type="month"],
+.pmt-form input[type="time"],
+.pmt-form input[type="week"],
+.pmt-form input[type="number"],
+.pmt-form input[type="email"],
+.pmt-form input[type="url"],
+.pmt-form input[type="search"],
+.pmt-form input[type="tel"],
+.pmt-form input[type="color"] {
+  height: 30px;
+  /* 1 */
+
+  max-width: 100%;
+  /* 2 */
+
+  padding: 4px 6px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #444444;
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+  border-radius: 4px;
+  /* Focus state */
+
+  /* Disabled state */
+
+}
+.pmt-form select:focus,
+.pmt-form textarea:focus,
+.pmt-form input[type="text"]:focus,
+.pmt-form input[type="password"]:focus,
+.pmt-form input[type="datetime"]:focus,
+.pmt-form input[type="datetime-local"]:focus,
+.pmt-form input[type="date"]:focus,
+.pmt-form input[type="month"]:focus,
+.pmt-form input[type="time"]:focus,
+.pmt-form input[type="week"]:focus,
+.pmt-form input[type="number"]:focus,
+.pmt-form input[type="email"]:focus,
+.pmt-form input[type="url"]:focus,
+.pmt-form input[type="search"]:focus,
+.pmt-form input[type="tel"]:focus,
+.pmt-form input[type="color"]:focus {
+  border-color: #3BAA24;
+  outline: 0;
+  background: rgba(225, 255, 229, 0.38);
+  color: #444444;
+}
+.pmt-form select:disabled,
+.pmt-form textarea:disabled,
+.pmt-form input[type="text"]:disabled,
+.pmt-form input[type="password"]:disabled,
+.pmt-form input[type="datetime"]:disabled,
+.pmt-form input[type="datetime-local"]:disabled,
+.pmt-form input[type="date"]:disabled,
+.pmt-form input[type="month"]:disabled,
+.pmt-form input[type="time"]:disabled,
+.pmt-form input[type="week"]:disabled,
+.pmt-form input[type="number"]:disabled,
+.pmt-form input[type="email"]:disabled,
+.pmt-form input[type="url"]:disabled,
+.pmt-form input[type="search"]:disabled,
+.pmt-form input[type="tel"]:disabled,
+.pmt-form input[type="color"]:disabled {
+  border-color: #dddddd;
+  background-color: #fafafa;
+  color: #999999;
+}
+/*
+ * Placeholder
+ * 1. Higher specificity needed to override color in IE
+ */
+.pmt-form :-ms-input-placeholder {
+  color: #999999 !important;
+}
+/* 1. */
+.pmt-form ::-moz-placeholder {
+  color: #999999;
+}
+.pmt-form ::-webkit-input-placeholder {
+  color: #999999;
+}
+.pmt-form :disabled:-ms-input-placeholder {
+  color: #999999 !important;
+}
+/* 1. */
+.pmt-form :disabled::-moz-placeholder {
+  color: #999999;
+}
+.pmt-form :disabled::-webkit-input-placeholder {
+  color: #999999;
+}
+/*
+ * Legend style
+ * 1. `margin-bottom` is not working in Safari and Opera.
+ *    Using `padding` and :after instead to create the border
+ */
+.pmt-form legend {
+  width: 100%;
+  padding-bottom: 15px;
+  /* 1 */
+
+  font-size: 18px;
+  line-height: 30px;
+}
+/* 1 */
+.pmt-form legend:after {
+  content: "";
+  display: block;
+  margin-bottom: 10px;
+}
+/* Size modifiers
+ * Using !important to keep the selector simple
+ ========================================================================== */
+.pmt-form-small {
+  height: 25px !important;
+  padding: 3px 3px !important;
+  font-size: 12px;
+}
+.pmt-form-large {
+  height: 40px !important;
+  padding: 8px 6px !important;
+  font-size: 16px;
+}
+/* Reset height
+ * Must be after size modifiers
+ ========================================================================== */
+.pmt-form textarea,
+.pmt-form select[multiple],
+.pmt-form select[size] {
+  height: auto;
+}
+/* Validation states
+ * Using !important to keep the selector simple
+ ========================================================================== */
+/*
+ * Error state
+ */
+.pmt-form-danger {
+  border: 2px solid $standardRed !important;
+  background: #fff !important;
+}
+/*
+ * Success state
+ */
+.pmt-form-success {
+  border-color: #8ec73b !important;
+  background: #fafff2 !important;
+  color: #539022 !important;
+}
+/* Style modifiers
+ * Using !important to keep the selector simple
+ ========================================================================== */
+/*
+ * Blank form
+ */
+.pmt-form-blank {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  outline: 1px dashed transparent !important;
+}
+.pmt-form-blank:focus {
+  outline-color: #dddddd !important;
+}
+/* Size sub-modifiers
+ ========================================================================== */
+/*
+ * Fixed widths
+ * 1. Different widths for mini sized `input` and `select` elements
+ */
+input.pmt-form-width-mini {
+  width: 40px;
+}
+/* 1 */
+select.pmt-form-width-mini {
+  width: 65px;
+}
+/* 1 */
+.pmt-form-width-small {
+  width: 135px;
+}
+.pmt-form-width-medium {
+  width: 200px;
+}
+.pmt-form-width-large {
+  width: 300px;
+}
+.pmt-form-width-xlarge {
+  width: 400px;
+}
+/* Sub-objects: `pmt-form-row`
+ * Groups labels and controls in rows
+ ========================================================================== */
+/*
+ * Micro clearfix
+ * Needed for `pmt-form-horizontal` modifier
+ */
+.pmt-form-row:before,
+.pmt-form-row:after {
+  content: " ";
+  display: table;
+}
+.pmt-form-row:after {
+  clear: both;
+}
+/*
+ * Vertical gutter
+ */
+.pmt-form-row + .pmt-form-row {
+  margin-top: 15px;
+}
+/* Help text
+ * Sub-object: `pmt-form-help-inline`, `pmt-form-help-block`
+ ========================================================================== */
+.pmt-form-help-inline {
+  display: inline-block;
+  margin: 0 0 0 10px;
+}
+.pmt-form-help-block {
+  display: block;
+  margin: 5px 0 0 0;
+}
+
+/* Controls content
+ * Sub-object: `pmt-form-controls`, `pmt-form-controls-condensed`
+ ========================================================================== */
+/*
+ * Remove margins
+ */
+// .pmt-form-controls > :first-child {
+//   margin-top: 0;
+// }
+// .pmt-form-controls > :last-child {
+//   margin-bottom: 0;
+// }
+/*
+ * Group controls and text into blocks with a small spacing between blocks
+ */
+.pmt-form-controls-condensed {
+  margin: 5px 0;
+}
+/* Modifier: `pmt-form-stacked`
+ * Requrires sub-object: `pmt-form-label`
+ ========================================================================== */
+.pmt-form-stacked .pmt-form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+/* Modifier: `pmt-form-horizontal`
+ * Requrires sub-objects: `pmt-form-label`, `pmt-form-controls`
+ ========================================================================== */
+/* Only tablets and desktops */
+.pmt-form-horizontal .pmt-form-label {
+  width: 100px;
+  margin-top: 5px;
+  float: left;
+}
+.pmt-form-horizontal .pmt-form-controls {
+  margin-left: 110px;
+}
+/* Better vertical alignment if controls are checkboxes and radio buttons with text */
+.pmt-form-horizontal .pmt-form-controls-text {
+  padding-top: 5px;
+}
+
+.pmt-form-controls select{
+  min-width: 150px;
+}
+/* Modifier: `pmt-form-checkbox`
+ ========================================================================== */
+.pmt-form-checkbox {
+  margin: 5px 0;
+}
+
+/* Modifier: `pmt-form-controls`
+ ========================================================================== */
+.upload-photo {
+  max-width: 210px;
+  max-height: 140px;
+}
+.up-field-extra {
+  display: inline-block;
+  vertical-align: middle;
+}
+.pmt-upload-btn {
+  input {
+    width: 100%;
+    height: 100%;
+  }
+}
+/* Modifier: `pmt-form error`
+ ========================================================================== */
+.pmt-form input[type="text"][readonly] {
+  cursor: not-allowed;
+  background-color: #eee;
+  color: #999;
+  border-color: #ccc;
+}
+.pmt-form input[type="text"].ng-dirty.ng-invalid {
+  @extend .pmt-form-danger;
+}
+.pmt-form input[type="text"].ng-dirty.ng-valid {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 0px;
+    @include icon-sprite('white-check');
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background-color: $standardColor;
+  }
+}
+
+
+/*
+  Control for input group (with addon)
+*/
+.pmt-form .input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+
+  display: inline-table;
+  vertical-align: middle;
+
+  input[type="text"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+  }
+
+  .input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    white-space: nowrap;
+    vertical-align: middle;
+
+    display: table-cell;
+
+    // for first-child/last-child
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

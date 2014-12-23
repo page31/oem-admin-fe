@@ -1,0 +1,126 @@
+.pmt-header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+
+    .pmt-container {
+        @include pie-clearfix;
+    }
+}
+.logo {
+    float: left;
+    margin: 15px 0;
+
+    .logo-text {
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        background-position: 0 -154px;
+        height: 50px;
+        width: 130px;
+        text-indent: -100%;
+        cursor: pointer;
+        background: url('http://s.wdjimg.com/style/images/www/icons-s051f7aafaa.png') no-repeat;
+    }
+    span {
+        font-size: 17px;
+        color: #bcbcbc;
+        vertical-align: baseline;
+        font-weight: normal;
+        margin-left: 10px;
+    }
+}
+.pmt-account-field {
+    float: right;
+    height: 80px;
+    font-size: 0;
+    position: relative;
+
+    &:before {
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 100%;
+        vertical-align: middle;
+    }
+    .pmt-account-info {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+    .pmt-account-avatar {
+        @extend .pmt-account-info;
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        margin: 0 10px 0 0;
+    }
+    .pmt-account-nickname {
+        display: block;
+        color: #666;
+        font-size: 14px;
+    }
+}
+
+.account-dropdown-menu {
+    position: absolute;
+    top: 80%;
+    right: 0;
+    width: 100%;
+    min-width: 140px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 1px #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    list-style-type: none;
+    z-index: 9999;
+
+    & > li {
+        line-height: 28px;
+        padding: 0 15px;
+    }
+}
+
+.pmt-nav {
+    clear: both;
+    @include pie-clearfix;
+
+    .main-nav, .sub-nav {
+        float: left;
+        list-style-type: none;
+
+        & > li {
+            display: inline-block;
+        }
+    }
+    .nav-item {
+        display: block;
+        line-height: 40px;
+        width: 125px;
+        font-size: 14px;
+        text-align: center;
+        color: #666;
+        @include transition(color 500ms);
+
+        &.current {
+            border-bottom: 3px solid $standardColor;
+            color: $standardColor;
+
+            &:hover {
+                color: $standardColor;
+            }
+        }
+        &:hover {
+            color: $standardColor;
+        }
+    }
+    .sub-nav {
+        float: right;
+
+        .nav-item {
+            width: 75px;
+            font-size: 12px;
+        }
+    }
+}

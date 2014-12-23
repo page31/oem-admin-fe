@@ -1,0 +1,183 @@
+/* ========================================================================
+   Component: Tab
+ ========================================================================== */
+.pmt-tab {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid #dddddd;
+}
+/*
+ * Micro clearfix on the deepest container
+ */
+.pmt-tab:before,
+.pmt-tab:after {
+  content: " ";
+  display: table;
+}
+.pmt-tab:after {
+  clear: both;
+}
+/*
+ * Items
+ * 1. Create position context for dropdowns
+ */
+.pmt-tab > li {
+  margin-bottom: -1px;
+  float: left;
+  /* 1 */
+  position: relative;
+}
+.pmt-tab > li > a {
+  display: block;
+  padding: 8px 12px 8px 12px;
+  border: 1px solid transparent;
+  border-bottom-width: 0;
+  text-decoration: none;
+}
+.pmt-tab > li:nth-child(n+2) > a {
+  margin-left: 5px;
+}
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Also apply if dropdown is opened
+ * 3. Remove default focus style
+ */
+.pmt-tab > li > a:hover,
+.pmt-tab > li > a:focus,
+.pmt-tab > li.pmt-open > a {
+  border-color: #f5f5f5;
+  background: #f5f5f5;
+  /* 2 */
+  outline: none;
+}
+.pmt-tab > li:not(.pmt-active) > a:hover,
+.pmt-tab > li:not(.pmt-active) > a:focus,
+.pmt-tab > li.pmt-open:not(.pmt-active) > a {
+  margin-bottom: 1px;
+  padding-bottom: 7px;
+}
+/* Active */
+.pmt-tab > li.pmt-active > a {
+  border-color: #dddddd;
+  border-bottom-color: transparent;
+  background: #ffffff;
+  color: #444444;
+}
+/* Disabled */
+.pmt-tab > li.pmt-disabled > a {
+  color: #999999;
+  cursor: auto;
+}
+.pmt-tab > li.pmt-disabled > a:hover,
+.pmt-tab > li.pmt-disabled > a:focus,
+.pmt-tab > li.pmt-disabled.pmt-active > a {
+  background: none;
+  border-color: transparent;
+}
+/* Modifier: 'tab-center'
+ ========================================================================== */
+.pmt-tab-center {
+  border-bottom: 1px solid #dddddd;
+}
+.pmt-tab-center-bottom {
+  border-bottom: none;
+  border-top: 1px solid #dddddd;
+}
+.pmt-tab-center:before,
+.pmt-tab-center:after {
+  content: " ";
+  display: table;
+}
+.pmt-tab-center:after {
+  clear: both;
+}
+/*
+ * 1. Using `right` to prevent vertical scrollbar caused by centering if to many tabs
+ */
+.pmt-tab-center .pmt-tab {
+  position: relative;
+  right: 50%;
+  border: none;
+  float: right;
+}
+.pmt-tab-center .pmt-tab > li {
+  position: relative;
+  right: -50%;
+}
+.pmt-tab-center .pmt-tab > li > a {
+  text-align: center;
+}
+/* Tablet and bigger */
+@media (min-width: 768px) {
+  .pmt-tab-left,
+  .pmt-tab-right {
+    border-bottom: none;
+  }
+  .pmt-tab-left > li,
+  .pmt-tab-right > li {
+    margin-bottom: 0;
+    float: none;
+  }
+  .pmt-tab-left > li > a,
+  .pmt-tab-right > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .pmt-tab-left > li:nth-child(n+2) > a,
+  .pmt-tab-right > li:nth-child(n+2) > a {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+  .pmt-tab-left > li.pmt-active > a,
+  .pmt-tab-right > li.pmt-active > a {
+    border-color: #dddddd;
+  }
+  /*
+     * Modifier: 'tab-left'
+     */
+  .pmt-tab-left {
+    border-right: 1px solid #dddddd;
+  }
+  .pmt-tab-left > li {
+    margin-right: -1px;
+  }
+  .pmt-tab-left > li > a {
+    border-bottom-width: 1px;
+    border-right-width: 0;
+  }
+  .pmt-tab-left > li:not(.pmt-active) > a:hover,
+  .pmt-tab-left > li:not(.pmt-active) > a:focus {
+    margin-bottom: 0;
+    margin-right: 1px;
+    padding-bottom: 8px;
+    padding-right: 11px;
+  }
+  .pmt-tab-left > li.pmt-active > a {
+    border-right-color: transparent;
+  }
+  /*
+     * Modifier: 'tab-right'
+     */
+  .pmt-tab-right {
+    border-left: 1px solid #dddddd;
+  }
+  .pmt-tab-right > li {
+    margin-left: -1px;
+  }
+  .pmt-tab-right > li > a {
+    border-bottom-width: 1px;
+    border-left-width: 0;
+  }
+  .pmt-tab-right > li:not(.pmt-active) > a:hover,
+  .pmt-tab-right > li:not(.pmt-active) > a:focus {
+    margin-bottom: 0;
+    margin-left: 1px;
+    padding-bottom: 8px;
+    padding-left: 11px;
+  }
+  .pmt-tab-right > li.pmt-active > a {
+    border-left-color: transparent;
+  }
+}
