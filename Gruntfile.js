@@ -136,16 +136,6 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        imagemin: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: 'dist/images',
-                    src: '**/*.{png,jpg,jpeg}',
-                    dest: 'dist/images'
-                }]
-            }
-        },
 
         ngAnnotate: {
             options: {
@@ -281,7 +271,6 @@ module.exports = function(grunt) {
         'cssmin',
         'uglify',
         'filerev',
-        // 'imagemin',
         'usemin',
         'copy:static',
         'copy:vendor'
