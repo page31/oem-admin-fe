@@ -2,6 +2,10 @@ define([], function() {
     var systemApp = angular.module('systemApp.bizCtrl', ['pmtBase']);
 
     systemApp.controller('systemPartnerCtrl', function($scope, apiHelper) {
+        var oemPartnerChannelField = {
+            label: 'OEM 渠道',
+            controlTpl: 'system/channel-list-snippet.html'
+        };
         _.extend($scope.FORMMAP, {
             channel: {
                 modalTitle: 'OEM 渠道',
@@ -24,18 +28,23 @@ define([], function() {
                         _.removeItem(item, scope.formlyData.bdSourceDetails);
                     });
                 },
-                submit: function() {
+                submit: function(ex) {
                     // setOemSource
+                    console.log(ex);
+                    var data = {
+                        configAlias: ex.formlyData.bdConfigDetail.configAlias
+                    };
+                    var columnList = ex.formlyData.bdSourceDetails;
                     var self = this;
                     apiHelper('setOemSource', {
-                        data: self.formlyData
+                        data: _.extend(self.formlyData, data)
                     }).then(function(r) {
                         // use ref to add updated/added res back
                         if (self._editType === 'add') {
                             // Todo: duplicate columnsAlias check
-                            $scope.columnList.push(r);
+                            columnList.push(r);
                         } else {
-                            _.replaceWith($scope.columnList, r, self._raw);
+                            _.replaceWith(columnList, r, self._raw);
                         }
                         self._modal.close();
                     });
@@ -52,9 +61,6 @@ define([], function() {
                     label: 'OEM 合作方 ID',
                     key: 'bdConfigDetail.configAlias',
                     placeholder: '例如， lenovo'
-                }, {
-                    label: 'OEM 渠道',
-                    controlTpl: 'system/channel-list-snippet.html'
                 }],
                 del: function(item) {
                     apiHelper('delOemPartner', {
@@ -66,15 +72,32 @@ define([], function() {
                     });
                 },
                 submit: function() {
+                    var self = this;
                     apiHelper('setOemPartner', {
-                        data: this.formlyData
+                        data: {
+                            bdconfigData: this.formlyData
+                        }
                     }).then(function(r) {
-                        // after success update store data
+                        if (self._editType === 'add') {
+                            $scope.oemPartnerList.push(r);
+                        } else {
+                            _.replaceWith($scope.oemPartnerList, r, self._raw);
+                        }
+                        self._modal.close();
                     });
-                    console.log(this.formlyData);
                 },
                 initCb: function() {
                     var self = this;
+                    // Hide oemPartnerChannelField when add bzc we dont have validity oem config
+                    if (self._editType === 'add') {
+                        if (self.formFields.length == 3) {
+                            self.formFields.splice(2, 1);
+                        }
+                    } else {
+                        if (self.formFields.length == 2) {
+                            self.formFields.splice(2, 0, oemPartnerChannelField);
+                        }
+                    }
                     this.$on('oemPartner:channel:add', function(e, d) {
                         self.formlyData.bdSourceDetails.push(d);
                     });

@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="system/channel-list-snippet.html">
 <div class="pmt-form-controls">
-    <button class="w-btn" ng-click="$root.onAdd('channel')"> 添加 OEM 渠道</button>
+    <button class="w-btn" ng-click="$root.onAdd('channel', null, this)"> 添加 OEM 渠道</button>
     <table class="pmt-standard-table">
         <tr>
             <td ng-repeat="i in ['渠道名称', '渠道 User Source', '操作']">{{i}}</td>
@@ -9,7 +9,7 @@
             <td>{{item.sourceName}}</td>
             <td>{{item.sourceAlias}}</td>
             <td>
-                <a ng-click="$root.onEdit('channel', item, {raw: formlyData})">
+                <a ng-click="$root.onEdit('channel', item, this)">
                     <i class="icon-edit"></i>
                 </a>
                 <a ng-click="$root.onDel('channel', item, this)">

@@ -237,7 +237,8 @@ define([], function(rules) {
         .directive('formlyForm', formlyForm)
         .factory('formlyHelper', function($modal, $rootScope) {
             return {
-                openModal: function(opt, instance) {
+                openModal: function(opt, instance, ex) {
+                    if (!ex) ex = {};
                     // formFields, submit, formName, modalTitle
                     var opt = _.clone(opt);
                     var $scope = $rootScope.$new();
@@ -254,9 +255,9 @@ define([], function(rules) {
                     } else {
                         $scope.formlyData = {};
                     }
-                    $scope.submit = opt.submit ? opt.submit.bind($scope) : noop;
+                    $scope.submit = opt.submit ? opt.submit.bind($scope, ex) : noop;
                     if (opt.initCb) {
-                        opt.initCb.call($scope);
+                        opt.initCb.call($scope, ex);
                     }
 
                     $scope._modal = $modal.open({

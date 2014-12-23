@@ -3,20 +3,9 @@ define([], function() {
     systemApp.controller('systemCtrl', function($scope, formlyHelper, apiHelper) {
         // extract to i18n
         $scope.menuList = systemMenuList;
-
-        var BeforeTransformerMap = {
-            channel: function(res, meta) {
-                res.configAlias = meta.raw.bdConfigDetail.configAlias;
-            },
-            apiPartner: function(res) {},
-            auth: function(res) {
-                /* trans authorizedOem */
-            }
-        };
         var DelHandlerMap = {};
 
         $scope.FORMMAP = {};
-        $scope.BeforeTransformerMap = BeforeTransformerMap;
         $scope.DelHandlerMap = DelHandlerMap;
 
         var FORMMAP = $scope.FORMMAP;
@@ -32,13 +21,13 @@ define([], function() {
         });
 
         // Todo: 为什么 child 访问不到？！
-        $scope.$root.onSet = function(type, item, meta) {
-            BeforeTransformerMap[type] && BeforeTransformerMap[type](item, meta);
-            formlyHelper.openModal(FORMMAP[type], item);
+        $scope.$root.onSet = function(type, item, ex) {
+            // BeforeTransformerMap[type] && BeforeTransformerMap[type](item, ex);
+            formlyHelper.openModal(FORMMAP[type], item, ex);
         };
         $scope.$root.onEdit = $scope.$root.onSet;
-        $scope.$root.onAdd = function(type) {
-            formlyHelper.openModal(FORMMAP[type]);
+        $scope.$root.onAdd = function(type, item, ex) {
+            formlyHelper.openModal(FORMMAP[type], item, ex);
         };
         $scope.$root.onDel = function(type, item, scope) {
             if (window.confirm('您确定要删除该资源吗？')) {
