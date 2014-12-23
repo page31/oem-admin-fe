@@ -1,5 +1,6 @@
 window._ServerUrl = 'http://test.wandoujia.com:8080';
-define(['routes',
+require(['routes',
+    'templates',
     'system/index',
     'app_vertical/index',
     'data/index'
@@ -23,6 +24,7 @@ define(['routes',
         'ngAnimate',
         'ui.router',
         'ui.bootstrap',
+        'oemApp.templates',
         'systemApp',
         'appVerticalApp',
         'dataApp'

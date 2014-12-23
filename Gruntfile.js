@@ -48,7 +48,7 @@ var connectOpt = {
                     },
                     lrSnippet,
                     require('connect-modrewrite')([]),
-                    mountFolder(connect, pathConfig.tmp),
+                    // mountFolder(connect, pathConfig.tmp),
                     mountFolder(connect, pathConfig.app)
                 ];
             },
@@ -246,7 +246,7 @@ module.exports = function(grunt) {
                 dest: 'app/scripts/templates.js',
                 options: {
                     bootstrap: function(module, script) {
-                        return "(function() { angular.module('muceApp.templates', []).run(['$templateCache'," + "function($templateCache) {" + script + "}]);})();";
+                        return "(function() { angular.module('oemApp.templates', []).run(['$templateCache'," + "function($templateCache) {" + script + "}]);})();";
                     },
                     url: function(url) {
                         return url.replace(/^app\//, '');
