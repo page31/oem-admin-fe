@@ -1,42 +1,197 @@
-/*jshint node:true, es3:false*/
 var grunt = require('grunt');
-var AWS_CONFIG = grunt.file.readJSON('OathKeeper/frontend/aws.json');
-// var lrSnippet = require('connect-livereload')();
+
+var lrSnippet = require('connect-livereload')();
 
 function mountFolder(connect, dir) {
     return connect.static(require('path').resolve(dir));
 }
 
-module.exports = function(grunt) {
-    'use strict';
-    require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
+function requireUncached(module) {
+    try {
+        delete require.cache[require.resolve(module)]
+    } catch (e) {
+        console.log(e);
+    }
+    return require(module)
+}
+var _ = grunt.util._,
+    fs = require('fs');
 
-    grunt.initConfig({
-        paths: {
-            app: 'app',
-            tmp: '.tmp',
-            dist: 'dist',
-            sass: 'app/styles',
-            css: '.tmp/styles',
-            js: 'app/scripts',
-            deploy: 'deploy'
-        },
-        clean: {
-            all: ['<%= paths.tmp %>', '<%= paths.dist %>'],
-            tmp: ['<%= paths.tmp %>']
-        },
-
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
+var pathConfig = {
+    app: 'app',
+    dist: 'dist',
+    tmp: '.tmp',
+    test: 'test',
+    sass: 'app/styles',
+    css: 'app/styles',
+    js: 'app/scripts'
+};
+var connectOpt = {
+    options: {
+        port: 8000,
+        hostname: '*'
+    },
+    server: {
+        options: {
+            livereload: 35722,
+            middleware: function(connect) {
+                return [
+                    function injectAPIHost(req, res, next) {
+                        var apiPath = '/scripts/base/services/api.js';
+                        if (req.url === apiPath) {
+                            require('fs').readFile('app' + apiPath, 'utf8', function(err, data) {
+                                res.end(data.replace('/api/v1', 'http://muce3.wandoulabs.com/api/v1'));
+                            });
+                        } else {
+                            next();
+                        }
+                    },
+                    lrSnippet,
+                    require('connect-modrewrite')([]),
+                    mountFolder(connect, pathConfig.tmp),
+                    mountFolder(connect, pathConfig.app)
+                ];
             },
-            all: [
-                '<%= paths.app %>/scripts/**/*.js',
-                '!<%= paths.app %>/scripts/vendor/**/*'
-            ]
+            open: true,
+            useAvailablePort: true
+        }
+    }
+};
+
+module.exports = function(grunt) {
+    require('time-grunt')(grunt);
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+    var configOpts = {
+        paths: pathConfig,
+        clean: {
+            dist: ['<%= paths.tmp %>', '<%= paths.dist %>'],
+            server: '<%= paths.tmp %>'
+        },
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= paths.app %>',
+                    dest: '<%= paths.dist %>',
+                    src: [
+                        '**/*'
+                    ]
+                }]
+            },
+            index: {
+                files: {
+                    'dist/index.html': 'app/index.html'
+                }
+            },
+            static: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= paths.app %>',
+                    dest: '<%= paths.dist %>',
+                    src: [
+                        'font/**/*', 'images/**/*', 'assets/**/*'
+                    ]
+                }]
+            },
+            vendor: {
+                files: [{
+                    expand: true,
+                    // dot: true,
+                    flatten: true,
+                    cwd: '<%= paths.app %>/vendors',
+                    dest: '<%= paths.dist %>/font',
+                    src: ['ace-v1.2/font/**/*']
+                }]
+            }
         },
 
+        useminPrepare: {
+            html: ['dist/index.html'],
+            options: {
+                dest: 'dist',
+                root: 'app'
+            }
+        },
+        usemin: {
+            html: ['dist/index.html'],
+            css: ['.tmp/styles/**/*.css'],
+            options: {
+                dirs: ['dist'],
+                assetsDirs: ['dist']
+            }
+        },
+        htmlmin: {
+            options: {
+                collapseWhitespace: true
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['**/*.html'],
+                    dest: 'dist'
+                }]
+            }
+        },
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist/images',
+                    src: '**/*.{png,jpg,jpeg}',
+                    dest: 'dist/images'
+                }]
+            }
+        },
+
+        ngAnnotate: {
+            options: {
+                singleQuotes: true,
+            },
+            dist: {
+                src: '.tmp/concat/scripts/app.js'
+            }
+        },
+        filerev: {
+            assets: {
+                src: [
+                    '<%= paths.dist %>/**/*',
+                    '!<%= paths.dist %>/index.html'
+                ],
+                filter: 'isFile'
+            }
+        },
+        requirejs: {
+            options: {
+                appDir: '<%= paths.app %>/scripts',
+                baseUrl: './',
+                dir: '<%= paths.tmp %>/scripts',
+                optimize: 'none'
+            },
+            dist: {
+                options: {
+                    modules: [{
+                        name: 'index'
+                    }],
+                    almond: true,
+                    replaceRequireScript: [{
+                        files: ['dist/index.html'],
+                        module: 'index'
+                    }]
+                }
+            }
+        },
+        connect: connectOpt,
+
+        watch: {
+            compass: {
+                files: ['<%= paths.app %>/styles/**/*'],
+                tasks: ['compass:dev']
+            }
+        },
         compass: {
             options: {
                 importPath: '<%= paths.app %>/components',
@@ -59,394 +214,85 @@ module.exports = function(grunt) {
             }
         },
 
-        connect: {
-            options: {
-                port: 9000,
-                hostname: '*'
-            },
-            dev: {
+        concurrent: {
+            server: {
+                tasks: ['clean:server', 'compass:server'],
                 options: {
-                    // livereload: 35722,
-                    middleware: function(connect, options) {
-                        return [
-                            // _utils.fakeDataMiddleware,
-                            mountFolder(connect, grunt.config('paths.tmp')),
-                            mountFolder(connect, grunt.config('paths.app'))
-                        ];
-                    },
-                    open: true,
-                    useAvailablePort: true
+                    logConcurrentOutput: true
+                }
+            },
+            dist: {
+                tasks: ['copy:compass', 'compass:dist'],
+                options: {
+                    logConcurrentOutput: true
                 }
             }
         },
-
-        watch: {
-            compass: {
-                files: ['<%= paths.sass %>/**/*.scss'],
-                tasks: ['compass:dev']
-            },
-            livereload: {
-                options: {
-                    livereload: 35722
-                },
-                files: [
-                    '<%= paths.app %>/templates/**/*.html',
-                    '<%= paths.css %>/*.css',
-                    '<%= paths.js %>/**/*.js'
-                ]
-            }
-        },
-
-        useminPrepare: {
+        jshint: {
             options: {
-                dest: '<%= paths.dist %>',
-                root: '<%= paths.tmp %>'
+                jshintrc: '.jshintrc'
             },
-            dist: {
-                src: ['<%= paths.tmp %>/templates/**/index.html']
-            }
-            // html: ['<%= paths.tmp %>/templates/**/index.html']
+            test: ['<%= paths.js %>/**/*.js', '!<%= paths.js %>/vendor/**/*']
         },
-
-        copy: { // a little bit verbose
-            image: {
-                expand: true,
-                cwd: '<%= paths.app %>/images/',
-                src: ['*'],
-                filter: 'isFile',
-                dest: '<%= paths.tmp %>/images/'
-            },
-            bower: {
-                expand: true,
-                cwd: '<%= paths.app %>/components/',
-                src: ['**/*'],
-                dest: '<%= paths.tmp %>/components/'
-            },
-            html: {
-                expand: true,
-                cwd: '<%= paths.app %>/templates/',
-                src: ['**/*.html'],
-                dest: '<%= paths.tmp %>/templates/'
-            },
-            htmlDist: {
-                expand: true,
-                cwd: '<%= paths.tmp %>/templates/',
-                src: ['**/*.html'],
-                dest: '<%= paths.dist %>/templates/'
-            },
-            imageDist: {
-                expand: true,
-                cwd: '<%= paths.tmp %>/images/',
-                src: ['*'],
-                filter: 'isFile',
-                dest: '<%= paths.dist %>/images/'
-            },
-            fontDist: {
-                expand: true,
-                cwd: '<%= paths.app %>/font/',
-                src: ['*'],
-                filter: 'isFile',
-                dest: '<%= paths.dist %>/font/'
-            }
-        },
-
-        imagemin: {
-            static: {
-                expand: true,
-                cwd: '<%= paths.tmp %>/images/',
-                src: ['*'],
-                dest: '<%= paths.dist %>/images/'
-            }
-        },
-
-        filerev: {
-            assets: {
-                src: [
-                    '<%= paths.dist %>/**/*',
-                    '!<%= paths.dist %>/templates/**/*'
-                ],
-                filter: 'isFile'
-            }
-        },
-
-        usemin: {
-            options: {
-                assetsDirs: [
-                    '<%= paths.dist %>/'
-                ]
-            },
-            html: '<%= paths.dist %>/templates/**/index.html',
-            css: '<%= paths.dist %>/styles/*.css'
-        },
-
-        uglify: {
-            options: {
-                preserveComments: 'some'
-            },
-            dist: {
-                expand: true,
-                cwd: '<%= paths.tmp %>/scripts/',
-                src: ['**/index.js'],
-                dest: '<%= paths.dist %>/scripts/'
-            }
-        },
-
-        requirejs: {
-            options: {
-                appDir: '<%= paths.app %>/scripts',
-                baseUrl: './',
-                dir: '<%= paths.tmp %>/scripts',
-                mainConfigFile: '<%= paths.app %>/scripts/config.js',
-                optimize: 'none'
-            },
-            dist: {
-                options: {
-                    // modules: _utils.RequireModules,
-                    almond: true
-                    // replaceRequireScript: _utils.RequireReplaceModules
-                }
-            }
-        },
-
-        cssmin: {
-            minify: {
-                expand: true,
-                cwd: '<%= paths.tmp %>/styles/',
-                src: ['*.css', '!*.min.css'],
-                dest: '<%= paths.dist %>/styles/',
-                ext: '.css',
-                report: true
-            }
-        },
-
-        'sftp-deploy': {
-            test47: {
-                auth: {
-                    host: '192.168.100.47',
-                    port: 22,
-                    authKey: 'test47'
-                },
-                src: '<%= paths.dist %>',
-                dest: '/home/work/devcenter',
-                server_sep: '/'
-            }
-        },
-
         removelogging: {
             dist: {
-                src: "<%= paths.tmp %>/scripts/**/*.js"
+                src: '.tmp/concat/scripts/**/*.js'
             }
         },
 
-        replace: {
-            deploy: {
+        ngtemplates: {
+            app: {
+                src: 'app/templates/**/*.html',
+                dest: 'app/scripts/templates.js',
                 options: {
-                    patterns: [{
-                        match: /test.wandoujia.com/g,
-                        replacement: 'open.wandoujia.com'
-                    }, {
-                        match: /src="\/scripts/g,
-                        replacement: 'src="http://static.wdjimg.com/devcenter/scripts'
-                    }, {
-                        match: /href="\/styles/g,
-                        replacement: 'href="http://static.wdjimg.com/devcenter/styles'
-                    }, {
-                        match: /<!-- GA_PARTIAL -->/,
-                        replacement: '<%= grunt.file.read("ga_partial.html") %>'
-                    }],
-                    force: true
-                },
-                files: [{
-                    expand: true,
-                    src: ['<%= paths.dist %>/scripts/**/*.js', '<%= paths.dist %>/templates/**/index.html', ],
-                    dest: '.'
-                }]
-            },
-            test: {
-                options: {
-                    patterns: [{
-                        match: /open.wandoujia.com/g,
-                        replacement: 'test.wandoujia.com'
-                    }, {
-                        match: /<!-- GA_PARTIAL -->/,
-                        replacement: '<%= grunt.file.read("ga_partial.html") %>'
-                    }],
-                    force: true
-                },
-                files: [{
-                    expand: true,
-                    src: ['<%= paths.dist %>/scripts/**/*.js', '<%= paths.dist %>/templates/**/index.html', ],
-                    dest: '.'
-                }]
-            },
-            home: {
-                options: {
-                    patterns: [{
-                        match: /<!-- FRAMEWORK_PARTIAL -->/,
-                        replacement: '<%= grunt.file.read("framework_partial.html") %>'
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    src: ['<%= paths.tmp %>/templates/home/index.html'],
-                    dest: '.'
-                }]
-            },
-            framework: {
-                options: {
-                    patterns: [{
-                        match: /<!-- FRAMEWORK_PARTIAL -->/
-                        // replacement: _utils.getFrameworkFilename
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    src: ['<%= paths.dist %>/templates/**/index.html'],
-                    dest: '.'
-                }]
-            },
-            injectBugTrack: {
-                options: {
-                    patterns: [{
-                        match: /<\/head>/,
-                        replacement: '<script src="http://img.wdjimg.com/static-files/devcenter/bugsnag-2.min.js" data-apikey="20d72f7d45770572a21272305cd3d248"></script></head>'
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    src: ['<%= paths.dist %>/templates/**/index.html'],
-                    dist: '.'
-                }]
-            }
-        },
-
-        wandoulabs_deploy: {
-            options: grunt.file.readJSON('OathKeeper/frontend/ldap.json'),
-            product: {
-                deployCDN: {
-                    src: '<%= paths.dist %>', // the folder you want to deploy,
-                    target: 'devcenter' // Target folder on server
+                    bootstrap: function(module, script) {
+                        return "(function() { angular.module('muceApp.templates', []).run(['$templateCache'," + "function($templateCache) {" + script + "}]);})();";
+                    },
+                    url: function(url) {
+                        return url.replace(/^app\//, '');
+                    }
                 }
             }
-        },
-
-        bump: {
-            options: {
-                files: ['package.json', 'bower.json'],
-                updateConfigs: [],
-                commit: true,
-                commitMessage: 'Release v%VERSION%',
-                commitFiles: ['-a'],
-                createTag: true,
-                tagName: 'v%VERSION%',
-                tagMessage: 'Version %VERSION%',
-                push: false
-            }
-        },
-        changelog: {
-            options: {
-                dest: 'CHANGELOG.md',
-                templateFile: 'changelog.tpl'
-            }
-        },
-        aws_s3: {
-            options: {
-                accessKeyId: AWS_CONFIG.accessKeyId,
-                secretAccessKey: AWS_CONFIG.secretAccessKey,
-                region: 'cn-north-1',
-                uploadConcurrency: 5,
-                signatureVersion: 'v4'
-            },
-            staging: {
-                options: {
-                    bucket: 'web-statics-staging',
-                    differential: true,
-                    params: {
-                        CacheControl: '31536000'
-                    }
-                },
-                files: [{
-                    expand: true,
-                    cwd: 'dist',
-                    src: ['**'],
-                    dest: 'devcenter/'
-
-                }]
-            },
-            production: {
-                options: {
-                    bucket: 'web-statics-production',
-                    differential: true,
-                    params: {
-                        CacheControl: '31536000'
-                    }
-                },
-                files: [{
-                    expand: true,
-                    cwd: 'dist',
-                    src: ['**'],
-                    dest: 'devcenter/'
-                }]
-            }
         }
-    });
+    };
 
-    grunt.registerTask('server', function(target) {
-        // you just need to server, even after grunt's tasks have finished
-        // use connect keepalive opt to enable it
-        grunt.task.run([
-            'compass:dev',
-            'connect:dev',
-            'watch'
-        ]);
-    });
+    grunt.initConfig(configOpts);
 
-    grunt.registerTask('_build', [
-        'clean:all',
-        'compass:dist',
-        'copy:image',
-        'copy:bower',
-        'copy:html',
-        'requirejs:dist',
-        'replace:home', // replace FRAMEWORK_PARTIAL for usemin to produce templates.js
-        'useminPrepare:dist',
-        'concat',
-        'removelogging',
-        'uglify',
-        'cssmin',
-        // 'imagemin',
-        'copy:htmlDist',
-        'filerev',
-        'copy:imageDist',
-        'copy:fontDist',
-        'usemin',
-        'replace:framework', // get generated framework.js filename and replace for other index template
-        'removelogging', // use for other library using console
-        'clean:tmp'
+    grunt.registerTask('serve', [
+        'compass:dev',
+        'connect:server',
+        'watch'
+    ]);
+
+    grunt.registerTask('test', [
+        'jshint:test'
     ]);
 
     grunt.registerTask('build', [
-        '_build',
-        'replace:test'
-    ]);
-
-    grunt.registerTask('default', ['server']);
-
-    grunt.registerTask('build:production', [
-        '_build',
-        'replace:deploy', // replace for online(e.g.: ga, host, etc)
-        'replace:injectBugTrack',
-        'aws_s3' // upload static files to wandoulabs cdn
+        'clean:dist',
+        'compass:dist',
+        'copy:index',
+        'ngtemplates',
+        'requirejs',
+        'useminPrepare',
+        'concat',
+        'removelogging',
+        'ngAnnotate',
+        'cssmin',
+        'uglify',
+        'filerev',
+        // 'imagemin',
+        'usemin',
+        'copy:static',
+        'copy:vendor'
     ]);
 
     grunt.registerTask('build:staging', [
-        '_build',
-        'replace:test'
+        'build'
     ]);
 
-    grunt.registerTask('release', [
-        'bump-only:patch',
-        'changelog',
-        'bump-commit'
+    grunt.registerTask('build:production', [
+        'build'
+        // add aws_s3 upload
     ]);
 };

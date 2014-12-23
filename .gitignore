@@ -17,3 +17,6 @@ report
 app/images
 app/font
 app/styles/component
+app/styles/index.css
+app/styles/biz_module/app_vertical.css
+app/styles/biz_module/system.css
