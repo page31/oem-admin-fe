@@ -10,9 +10,7 @@ define([], function() {
 
         var FORMMAP = $scope.FORMMAP;
 
-        apiHelper('fetchAuthMeta', {
-            busy: 'global'
-        }).then(function(r) {
+        apiHelper('fetchAuthMeta').then(function(r) {
             // process hook for auth meta
             _.each(r.authorizedItems.authorizedLevel2, function(val, key) {
                 r.authorizedItems.authorizedLevel1[key].children = val;

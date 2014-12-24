@@ -1,23 +1,18 @@
 <div>查看配置&nbsp;&nbsp;
-    <span class="pmt-btn-dropdown" dropdown>
-        <button class="btn-dropdown w-btn">
-            {{currentReport.tokenId}}
-            <span class="caret"></span>
-            <ul class="dropdown-menu">
-                <li ng-repeat="i in reportData track by $index">
-                    <a ng-href="/open-api/report/{{i.tokenId}}">{{i.tokenId}}</a>
-                </li>
-            </ul>
-        </button>
-    </span>
+
     <!-- <button class="w-btn w-btn-primary pmt-helper-float-right" ng-click="isShowExportData = true">导出数据</button> -->
-    <form class="pmt-form" name="dateRangeForm" style="display: inline-block;margin-left: 15px;">
+    <!-- <form class="pmt-form" name="dateRangeForm" style="display: inline-block;margin-left: 15px;">
         <span>统计日期：</span>
         <input type="text" pmt-date-picker ng-model="startDate" id="startDate" name="startDate" picker="{format: 'Y-m-d', onShow: $root.dateRangeStart}">
         <span>&nbsp;至&nbsp;</span>
         <input type="text" pmt-date-picker ng-model="endDate" id="endDate" name="endDate" picker="{format: 'Y-m-d', maxDate: 0}">
         <button class="w-btn" ng-click="dataQueryHandler()">查询</button>
-    </form>
+    </form> -->
+    <span id="reportrange">
+        <i class="fa fa-calendar fa-lg"></i>
+        <span></span>
+        <b class="caret"></b>
+    </span>
     <button class="w-btn" ng-click="exportCSV()"> 导出 CSV </button>
 </div>
 <table class="pmt-standard-table">

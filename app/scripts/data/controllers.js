@@ -3,6 +3,11 @@ define(['app_vertical/services'], function() {
 
     // https://docs.google.com/a/wandoujia.com/document/d/1czdHkZiPJMFnEMnvppbhGWLuhG-5xdUPa5vt9lQyr9k/edit
     // Todo support 特定 App 下载量
+
+    setTimeout(function() {
+        $('#reportrange').daterangepicker();
+    }, 1000);
+
     var reportCtrl = {
         name: 'reportCtrl',
         inject: ['$scope', '$rootScope', 'dataService', '$filter', '$routeParams', '$q', '$filter', '$timeout'],

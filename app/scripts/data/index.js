@@ -10,7 +10,14 @@ define([
             'data': {
                 url: '/data',
                 abstract: true,
-                templateUrl: 'templates/data/index.html',
+                views: {
+                    '@': {
+                        templateUrl: 'templates/data/index.html'
+                    },
+                    'meta-header': {
+                        templateUrl: 'templates/_base/meta-header-oem.html'
+                    }
+                },
                 title: '查看数据 - 开发者中心 - 豌豆荚'
             },
             'data.index': {

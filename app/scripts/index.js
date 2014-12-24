@@ -1,4 +1,4 @@
-window._ServerUrl = '';
+window._ServerUrl = 'http://test.wandoujia.com/';
 require(['routes',
     'templates',
     'system/index',

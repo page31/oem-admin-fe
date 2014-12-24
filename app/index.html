@@ -5,15 +5,17 @@
     <title>OEM/OpenAPI 运营平台</title>
     <link rel="stylesheet" href="http://bootswatch.com/lumen/bootstrap.css">
     <link rel="stylesheet" href="http://bootswatch.com/assets/css/bootswatch.min.css">
-
-    <link rel="stylesheet" type="text/css" href="vendors/daterangepicker/daterangepicker-bs3.css">
     <!-- build:css /styles/open.css -->
+    <link rel="stylesheet" href="vendors/daterangepicker/daterangepicker-bs3.css">
     <link rel="stylesheet" href="/styles/index.css">
     <!-- endbuild -->
 </head>
 <body class="pmt-open" ng-cloak>
     <div class="pmt-header">
         <div ng-include="'templates/_base/topbar.html'"></div>
+    </div>
+    <div class="pmt-container meta-header">
+        <div ui-view="meta-header"></div>
     </div>
     <div class="pmt-main-section pmt-container">
         <pmt-notices></pmt-notices>
@@ -35,7 +37,7 @@
     <script src="components/angular-classy/angular-classy.js"></script>
     <script src="components/angular-bindonce/bindonce.js"></script>
 
-    <script src="vendors/moment.js"></script>
+    <script src="vendors/moment.min.js"></script>
     <script src="vendors/bootstrap.js"></script>
     <script src="vendors/daterangepicker/daterangepicker.js"></script>
 

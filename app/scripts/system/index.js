@@ -5,11 +5,19 @@ define(['base/index', 'system/util', 'system/ctrls/base', 'system/ctrls/biz'], f
     /* Routers defined here */
     // require/define 的区别 - 导致dependence 未 ready
     // Fuck config 不能配置 factory!!
-    systemApp.config(function($routeHelperProvider, $stateProvider) {
+    systemApp.config(function($routeHelperProvider, $stateProvider, $urlRouterProvider) {
         $stateProvider.state('system', {
             url: '/system',
-            templateUrl: 'templates/system/index.html',
-            controller: 'systemCtrl'
+            abstract: true,
+            views: {
+                'meta-header': {
+                    template: '<p>请谨慎使用 Admin 权限</p>'
+                },
+                '@': {
+                    templateUrl: 'templates/system/index.html',
+                    controller: 'systemCtrl'
+                }
+            }
         });
 
         var systemMenuList = [{
@@ -30,6 +38,7 @@ define(['base/index', 'system/util', 'system/ctrls/base', 'system/ctrls/biz'], f
         }];
         window.systemMenuList = systemMenuList;
         $routeHelperProvider.configChild('system', systemMenuList);
+        $urlRouterProvider.when('/system', '/system/partner');
     });
 
     systemApp.run(function(apiHelper) {

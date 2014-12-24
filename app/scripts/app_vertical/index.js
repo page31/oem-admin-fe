@@ -12,9 +12,16 @@ define([
             'appVertical': {
                 nickName: 'appVertical',
                 url: '/app_vertical/:alias?/:type?',
-                templateUrl: 'templates/app_vertical/index.html',
                 title: 'Open API 配置 - 开发者中心 - 豌豆荚',
-                controller: 'configCtrl'
+                views: {
+                    '@': {
+                        templateUrl: 'templates/app_vertical/index.html',
+                        controller: 'configCtrl'
+                    },
+                    'meta-header': {
+                        templateUrl: 'templates/_base/meta-header-oem.html'
+                    }
+                }
             }
         });
     });
