@@ -1,4 +1,4 @@
-window._ServerUrl = 'http://test.wandoujia.com:8080';
+window._ServerUrl = '';
 require(['routes',
     'templates',
     'system/index',
