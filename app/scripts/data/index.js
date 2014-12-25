@@ -34,4 +34,13 @@ define([
             }
         });
     });
+
+    dataApp.run(function(apiHelper) {
+        apiHelper.config({
+            'fetchAppDown': 'GET /downloads',
+            'fetchMetrics': 'GET /metrics'
+        }, {
+            urlPrefix: window._ServerUrl + '/api/report'
+        });
+    });
 });
