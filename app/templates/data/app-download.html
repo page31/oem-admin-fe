@@ -1,0 +1,13 @@
+<table class="pmt-standard-table" ng-if="$root.currentConfigAlias && currentAppReport.length">
+    <tr>
+        <th>日期</th>
+        <th>包名</th>
+        <th>下载量</th>
+    </tr>
+    <tr ng-repeat="i in currentAppReport">
+        <td>{{i.date}}</td>
+        <td>{{i.packageName}}</td>
+        <td>{{i.downloadCount}}</td>
+    </tr>
+</table>
+<p ng-if="$root.currentConfigAlias && !currentAppReport.length">暂无数据</p>

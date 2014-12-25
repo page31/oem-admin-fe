@@ -10,19 +10,41 @@ define(['app_vertical/services'], function() {
 
     app.controller('reportCtrl', function($scope, $rootScope, $timeout, apiHelper) {
         apiHelper('fetchMetrics', {
-            startTime: '12345667889',
-            endTime: '1418788349261'
+            params: {
+                startTime: '12345667889',
+                endTime: '1418788349261'
+            }
         }).then(function(r) {
-            console.log(r);
+            var _dict = {};
+            _.each(r, function(i) {
+                _dict[i.tokenId] = i.data;
+            });
+            $scope.allReportData = _dict;
+        });
+
+        $rootScope.$watch('currentConfigAlias', function(val) {
+            if (!val) return;
+            $scope.currentReportData = $scope.allReportData[val];
         });
     });
 
     app.controller('appReportCtrl', function($scope, $rootScope, $timeout, apiHelper) {
         apiHelper('fetchAppDown', {
-            startTime: '12345667889',
-            endTime: '1418788349261'
+            params: {
+                startTime: '12345667889',
+                endTime: '1418788349261'
+            }
         }).then(function(r) {
-            console.log(r);
+            var _dict = {};
+            _.each(r, function(i) {
+                _dict[i.tokenId] = i.data;
+            });
+            $scope.allAppReport = _dict;
+        });
+
+        $rootScope.$watch('currentConfigAlias', function(val) {
+            if (!val) return;
+            $scope.currentAppReport = $scope.allAppReport[val];
         });
     });
 });

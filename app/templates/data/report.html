@@ -1,13 +1,4 @@
 <div>查看配置&nbsp;&nbsp;
-
-    <!-- <button class="w-btn w-btn-primary pmt-helper-float-right" ng-click="isShowExportData = true">导出数据</button> -->
-    <!-- <form class="pmt-form" name="dateRangeForm" style="display: inline-block;margin-left: 15px;">
-        <span>统计日期：</span>
-        <input type="text" pmt-date-picker ng-model="startDate" id="startDate" name="startDate" picker="{format: 'Y-m-d', onShow: $root.dateRangeStart}">
-        <span>&nbsp;至&nbsp;</span>
-        <input type="text" pmt-date-picker ng-model="endDate" id="endDate" name="endDate" picker="{format: 'Y-m-d', maxDate: 0}">
-        <button class="w-btn" ng-click="dataQueryHandler()">查询</button>
-    </form> -->
     <span id="reportrange">
         <i class="fa fa-calendar fa-lg"></i>
         <span></span>
@@ -15,7 +6,7 @@
     </span>
     <button class="w-btn" ng-click="exportCSV()"> 导出 CSV </button>
 </div>
-<table class="pmt-standard-table">
+<table class="pmt-standard-table" ng-if="$root.currentConfigAlias && currentReportData.length">
     <tr>
         <th>日期</th>
         <th>请求量</th>
@@ -27,7 +18,7 @@
         <th>MAU</th>
         <th>启动次数</th>
     </tr>
-    <tr ng-repeat="i in currentReport.data">
+    <tr ng-repeat="i in currentReportData">
         <td>{{i.date}}</td>
         <td>{{i.requestsCount}}</td>
         <td>{{i.downloadCount}}</td>
@@ -39,17 +30,4 @@
         <td>{{i.launchCount}}</td>
     </tr>
 </table>
-<hr>
-<!-- Todo: add appDonwload Report P title -->
-<table class="pmt-standard-table">
-    <tr>
-        <th>日期</th>
-        <th>包名</th>
-        <th>下载量</th>
-    </tr>
-    <tr ng-repeat="i in currentAppDownloadReport.data">
-        <td>{{i.date}}</td>
-        <td>{{i.packageName}}</td>
-        <td>{{i.downloadCount}}</td>
-    </tr>
-</table>
+<p ng-if="$root.currentConfigAlias && !currentReportData.length">暂无数据</p>

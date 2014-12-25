@@ -28,9 +28,9 @@ define([
             },
             'data.appDownload': {
                 url: '/app_download',
-                templateUrl: 'templates/data/usage.html',
+                templateUrl: 'templates/data/app-download.html',
                 title: ' 应用数据 - 开发者中心 - 豌豆荚',
-                controller: 'usageCtrl'
+                controller: 'appReportCtrl'
             }
         });
     });

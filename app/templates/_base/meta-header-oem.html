@@ -1,5 +1,5 @@
 <div>
     <p>当前管理的渠道/API
-        <select ng-model="currentConfigAlias" ng-options="i.configAlias as i.configName for i in $root.authMeta.authorizedOem"></select>
+        <select ng-model="$root.currentConfigAlias" ng-options="i.configAlias as i.configName for i in $root.authMeta.authorizedOem"></select>
     </p>
 </div>
