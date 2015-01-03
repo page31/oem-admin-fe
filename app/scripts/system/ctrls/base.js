@@ -13,7 +13,11 @@ define([], function() {
         apiHelper('fetchAuthMeta').then(function(r) {
             // process hook for auth meta
             _.each(r.authorizedItems.authorizedLevel2, function(val, key) {
-                r.authorizedItems.authorizedLevel1[key].children = val;
+                _.each(r.authorizedItems.authorizedLevel1, function(i) {
+                    if(i.alias === key) {
+                        i.children = val;
+                    }
+                });
             });
             $scope.$root.authMeta = r;
         });

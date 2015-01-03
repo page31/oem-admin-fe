@@ -47,16 +47,16 @@
 <script type="text/ng-template" id="auth/available-authorizeditem-list-snippet.html">
 <div class="pmt-form-controls">
     <div class="pmt-checkbox-options">
-        <label ng-repeat="(pKey, pVal) in formlyData.authorizedItems.authorizedLevel1"
+        <label ng-repeat="pVal in formlyData.authorizedItems.authorizedLevel1"
             style="display: block">
-            <input type="checkbox" ng-click="selectAuthorizedLevel1(pKey, pVal)"
+            <input type="checkbox" ng-click="selectAuthorizedLevel1(pVal.alias, pVal)"
                 ng-checked="pVal.selected">
             {{pVal.name}}
-            <div ng-if="formlyData.authorizedItems.authorizedLevel2[pKey]"
+            <div ng-if="formlyData.authorizedItems.authorizedLevel2[pVal.alias]"
                 style="margin-left: 30px;">
-                <label ng-repeat="_pVal in formlyData.authorizedItems.authorizedLevel2[pKey]">
+                <label ng-repeat="_pVal in formlyData.authorizedItems.authorizedLevel2[pVal.alias]">
                     <input type="checkbox" ng-checked="_pVal.selected"
-                        ng-click="selectAuthorizedLevel2(_pVal, pVal, formlyData.authorizedItems.authorizedLevel2[pKey])">
+                        ng-click="selectAuthorizedLevel2(_pVal, pVal, formlyData.authorizedItems.authorizedLevel2[pVal.alias])">
                     {{_pVal.name}}
                 </label>
             </div>
