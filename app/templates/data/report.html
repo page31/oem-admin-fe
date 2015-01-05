@@ -6,7 +6,7 @@
     </span>
     <button class="w-btn" ng-click="exportCSV()"> 导出 CSV </button>
 </div>
-<table class="pmt-standard-table" ng-if="$root.currentConfigAlias && currentReportData.length">
+<table class="pmt-standard-table" ng-if="$root.currentConfig && currentReportData.length">
     <tr>
         <th>日期</th>
         <th>请求量</th>
@@ -30,4 +30,4 @@
         <td>{{i.launchCount}}</td>
     </tr>
 </table>
-<p ng-if="$root.currentConfigAlias && !currentReportData.length">暂无数据</p>
+<p ng-if="$root.currentConfig && !currentReportData.length">暂无数据</p>

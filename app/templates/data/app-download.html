@@ -1,4 +1,4 @@
-<table class="pmt-standard-table" ng-if="$root.currentConfigAlias && currentAppReport.length">
+<table class="pmt-standard-table" ng-if="$root.currentConfig && currentAppReport.length">
     <tr>
         <th>日期</th>
         <th>包名</th>
@@ -10,4 +10,4 @@
         <td>{{i.downloadCount}}</td>
     </tr>
 </table>
-<p ng-if="$root.currentConfigAlias && !currentAppReport.length">暂无数据</p>
+<p ng-if="$root.currentConfig && !currentAppReport.length">暂无数据</p>

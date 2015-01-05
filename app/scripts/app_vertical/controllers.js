@@ -72,7 +72,7 @@ define([
         $scope.$watch('myFiles', function(file) {
             if (!file) return;
             $upload.upload({
-                url: '',
+                url: apiHelper.getUrl('setReplaceApk'),
                 data: {
 
                 },

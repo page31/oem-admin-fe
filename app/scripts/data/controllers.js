@@ -8,6 +8,10 @@ define(['app_vertical/services'], function() {
         $('#reportrange').daterangepicker();
     }, 1000);
 
+    // app.controller('dataIdxCtrl', function($scope, apiHelper) {
+
+    // });
+
     app.controller('reportCtrl', function($scope, $rootScope, $timeout, apiHelper) {
         apiHelper('fetchMetrics', {
             params: {
@@ -20,10 +24,15 @@ define(['app_vertical/services'], function() {
                 _dict[i.tokenId] = i.data;
             });
             $scope.allReportData = _dict;
+
+            if ($scope.$root.currentConfig) {
+                $scope.currentReportData = $scope.allReportData[$scope.$root.currentConfig.alias];
+            }
         });
 
-        $rootScope.$watch('currentConfigAlias', function(val) {
+        $rootScope.$watch('currentConfig.alias', function(val) {
             if (!val) return;
+            if (!$scope.allReportData) return;
             $scope.currentReportData = $scope.allReportData[val];
         });
     });
@@ -40,10 +49,14 @@ define(['app_vertical/services'], function() {
                 _dict[i.tokenId] = i.data;
             });
             $scope.allAppReport = _dict;
+            if ($scope.$root.currentConfig) {
+                $scope.currentAppReport = $scope.allAppReport[$scope.$root.currentConfig.alias];
+            }
         });
 
-        $rootScope.$watch('currentConfigAlias', function(val) {
+        $rootScope.$watch('currentConfig.alias', function(val) {
             if (!val) return;
+            if (!$scope.allAppReport) return;
             $scope.currentAppReport = $scope.allAppReport[val];
         });
     });
