@@ -3,6 +3,45 @@
     <p>*上传定制版的应用 APK 包，替换掉豌豆荚上该应用的默认安装包</p>
 
     <h3>上传 APK</h3>
+
+    <!-- status btn -->
+    <button ng-file-select class="w-btn" ng-model="myFiles" accept=".apk">上传</button>
+    <!-- status uploading -->
+    <div class="pmt-upload-progress">
+        <div class="pmt-upload-progress-wrapper">
+            <div class="progress-ctn">
+                <div class="pmt-progress pmt-progress-striped pmt-active">
+                    <div class="pmt-progress-bar pmt-progress-bar-success"
+                        style="width: 50%">
+                        <!-- {{ $root.vm.uploadedSize/$root.vm.totalSize|percentage }} -->
+                    </div>
+                </div>
+                <div class="status">
+                    <span class="speed">{{ $root.vm.uploadedSize|humanBytes }}/{{ $root.vm.totalSize|humanBytes }}</span>
+                </div>
+            </div>
+            <div class="progress-cancel">
+                <button class="w-btn" ng-click="cancelApkupload()">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- status uploaded -->
+    <table style="width: 450px;line-height: 30px;">
+        <tr>
+            <td class="title" style="width: 60px;">包名</td>
+            <td class="pn">
+                {{apkBean.packageName||'com.xx.xxx'}}
+            </td>
+        </tr>
+        <tr>
+            <td class="title">版本号</td>
+            <td class="code">
+                {{$root.vm.apkBean.versionCode||'23.23'}}
+            </td>
+        </tr>
+    </table>
+
+
     <!-- <p><button pmt-upload-button pmt-file-upload-field open-package-upload
         endpoint="open.oemPkg" class="w-btn pmt-upload-btn"
         uploader="{success: oemPkgSuccessHandler, notify: oemPkgNotifyHandler, add: oemPkgAddHandler}">上传</button>

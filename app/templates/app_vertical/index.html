@@ -1,10 +1,10 @@
 <!-- Todo: move configCtrl link to route -->
 <!-- Remove: extra wrapper div -->
-<div ng-controller="idxCtrl">
+<div>
     <ul class="pmt-sidebar-nav">
         <li ng-repeat="item in authorizedBean.authorizedLevel1|filter:{'selected':true}">
             <a class="nav-item" ng-click="changeConfType(item.alias)"
-            ui-sref-active="active" ng-if="item.alias!='viewReport'">
+                ng-class="{'active': item.alias == currentConfigType}" ng-if="item.alias!='viewReport'">
             {{item.name}}
             </a>
         </li>

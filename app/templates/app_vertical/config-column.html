@@ -2,21 +2,21 @@
     <h2>管理栏目位置</h2>
     <p>管理新开栏目位置里的应用内容</p>
     <div>
-        <div ng-show="!columns.length">
+        <div ng-show="!currentConfig.bdColumns.length">
             <p> 暂未开设新栏目位置</p>
         </div>
 
-        <div>
+        <div ng-show="currentConfig.bdColumns.length">
             <p>选择新开设的栏目位置</p>
             <!-- columns list -->
             <span class="pmt-btn-dropdown" dropdown>
                 <button class="btn-dropdown w-btn">
-                    {{topAppType.name}}
+                    {{currentBdColumn.columnsName}}
                     <span class="caret"></span>
                     <ul class="dropdown-menu">
-                        <li ng-repeat="i in authorizedBean.authorizedLevel2.topApp"
-                            ng-click="$parent.topAppType = i;">
-                            <a>{{i.name}}</a>
+                        <li ng-repeat="i in currentConfig.bdColumns"
+                            ng-click="$parent.currentBdColumn = i;">
+                            <a>{{i.columnsName}}</a>
                         </li>
                     </ul>
                 </button>
@@ -27,7 +27,7 @@
             <form class="pmt-form">
                 <div class="pmt-form-row big-textarea-row">
                     <div class="pmt-form-controls">
-                        <textarea ng-model="topApptextareaVal"
+                        <textarea ng-model="bdColumnTextareaVal"
                             text-area-elastic required placeholder="{{holderText}}"></textarea>
                     </div>
                 </div>
