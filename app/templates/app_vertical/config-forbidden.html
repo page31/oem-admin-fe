@@ -1,0 +1,19 @@
+<div ng-controller="configForbiddenCtrl">
+    <h2>设置黑名单</h2>
+    <p>可将不希望出现的应用设置到黑名单中， 即不会再出现</p>
+    <h3>应用包名列表</h3>
+    <p>请输入应用包名，以换行分隔</p>
+    <div>
+        <form class="pmt-form">
+            <div class="pmt-form-row big-textarea-row">
+                <div class="pmt-form-controls">
+                    <textarea ng-model="forbiddenTextareaVal"
+                        text-area-elastic required placeholder="{{holderText}}"></textarea>
+                </div>
+            </div>
+
+            <button class="w-btn w-btn-primary"
+                ng-click="">保存</button>
+        </form>
+    </div>
+</div>

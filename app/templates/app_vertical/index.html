@@ -1,46 +1,14 @@
 <!-- Todo: move configCtrl link to route -->
 <!-- Remove: extra wrapper div -->
-<div ng-controller="configCtrl">
+<div ng-controller="idxCtrl">
     <ul class="pmt-sidebar-nav">
-
-        <!-- Todo: refact to directive globally used -->
-        <li class="pmt-sidebar-nav-header">
-            <span class="pmt-btn-dropdown" dropdown ng-if="configData.length > 1">
-                <button class="btn-dropdown w-btn">
-                    {{currentConfig.alias}}
-                    <span class="caret"></span>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="i in configData" ng-click="switchCurrentConfig(i)">
-                            <a>{{i.alias}}</a>
-                        </li>
-                    </ul>
-                </button>
-            </span>
-            <span class="sidebar-nav-header-style" ng-if="configData.length == 1">
-                {{currentConfig.alias}}
-            </span>
-        </li>
-        <li ng-repeat="item in subNavList">
-            <a class="nav-item" ui-sref="appVertical({alias: currentConfig.alias,type: item.key})"
-            ui-sref-active="active">{{item.name}}</a>
+        <li ng-repeat="item in authorizedBean.authorizedLevel1|filter:{'selected':true}">
+            <a class="nav-item" ng-click="changeConfType(item.alias)"
+            ui-sref-active="active" ng-if="item.alias!='viewReport'">
+            {{item.name}}
+            </a>
         </li>
     </ul>
-    <div style="width: 640px;float: right;"
-        ng-switch on="currentConfigType.key">
-        <div ng-switch-when="channel">
-            <div ng-include="'templates/app_vertical/config-index.html'"></div>
-        </div>
-
-        <div ng-switch-when="banner">
-            <div ng-include="'templates/app_vertical/config-banner.html'"></div>
-        </div>
-
-        <div ng-switch-when="app">
-            <div ng-include="'templates/app_vertical/config-app.html'"></div>
-        </div>
-
-        <div ng-switch-default>
-            <div ng-include="'templates/app_vertical/config-general.html'"></div>
-        </div>
+    <div style="width: 640px;float: right;" ui-view="config">
     </div>
 </div>

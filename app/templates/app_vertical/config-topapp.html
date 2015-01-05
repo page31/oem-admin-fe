@@ -1,0 +1,32 @@
+<div ng-controller="configTopAppCtrl">
+    <h2>靠前展示应用</h2>
+    <p>设置各个栏目里想要靠前展示的应用</p>
+    <h3>选择栏目</h3>
+    <p>栏目，即应用商店 / API 的指定页面位置，例如应用-精选</p>
+    <span class="pmt-btn-dropdown" dropdown>
+        <button class="btn-dropdown w-btn">
+            {{topAppType.name}}
+            <span class="caret"></span>
+            <ul class="dropdown-menu">
+                <li ng-repeat="i in authorizedBean.authorizedLevel2.topApp"
+                    ng-click="$parent.topAppType = i;">
+                    <a>{{i.name}}</a>
+                </li>
+            </ul>
+        </button>
+    </span>
+
+    <h3>设置靠前展示的应用</h3>
+    <p>{{tipText}}</p>
+    <form class="pmt-form">
+        <div class="pmt-form-row big-textarea-row">
+            <div class="pmt-form-controls">
+                <textarea ng-model="topApptextareaVal"
+                    text-area-elastic required placeholder="{{holderText}}"></textarea>
+            </div>
+        </div>
+
+        <button class="w-btn w-btn-primary"
+            ng-click="saveBdConfigHandler()">保存配置</button>
+    </form>
+</div>

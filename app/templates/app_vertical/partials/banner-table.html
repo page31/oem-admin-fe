@@ -8,7 +8,7 @@
         <th>banner</th>
         <th>操作</th>
     </tr>
-    <tr ng-repeat="banner in bannerList track by $index"
+    <tr ng-repeat="banner in currentConfig.banners track by $index"
         id="drag-banner-{{$index}}" draggable droppable drop="dragPosition">
         <td>{{banner.id}}</td>
         <td>{{positionAliasDict[banner.position]}}</td>

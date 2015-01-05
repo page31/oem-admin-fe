@@ -1,18 +1,21 @@
-<div ng-controller="configAppCtrl">
-    <p>您可以用定制版的应用替换掉豌豆荚的默认安装包</p>
-    <p><button pmt-upload-button pmt-file-upload-field open-package-upload
+<div ng-controller="configApkCtrl">
+    <h2>替换 APK 包</h2>
+    <p>*上传定制版的应用 APK 包，替换掉豌豆荚上该应用的默认安装包</p>
+
+    <h3>上传 APK</h3>
+    <!-- <p><button pmt-upload-button pmt-file-upload-field open-package-upload
         endpoint="open.oemPkg" class="w-btn pmt-upload-btn"
-        uploader="{success: oemPkgSuccessHandler, notify: oemPkgNotifyHandler, add: oemPkgAddHandler}">上传应用</button>
+        uploader="{success: oemPkgSuccessHandler, notify: oemPkgNotifyHandler, add: oemPkgAddHandler}">上传</button>
         <span>{{channelPkgUploadStatus}}</span>
         <span class="w-text-warning">{{$root.vm.oemPkgWarning}}</span>
         &nbsp;&nbsp;您上传过的应用：
-        <!-- <button class="w-btn w-btn-primary pmt-helper-float-right"
-            ng-click="saveBdConfigHandler()">保存配置</button> -->
-    </p>
+    </p> -->
+
+    <h3>已上传的 APK 包</h3>
     <table class="pmt-standard-table">
         <tr>
-            <th>名称</th>
-            <th>包名</th>
+            <th>应用名称</th>
+            <th>APK 包名</th>
             <th>版本</th>
             <th>操作</th>
         </tr>
