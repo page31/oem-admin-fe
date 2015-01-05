@@ -26,7 +26,11 @@ define([
             });
         };
 
-        $q.all([apiHelper('fetchAppsAuth'), apiHelper('fetchBdConfigs')]).then(function(resps) {
+        $q.all([apiHelper('fetchAppsAuth', {
+            busy: 'globalx'
+        }), apiHelper('fetchBdConfigs', {
+            busy: 'globalx'
+        })]).then(function(resps) {
             setCurrentConfig(resps[1], $state.params.alias);
             $scope.authorizedBean = resps[0].authorityBean.authorizedItems;
             $scope.tabMapping = resps[0].tabMapping;
@@ -62,8 +66,16 @@ define([
         });
 
         // 检查包名输入错误，请重新输入
-        $scope.updateTopApp = function() {
-
+        $scope.setTopApp = function() {
+            apiHelper('setConfigVal', {
+                data: {
+                    configAlias: $scope.currentConfig.alias,
+                    tabAlias: $scope.tabMapping[$scope.topAppType.alias],
+                    content: $scope.topApptextareaVal
+                }
+            }).then(function() {
+                // update bdconfigs data & currentConfig
+            });
         };
     });
 
@@ -121,7 +133,9 @@ define([
         $scope.setForiddenHandler = function() {
             apiHelper('setConfigVal', {
                 data: {
-
+                    configAlias: $scope.currentConfig.alias,
+                    tabAlias: 'forbiddenApps',
+                    content: $scope.forbiddenTextareaVal
                 }
             }).then(function() {
                 // update bdconfigs data & currentConfig
@@ -145,11 +159,11 @@ define([
         }, true);
         $scope.$watch('currentBdColumn', callFn, true);
 
-        $scope.setForiddenHandler = function() {
+        $scope.setColumnHandler = function() {
             apiHelper('setColumn', {
-                data: {
-
-                }
+                data: _.extend({}, $scope.currentBdColumn, {
+                    content: $scope.bdColumnTextareaVal
+                })
             }).then(function() {
                 // update bdconfigs data & currentConfig
             });
