@@ -7,11 +7,12 @@ define([
 
     var appVerticalApp = angular.module('appVerticalApp', ['pmtBase', 'angularFileUpload', 'appVerticalApp.directives', 'appVerticalApp.services', 'appVerticalApp.controllers']);
 
-    appVerticalApp.config(function($routeHelperProvider) {
+    appVerticalApp.config(function($routeHelperProvider, $urlRouterProvider) {
         $routeHelperProvider.configFromDict({
             'appVertical': {
                 nickName: 'appVertical',
                 url: '/app_vertical',
+                abstract: true,
                 title: 'Open API 配置 - 开发者中心 - 豌豆荚',
                 views: {
                     '@': {
@@ -69,6 +70,7 @@ define([
                 }
             }
         });
+        $urlRouterProvider.when('/app_vertical', '/app_vertical//topapp');
     }).run(function(apiHelper) {
         // App Vertical module
         apiHelper.config({
