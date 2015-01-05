@@ -1,34 +1,35 @@
 {
-    "name": "DevCenter-FE",
-    "version": "1.0.2",
-    "authors": [
-        "Siva Gao <gaohailang@wandoujia.com>"
-    ],
-    "license": "MIT",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "app/bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "underscore": "~1.5.2",
-        "angular": "1.3.3",
-        "angular-sanitize": "1.3.3",
-        "angular-animate": "1.3.3",
-        "jquery": "1.10.2",
-        "requirejs": "~2.1.9",
-        "WandouLabs-AccountJavaScriptSDK": "wandoulabs/Account-JavaScriptSDK#~1.1.3",
-        "angular-bindonce": "0.3.1",
-        "angular-bootstrap": "0.12.0",
-        "angular-ui-router": "0.2.13",
-        "underscore.string": "~2.4.0",
-        "angular-classy": "0.4.2"
-    },
-    "resolutions": {
-        "angular": "1.3.3"
-    }
+  "name": "DevCenter-FE",
+  "version": "1.0.2",
+  "authors": [
+    "Siva Gao <gaohailang@wandoujia.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "angular": "1.3.3",
+    "angular-sanitize": "1.3.3",
+    "angular-animate": "1.3.3",
+    "jquery": "1.10.2",
+    "requirejs": "~2.1.9",
+    "WandouLabs-AccountJavaScriptSDK": "wandoulabs/Account-JavaScriptSDK#~1.1.3",
+    "angular-bindonce": "0.3.1",
+    "angular-bootstrap": "0.12.0",
+    "angular-ui-router": "0.2.13",
+    "underscore.string": "~2.4.0",
+    "angular-classy": "0.4.2",
+    "ng-file-upload": "2.0.5"
+  },
+  "resolutions": {
+    "angular": "1.3.3"
+  }
 }

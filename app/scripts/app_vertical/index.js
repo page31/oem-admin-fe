@@ -5,7 +5,7 @@ define([
     'app_vertical/controllers'
 ], function() {
 
-    var appVerticalApp = angular.module('appVerticalApp', ['pmtBase', 'appVerticalApp.directives', 'appVerticalApp.services', 'appVerticalApp.controllers']);
+    var appVerticalApp = angular.module('appVerticalApp', ['pmtBase', 'angularFileUpload', 'appVerticalApp.directives', 'appVerticalApp.services', 'appVerticalApp.controllers']);
 
     appVerticalApp.config(function($routeHelperProvider) {
         $routeHelperProvider.configFromDict({
@@ -16,7 +16,7 @@ define([
                 views: {
                     '@': {
                         templateUrl: 'templates/app_vertical/index.html',
-                        controller: 'idxCtrl'
+                        controller: 'configIdxCtrl'
                     },
                     'meta-header': {
                         templateUrl: 'templates/_base/meta-header-oem.html'
@@ -73,7 +73,7 @@ define([
         // App Vertical module
         apiHelper.config({
             // global
-            'fetchAppsAuth': 'GET /',
+            'fetchAppsAuth': 'GET ',
             'fetchBdConfigs': 'GET /bdconfigs',
 
             // general - topapp/forbidden
