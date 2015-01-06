@@ -2,12 +2,11 @@ define([
     'base/directives/pmtFormValidation', // 表单验证相关
     'base/directives/pmtPartial', // devcenter 常用的 partial - topnav, footer, avator etc
     'base/directives/pmtTextareaElastic', // 弹性文本框
-    'base/directives/pmtDatePicker', // 日期选择器
-    'base/directives/pmtUploadDirectives' // fineuploader 包装后的上传按钮
+    'base/directives/pmtDatePicker' // 日期选择器
 ], function() {
     'use strict';
     // we need make these directive as pmtDirective's dependencies
-    angular.module('pmtDirectives', ['pmtFormValidation', 'pmtPartial', 'pmtTextareaElastic', 'pmtDatePicker', 'pmtUploadDirectives'])
+    angular.module('pmtDirectives', ['pmtFormValidation', 'pmtPartial', 'pmtTextareaElastic', 'pmtDatePicker'])
         .directive('stepBar', [
 
             function() {

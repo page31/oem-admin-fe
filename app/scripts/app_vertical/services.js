@@ -1,7 +1,7 @@
-define(['base/pmtUploader', 'app_vertical/directives'], function() {
+define(['app_vertical/directives'], function() {
     'use strict';
     // dataService 对httpInterceptor， 对所以4xx等错误alert提示
-    angular.module('appVerticalApp.services', ['pmtUploader', 'appVerticalApp.directives'])
+    angular.module('appVerticalApp.services', ['appVerticalApp.directives'])
         .factory('dataService', ['$q', '$http', '$helper', '$filter',
 
             function($q, $http, $helper, $filter) {
@@ -146,25 +146,6 @@ define(['base/pmtUploader', 'app_vertical/directives'], function() {
                         return configData[type];
                     }
                 }
-            }
-        ])
-        .run(['pmtUploadManager', '$rootScope',
-            function(pmtUploadManager, $rootScope) {
-                $rootScope.$on('setApkUploader', function() {
-                    // set up endpoint for uploader
-                    pmtUploadManager.registerEndpoint('open.oemPkg', {
-                        request: {
-                            endpoint: '/api/apps/v1/oem/config/apkUpload',
-                            inputName: 'file',
-                            params: {
-                                configAlias: window.getCurrentConfigAlias
-                            }
-                        },
-                        validation: {
-                            allowedExtensions: ['apk']
-                        }
-                    });
-                });
             }
         ]);
 });
