@@ -5,25 +5,18 @@
             novalidate validate-submit="addBanner()" ng-init="bannerInfo={}">
 
             <div inputfield labeltext="所在区域：" labelfor="position">
-                <select name="position" ng-model="bannerInfo.position" id="position"
-                    required ng-options="i.type as i.alias for i in positionChoices">
+                <select name="position" ng-model="bannerInfo.bannerPosition" id="position"
+                    required ng-options="i.alias as i.name for i in authorizedBean.authorizedLevel2.banner">
                     <option value="">请选择</option>
                 </select>
-                <!-- <input class="pmt-form-width-large" type="position"
-                    name="position" ng-model="bannerInfo.position" id="position"
-                    required ng-minlength="2"> -->
                 <div message for="position"></div>
             </div>
 
             <div inputfield labeltext="对应类型：" labelfor="type">
                 <select name="type" ng-model="bannerInfo.type" id="type"
-                    required ng-options="i.type as i.alias for i in typeChoices">
+                    required ng-options="i.typeValue as i.description for i in typeChoices">
                     <option value="">请选择</option>
                 </select>
-
-                <!-- <input class="pmt-form-width-large" type="type"
-                    name="type" ng-model="bannerInfo.type" id="type"
-                    required ng-minlength="2"> -->
                 <div message for="type"></div>
             </div>
 

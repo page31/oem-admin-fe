@@ -16,7 +16,7 @@
             <div class="header-title pmt-form pmt-form-controls">
                 选择您要调整的 Banner 区域
                 <select ng-model="currentBannerPosition"
-                    ng-options="val.name as val.alias for val in positionChoices"></select>
+                    ng-options="i.alias as i.name for i in authorizedBean.authorizedLevel2.banner"></select>
             </div>
             <div class="header-actions">
                 <a class="w-btn w-btn-primary" ng-click="updatePosition()">更新</a>&nbsp;&nbsp;

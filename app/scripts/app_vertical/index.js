@@ -90,7 +90,7 @@ define([
             'setColumn': 'POST /bdcolumns',
 
             // banner related
-            'fetchBannerConfig': 'GET /banner/position',
+            'fetchBannerConfig': 'GET /banner/candidateType',
             'fetchBannerAll': 'GET /banners',
             'setBanner': 'POST /banner',
             'fetchSpecBanner': 'GET /banner/adjust',

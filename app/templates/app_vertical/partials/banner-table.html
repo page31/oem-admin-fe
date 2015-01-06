@@ -8,17 +8,18 @@
         <th>banner</th>
         <th>操作</th>
     </tr>
-    <tr ng-repeat="banner in currentConfig.banners track by $index"
+    <tr ng-repeat="banner in bannerList track by $index"
         id="drag-banner-{{$index}}" draggable droppable drop="dragPosition">
         <td>{{banner.id}}</td>
-        <td>{{positionAliasDict[banner.position]}}</td>
+        <!-- Add map -->
+        <td>{{banner.bannerPosition}}</td>
         <td>{{banner.title}}</td>
         <td><a ng-href="{{banner.url}}">{{banner.url}}</a></td>
         <td>{{banner.itemStatus?'是':'否'}}</td>
         <td><img ng-src="{{banner.banner}}"></td>
         <td ng-show="mode=='index'">
             <a ng-click="editBannerHandler(banner)"><i class="icon-edit"></i></a>
-            &nbsp;&nbsp;<a ng-click="delBanner(banner)"><i class="icon-trash"></i></a>
+            &nbsp;&nbsp;<a ng-click="delBannerHandler(banner)"><i class="icon-trash"></i></a>
         </td>
         <td ng-show="mode=='position'">
             <a><i class="icon-move"></i></a>
