@@ -1,7 +1,6 @@
 define([
-    'app_vertical/controllers/configBanner',
-    'app_vertical/controllers/configGeneral'
-], function(configBannerCtrl, configGeneralCtrl) {
+    'app_vertical/configBanner'
+], function(configBannerCtrl) {
     var app = angular.module('appVerticalApp.controllers', ['classy']);
 
     app.controller('configIdxCtrl', function($scope, apiHelper, $q, $state, $configData) {
@@ -60,8 +59,8 @@ define([
                 $scope.tipText = '请输入应用包名，以换行分隔，以下应用将在其所在的具体分类页 (例如 新闻) 靠前展示';
             }
             if (val === 'searchTopApps') { // 搜索结果
-                $scope.tipText = '请输入应用包名及搜索关键词，格式为 包名#关键词1，关键词2，每项之间以换行分隔；用户输入关键词时，此包名应用将靠前优先展示';
-                $scope.holderText = 'com.companyname.appname1#关键词1，关键词2\ncom.companyname.appname2#关键词1，关键词2';
+                $scope.tipText = '请输入应用包名及搜索关键词，格式为 包名#关键词1,关键词2，每项之间以换行分隔；用户输入关键词时，此包名应用将靠前优先展示';
+                $scope.holderText = 'com.companyname.appname1#关键词1,关键词2\ncom.companyname.appname2#关键词1,关键词2';
             }
         });
 
@@ -70,11 +69,12 @@ define([
             apiHelper('setConfigVal', {
                 data: {
                     configAlias: $scope.currentConfig.alias,
-                    tabAlias: $scope.tabMapping[$scope.topAppType.alias],
+                    tabAlias: $scope.topAppType.alias,
                     content: $scope.topApptextareaVal
                 }
             }).then(function() {
                 // update bdconfigs data & currentConfig
+                $scope.currentConfig[$scope.tabMapping[$scope.topAppType.alias]] = $scope.topApptextareaVal;
             });
         };
     });
@@ -162,6 +162,7 @@ define([
                 }
             }).then(function() {
                 // update bdconfigs data & currentConfig
+                $scope.currentConfig.forbiddenApps = $scope.forbiddenTextareaVal;
             });
         };
     });
@@ -187,8 +188,10 @@ define([
                 data: _.extend({}, $scope.currentBdColumn, {
                     content: $scope.bdColumnTextareaVal
                 })
-            }).then(function() {
+            }).then(function(r) {
                 // update bdconfigs data & currentConfig
+                console.log(r);
+                $scope.currentBdColumn.content = $scope.bdColumnTextareaVal;
             });
         };
     });

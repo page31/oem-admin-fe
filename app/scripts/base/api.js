@@ -66,7 +66,19 @@ define([], function() {
     // 'muceApp.base.services.notice'
     angular.module('siva.apiUtilities', [])
         .factory('apiHelper', ['$http', apiHelper])
-        .factory('apiHelperInterceptor', function($q, $location, $rootScope) {
+        .factory('apiHelperInterceptor', function($q, $location, $rootScope, $notice) {
+
+            function unwrapResponse(response) {
+                var data = response.data;
+                try {
+                    if (typeof data === 'string') {
+                        data = JSON.parse(data);
+                        response.data = data;
+                    }
+                } catch (err) {
+                    return response;
+                }
+            }
 
             function requestHandler(config) {
                 if (config.url.indexOf('templates') === -1) {
@@ -77,9 +89,25 @@ define([], function() {
             }
 
             function responseErrorHandler(response) {
+                unwrapResponse(response);
                 try {
-                    $rootScope._errMsg = 'status-' + response.status + ': ' + (response.config.url || '') + '<br>' + (response.data.msg || ', 接口出问题啦!');
-                    // $notice.error();
+                    var errTypeMap = {
+                        offlineError: '不存在或下线应用',
+                        blacklist: '黑名单应用',
+                        repeatError: '重复应用'
+                    };
+                    var _msg = '';
+                    if (response.data) {
+                        _.each(['offlineError', 'blacklist', 'repeatError'], function(type) {
+                            if (response.data[type]) {
+                                _msg += '包名中包含了' + errTypeMap[type] + ': ' + response.data[type].join(', ');
+                            }
+                        });
+                    }
+                    if (!_msg) {
+                        _msg = 'Error-' + response.status + ': ' + (response.config.url || '');
+                    }
+                    $notice.error(_msg);
                 } catch (e) {
                     console.log('Err in apiHelperInterceptor: ' + e);
                 }
@@ -87,10 +115,12 @@ define([], function() {
             }
 
             function responseHandler(response) {
+                unwrapResponse(response);
                 // api prefix check
                 if (response.config.url.indexOf('/api/') > -1) {
                     if (_.contains(['PUT', 'POST', 'DELETE'], response.config.method)) {
-                        // $notice.success('操作成功！');
+                        $notice.success('操作成功！\n设置将在十分钟内全部生效');
+                    }
                     // omit for angular-file-upload callback
                     if (response.config.file) {
                         return response;
@@ -107,6 +137,7 @@ define([], function() {
             };
         })
         .config(function($httpProvider) {
+            $httpProvider.defaults.transformResponse.splice(0, 1);
             $httpProvider.interceptors.push('apiHelperInterceptor');
         });
 });
