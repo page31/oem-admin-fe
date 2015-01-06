@@ -91,6 +91,9 @@ define([], function() {
                 if (response.config.url.indexOf('/api/') > -1) {
                     if (_.contains(['PUT', 'POST', 'DELETE'], response.config.method)) {
                         // $notice.success('操作成功！');
+                    // omit for angular-file-upload callback
+                    if (response.config.file) {
+                        return response;
                     }
                     return response.data;
                 }

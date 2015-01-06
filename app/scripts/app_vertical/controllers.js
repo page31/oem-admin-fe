@@ -79,42 +79,65 @@ define([
         };
     });
 
-    app.controller('configApkCtrl', function($scope, apiHelper, $upload) {
+    app.controller('configApkCtrl', function($scope, apiHelper, $upload, $notice) {
         $scope.$parent.currentConfigType = 'oemApkReplace';
-        $scope.$watch('myFiles', function(file) {
+        $scope.$watch('files', function(file) {
             if (!file) return;
-            $upload.upload({
+            $scope.apkUploadRef = $upload.upload({
                 url: apiHelper.getUrl('setReplaceApk'),
                 data: {
-
+                    configAlias: $scope.currentConfig.alias
                 },
                 file: file
             }).progress(function(evt) {
-                console.log(evt);
+                $scope.progressSize = evt.position;
+                $scope.totalSize = evt.totalSize;
             }).success(function(data, status, headers, config) {
-
+                $scope.cleanApkUpload();
+                if (data.status) {
+                    $notice.warning(data.description || '上传出错啦!');
+                } else {
+                    $scope.currentUploadedApk = data.apk;
+                }
+                // handler defined here
             });
-        });
-
-        // upload apk and check
-        $scope.$emit('setApkUploader');
-        $scope.$on('uploader-open.oemPkg', function(resp) {
-            this.dataService.saveConfigData($scope.currentConfig, 'app', $scope.currentConfigTextarea);
-            // add to apk list
         });
 
         // add to bdconfig
         $scope.updateBdConfigApk = function() {
+            $scope.currentUploadedApk.from = $scope.currentConfig.alias;
+            apiHelper('confirmReplaceApk', {
+                data: {
+                    oemApkData: $scope.currentUploadedApk
+                }
+            }).then(function(r) {
+                $scope.currentConfig.oemApks.unshift(r);
+                $scope.cleanApkUpload();
+            });
+        };
 
+        $scope.cleanApkUpload = function() {
+            $scope.currentUploadedApk = null;
+            $scope.progressSize = 0;
+            $scope.totalSize = 0;
+        };
+
+        $scope.cancelApkupload = function() {
+            // Todo: 停止请求
+            $scope.apkUploadRef.abort();
+            $scope.cleanApkUpload();
         };
 
         $scope.deleteApkHandler = function(app) {
+            if (!window.confirm('您确定要删除改 APK 吗？')) return;
             apiHelper('delReplaceApk', {
                 params: {
-
+                    configAlias: $scope.currentConfig.alias,
+                    packageName: app.packageName
                 }
             }).then(function() {
-
+                var list = $scope.currentConfig.oemApks;
+                list.splice(list.indexOf(app), 1);
             });
         };
     });

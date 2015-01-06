@@ -5,19 +5,20 @@
     <h3>上传 APK</h3>
 
     <!-- status btn -->
-    <button ng-file-select class="w-btn" ng-model="myFiles" accept=".apk">上传</button>
+    <button class="w-btn" ng-file-select
+        ng-model="files" accept=".apk" ng-show="!progressSize && !currentUploadedApk">上传</button>
+
     <!-- status uploading -->
-    <div class="pmt-upload-progress">
+    <div class="pmt-upload-progress" ng-if="progressSize">
         <div class="pmt-upload-progress-wrapper">
             <div class="progress-ctn">
                 <div class="pmt-progress pmt-progress-striped pmt-active">
                     <div class="pmt-progress-bar pmt-progress-bar-success"
-                        style="width: 50%">
-                        <!-- {{ $root.vm.uploadedSize/$root.vm.totalSize|percentage }} -->
+                        style="width: {{progressSize/totalSize | percentage}}%">
                     </div>
                 </div>
                 <div class="status">
-                    <span class="speed">{{ $root.vm.uploadedSize|humanBytes }}/{{ $root.vm.totalSize|humanBytes }}</span>
+                    <span class="speed">{{ progressSize|humanBytes }}/{{ totalSize|humanBytes }}</span>
                 </div>
             </div>
             <div class="progress-cancel">
@@ -25,30 +26,31 @@
             </div>
         </div>
     </div>
+
     <!-- status uploaded -->
-    <table style="width: 450px;line-height: 30px;">
-        <tr>
-            <td class="title" style="width: 60px;">包名</td>
-            <td class="pn">
-                {{apkBean.packageName||'com.xx.xxx'}}
-            </td>
-        </tr>
-        <tr>
-            <td class="title">版本号</td>
-            <td class="code">
-                {{$root.vm.apkBean.versionCode||'23.23'}}
-            </td>
-        </tr>
-    </table>
+    <div ng-if="currentUploadedApk">
+        <table style="width: 450px;line-height: 30px;">
+            <tr>
+                <td class="title" style="width: 60px;">包名</td>
+                <td class="pn">
+                    {{currentUploadedApk.packageName}}
+                </td>
+            </tr>
+            <tr>
+                <td class="title">版本号</td>
+                <td class="code">
+                    {{currentUploadedApk.versionName}}
+                </td>
+            </tr>
+        </table>
+        <p>
+            <button class="w-btn w-btn-primary"
+                ng-click="updateBdConfigApk()">提交</button>
+            <button class="w-btn"
+                ng-click="cleanApkUpload()">重新上传</button>
+        </p>
+    </div>
 
-
-    <!-- <p><button pmt-upload-button pmt-file-upload-field open-package-upload
-        endpoint="open.oemPkg" class="w-btn pmt-upload-btn"
-        uploader="{success: oemPkgSuccessHandler, notify: oemPkgNotifyHandler, add: oemPkgAddHandler}">上传</button>
-        <span>{{channelPkgUploadStatus}}</span>
-        <span class="w-text-warning">{{$root.vm.oemPkgWarning}}</span>
-        &nbsp;&nbsp;您上传过的应用：
-    </p> -->
 
     <h3>已上传的 APK 包</h3>
     <table class="pmt-standard-table">
@@ -62,7 +64,7 @@
             <td>{{apk.title}}</td>
             <td>{{apk.packageName}}</td>
             <td>{{apk.versionName}}</td>
-            <td><a ng-href="{{apk.downloadUrl}}" target="_blank">下载</a>&nbsp;&nbsp;<a ng-click="deleteApk(apk)">删除</a></td>
+            <td><a ng-href="{{apk.downloadUrl}}" target="_blank">下载</a>&nbsp;&nbsp;<a ng-click="deleteApkHandler(apk)">删除</a></td>
         </tr>
     </table>
 </div>
