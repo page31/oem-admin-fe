@@ -129,93 +129,23 @@ define(['base/pmtUploader', 'app_vertical/directives'], function() {
                         key: 'gameEssential',
                         name: '游戏装机必备'
                     }],
-                    subNavList: [{
-                        key: 'channel',
-                        name: '渠道管理'
-                    }, {
-                        key: 'app',
-                        name: '应用管理'
-                    }, {
-                        key: 'recommends',
-                        name: '推荐位管理',
-                        description: '备注：推荐的应用包名列表，用换行分隔。'
-                    }, {
-                        key: 'banner',
-                        name: 'Banner 管理'
-                    }, {
-                        key: 'forbiddenApps',
-                        name: '黑名单管理',
-                        description: '备注：以下应用将不会出现在应用列表中（含分类，搜索结果）；请在下面填写包名列表，用换行分隔。'
-                    }, {
-                        key: 'categoryTopApps',
-                        name: '分类排序自定义',
-                        description: '备注：以下应用将在所有的分类列表中靠前优先展示。内容请直接填写应用的包名列表，用换行分隔。'
-                    }, {
-                        key: 'searchTopApps',
-                        name: '搜索自定义',
-                        description: '备注：在搜索 API 中搜索特定关键词时，如下应用将优先靠前展现在搜索结果列表中。填写格式：包名#关键词1,关键词2，用换行分隔。例如：<br/>com.tencent.mm#微信,QQ<br/>com.tencent.mobileqq#QQ,QQ2014'
-                    }, {
-                        key: 'oemSpecial',
-                        name: '专区管理',
-                        description: '备注：以下应用将作为本ID的专区存在，仅需填写相关包名即可，用换行分隔。'
-                    }]
+                    subNavDescMap: {
+                        'recommends': '备注：推荐的应用包名列表，用换行分隔。',
+                        'forbiddenApps': '备注：以下应用将不会出现在应用列表中（含分类，搜索结果）；请在下面填写包名列表，用换行分隔。',
+                        'categoryTopApps': '备注：以下应用将在所有的分类列表中靠前优先展示。内容请直接填写应用的包名列表，用换行分隔。',
+                        'searchTopApps': '备注：在搜索 API 中搜索特定关键词时，如下应用将优先靠前展现在搜索结果列表中。填写格式：包名#关键词1,关键词2，用换行分隔。例如：<br/>com.tencent.mm#微信,QQ<br/>com.tencent.mobileqq#QQ,QQ2014',
+                        'oemSpecial': '备注：以下应用将作为本ID的专区存在，仅需填写相关包名即可，用换行分隔。'
+                    }
                 };
             }
         ])
         .factory('$helper', ['$configData',
             function($configData) {
                 return {
-                    getCurrentConfig: function(type) {
-                        var currentType = _.find($configData.subNavList, function(item) {
-                            return item.key === type;
-                        });
-                        if (!currentType) {
-                            currentType = {
-                                key: 'channel'
-                            };
-                        }
-                        return currentType;
-                    },
                     getConfigTextarea: function(configData, type) {
                         return configData[type];
                     }
                 }
-            }
-        ])
-        .factory('pmtHttpFeedbackInterceptor', ['$q', '$notice',
-            function($q, $notice) {
-                return {
-                    request: function(config) {
-                        // config.requestTimestamp = new Date().getTime();
-                        console.log(config.url);
-                        if (config.url.indexOf('/api/apps/v1/') > 0) {
-                            config.url = 'http://open.wandoujia.com' + config.url.replace('//0.0.0.0:9000', '');
-                        }
-                        return config;
-                    },
-                    responseError: function(response) {
-                        if (response.config.url !== '/api/finance/') {
-                            $notice.error('error-' + response.status + ': ' +
-                                (response.config.url || '') + ', 接口出问题啦!');
-                            console.log(response);
-                        }
-                        return $q.reject(response);
-                    },
-
-                    // check cofig,method == post,
-                    // then alert.success to notice
-                    response: function(response) {
-                        if (response.config.method === 'POST') {
-                            $notice.success('操作成功！\n设置将在十分钟内全部生效');
-                        }
-                        return response;
-                    }
-                };
-            }
-        ])
-        .config(['$httpProvider',
-            function($httpProvider) {
-                $httpProvider.interceptors.push('pmtHttpFeedbackInterceptor');
             }
         ])
         .run(['pmtUploadManager', '$rootScope',
@@ -237,23 +167,4 @@ define(['base/pmtUploader', 'app_vertical/directives'], function() {
                 });
             }
         ]);
-    /*.config(['$httpProvider',
-            function($httpProvider) {
-                // transform default aplication/json as x-www-form-urlencoded type according to backend api
-                // Intercept POST requests, convert to standard form encoding
-                $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-                $httpProvider.defaults.transformRequest.unshift(function(data, headersGetter) {
-                    var key, result = [];
-                    for (key in data) {
-                        if (data.hasOwnProperty(key)) {
-                            if (_.isObject(data[key])) {
-                                data[key] = JSON.stringify(data[key]);
-                            }
-                            result.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key]));
-                        }
-                    }
-                    return result.join("&");
-                });
-            }
-        ])*/
 });

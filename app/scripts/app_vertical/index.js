@@ -83,6 +83,7 @@ define([
 
             // apk
             'setReplaceApk': 'POST /oemApk',
+            'confirmReplaceApk': 'POST /oemApk/confirm',
             'delReplaceApk': 'GET /oemApk/delete',
 
             // columns
