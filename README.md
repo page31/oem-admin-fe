@@ -3,6 +3,13 @@ OEM-ADMIN-FE
 
 Firstly, More Authentication and Permission Control for Admin.
 
+### Todo
+
+- 更新样式
+- 引入 validator
+- 处理 vendors 功能
+- banner 的 mapper
+
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:
 
