@@ -300,7 +300,7 @@ define([], function(rules) {
                                     form = $('#' + attrs.target).scope().$$childTail[attrs.formlySubmit];
                                 }
                                 if (!form) {
-                                    form = element.parents('.modal-dialog').find('.formly');
+                                    form = element.parents('.modal-dialog').find('.formly').scope().formly;
                                 }
                                 $validationProvider.validate(form).success(function() {
                                     if (attrs.target) {
@@ -317,6 +317,13 @@ define([], function(rules) {
             }
         ])
         .config(function($validationProvider) {
+
+            $validationProvider.setDefaultMsg({
+                required: {
+                    error: '必填项', // Todo: msg from attr info
+                    success: ''
+                }
+            });
             return;
             $validationProvider.setErrorHTML(function(msg) {
                 return "<p class=\"i-form-help-block\"><span class=\"w-text-warning\">" + msg + "</span></p>";
