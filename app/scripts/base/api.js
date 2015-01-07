@@ -90,26 +90,28 @@ define([], function() {
 
             function responseErrorHandler(response) {
                 unwrapResponse(response);
-                try {
-                    var errTypeMap = {
-                        offlineError: '不存在或下线应用',
-                        blacklist: '黑名单应用',
-                        repeatError: '重复应用'
-                    };
-                    var _msg = '';
-                    if (response.data) {
-                        _.each(['offlineError', 'blacklist', 'repeatError'], function(type) {
-                            if (response.data[type]) {
-                                _msg += '包名中包含了' + errTypeMap[type] + ': ' + response.data[type].join(', ');
-                            }
-                        });
+                if ($rootScope.hasAuthed) {
+                    try {
+                        var errTypeMap = {
+                            offlineError: '不存在或下线应用',
+                            blacklist: '黑名单应用',
+                            repeatError: '重复应用'
+                        };
+                        var _msg = '';
+                        if (response.data) {
+                            _.each(['offlineError', 'blacklist', 'repeatError'], function(type) {
+                                if (response.data[type]) {
+                                    _msg += '包名中包含了' + errTypeMap[type] + ': ' + response.data[type].join(', ');
+                                }
+                            });
+                        }
+                        if (!_msg) {
+                            _msg = 'Error-' + response.status + ': ' + (response.config.url || '');
+                        }
+                        $notice.error(_msg);
+                    } catch (e) {
+                        console.log('Err in apiHelperInterceptor: ' + e);
                     }
-                    if (!_msg) {
-                        _msg = 'Error-' + response.status + ': ' + (response.config.url || '');
-                    }
-                    $notice.error(_msg);
-                } catch (e) {
-                    console.log('Err in apiHelperInterceptor: ' + e);
                 }
                 return $q.reject(response);
             }

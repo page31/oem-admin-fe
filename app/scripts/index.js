@@ -63,6 +63,30 @@ require(['routes',
         updateDateRange(init[0], init[1]);
     };
 
+    oemApp.controller('idxCtrl', function(apiHelper, $scope, $rootScope, $timeout) {
+        if ($rootScope.hasAuthed) {
+            fetchAuth();
+        } else {
+            $rootScope.$watch('hasAuthed', function(v) {
+                if (!v) return;
+                fetchAuth();
+            });
+        }
+
+        function fetchAuth() {
+            $timeout(function() {
+                apiHelper('fetchAppsAuth', {
+                    busy: 'global'
+                }).then(function(resp) {
+                    $scope.authorizedBean = resp.authorityBean.authorizedItems;
+                    $scope.tabMapping = resp.tabMapping;
+                    $scope.authorizedGroup = resp.authorityBean.group;
+                });
+            }, 10);
+        }
+
+    });
+
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)
     oemApp.directive('sTable', function() {
         return {

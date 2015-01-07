@@ -3,7 +3,7 @@ define([
 ], function(configBannerCtrl) {
     var app = angular.module('appVerticalApp.controllers', ['classy']);
 
-    app.controller('configIdxCtrl', function($scope, apiHelper, $q, $state, $configData) {
+    app.controller('configIdxCtrl', function($scope, apiHelper, $state, $configData) {
         // 全局数据：$root.authorizedOem， authorizedBean， currentConfig
         $scope.holderText = 'com.companyname.appname1\ncom.companyname.appname2';
         $scope.currentConfigType = '';
@@ -25,15 +25,11 @@ define([
             });
         };
 
-        $q.all([apiHelper('fetchAppsAuth', {
-            busy: 'globalx'
-        }), apiHelper('fetchBdConfigs', {
+        apiHelper('fetchBdConfigs', {
             busy: 'global'
-        })]).then(function(resps) {
-            setCurrentConfig(resps[1], $state.params.alias);
-            $scope.authorizedBean = resps[0].authorityBean.authorizedItems;
-            $scope.tabMapping = resps[0].tabMapping;
-            $scope.$root.authorizedOem = resps[1];
+        }).then(function(resp) {
+            setCurrentConfig(resp, $state.params.alias);
+            $scope.$root.authorizedOem = resp;
         });
     });
 

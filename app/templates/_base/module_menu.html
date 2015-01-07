@@ -8,7 +8,7 @@
             <a class="nav-item" ng-class="{ active: $state.includes('data') }"
                 ui-sref="data.index">查看数据</a>
         </li>
-        <li>
+        <li ng-show="authorizedGroup.alias == 'GROUP_ADMIN'">
             <a class="nav-item" ng-class="{ active: $state.includes('system') }"
                 ui-sref="system.partner">管理系统</a>
         </li>
