@@ -28,7 +28,7 @@ define([
         $q.all([apiHelper('fetchAppsAuth', {
             busy: 'globalx'
         }), apiHelper('fetchBdConfigs', {
-            busy: 'globalx'
+            busy: 'global'
         })]).then(function(resps) {
             setCurrentConfig(resps[1], $state.params.alias);
             $scope.authorizedBean = resps[0].authorityBean.authorizedItems;

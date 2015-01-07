@@ -13,6 +13,7 @@ Firstly, More Authentication and Permission Control for Admin.
 - 加上 global buzy loading
 - data 中的 highcharts
 - banner 的图片预览
+- 加上账户登录
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:
 

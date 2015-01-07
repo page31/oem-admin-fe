@@ -9,14 +9,12 @@ define([], function() {
         .provider('busyInterceptor', function() {
 
             this.$get = function($rootScope, $q) {
-
-
                 function handleResponse(r) {
                     if (!r.config) return;
                     if (!r.config.busy) return;
 
                     if (r.config.busy === 'global') {
-                        angular.element(document.getElementsByClassName('pmt-loader')[0]).remove();
+                        angular.element(document.getElementsByClassName('pmt-loader-wrapper')).remove();
                         return;
                     }
 
@@ -29,9 +27,8 @@ define([], function() {
                     'request': function(config) {
                         if (config.busy) {
                             if (config.busy === 'global') {
-                                angular.element(document.getElementsByTagName('body')[0])
-                                    .append(angular.element('<div class="pmt-loader outer">')
-                                        .append('<div class="pmt-loader inner">'));
+                                if ($('.pmt-loader.outer').length) return;
+                                $('body').append($('<div class="pmt-loader-wrapper"><div class="pmt-loader outer"><div class="pmt-loader inner"></div></div></div>'));
                             } else {
                                 $rootScope.$broadcast('busy.begin', {
                                     busy: config.busy
