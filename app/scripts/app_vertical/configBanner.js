@@ -58,7 +58,6 @@ define({
         if (!_.isString($scope.bannerInfo.banner)) {
             // quick fix banner file input
             fd.append('bannerFile', $scope.bannerInfo.banner);
-            previewImg($scope.bannerInfo.banner);
         }
         $('#bannerForm #banner').val('');
         delete $scope.bannerInfo.banner;
@@ -85,14 +84,10 @@ define({
         });
 
         // Todo: watch type to toggle input
-
-        // Todo: add preview
-        function previewImg() {
-
-        }
     },
     addBannerHandler: function() {
         // reset form state
+        this.$scope.editMode = false;
         this.$scope.bannerInfo = {};
         this.$scope.bannerForm.$setPristine(true);
         this.$scope.mode = 'edit';
@@ -153,6 +148,23 @@ define({
                 $scope.currentBannerPosition = $scope.authorizedBean.authorizedLevel2.banner[0].alias;
                 $scope.filterBannerPostion($scope.currentBannerPosition);
             }
+        },
+        'bannerInfo.banner': function(val) {
+            // if (!val) return;
+            /*var $scope = this.$scope;
+            if ($scope.bannerInfo.banner && !_.isString($scope.bannerInfo.banner)) {
+                previewImg($scope.bannerInfo.banner, $scope);
+            }
+
+            function previewImg(file, $scope) {
+                var fileReader = new FileReader();
+
+                fileReader.onloadend = function() {
+                    $scope.bannerPreviewUrl = fileReader.result;
+                };
+
+                fileReader.readAsDataURL(file);
+            }*/
         }
     },
     filterBannerPostion: function(val) {

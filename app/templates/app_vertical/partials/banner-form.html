@@ -1,5 +1,5 @@
 <div class="popup-container popup-container-medium">
-    <p class="popup-title">添加新 Banner</p>
+    <p class="popup-title">{{editMode?'修改':'添加新'}} Banner</p>
     <div class="popup-content">
         <form class="pmt-form pmt-form-stacked" name="bannerForm" id="bannerForm"
             novalidate validate-submit="addBanner()" ng-init="bannerInfo={}">
@@ -59,9 +59,10 @@
 
             <div inputfield labeltext="上传 banner" labelfor="banner">
                 <img ng-src="{{bannerInfo.banner}}" ng-if="editMode"
-                    style="max-height: 100px;margin-bottom: 20px;"><br>
-                <input class="pmt-form-width-large" type="file" required
-                    file-model="bannerInfo.banner" name="banner" id="banner">
+                    style="max-height: 100px;margin-bottom: 20px;">
+                <br>
+                <input class="pmt-form-width-large"
+                    type="file" required name="banner" id="banner">
                 <div message for="banner"></div>
             </div>
 

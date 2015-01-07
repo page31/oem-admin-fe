@@ -10,10 +10,9 @@ Firstly, More Authentication and Permission Control for Admin.
 - 加入buzy btn 为提交操作
 - log json 格式化
 - log 页面加分页
-- 加上 global buzy loading
 - data 中的 highcharts
 - banner 的图片预览
-- 加上账户登录
+- 加上账户登录(权限控制限制)
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:
 
