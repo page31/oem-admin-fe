@@ -92,18 +92,17 @@ module.exports = function(grunt) {
                     cwd: '<%= paths.app %>',
                     dest: '<%= paths.dist %>',
                     src: [
-                        'font/**/*', 'images/**/*', 'assets/**/*'
+                        'font/**/*', 'images/**/*', 'assets/**/*', 'components/font-awesome/fonts/**/*'
                     ]
                 }]
             },
-            vendor: {
+            font: {
                 files: [{
                     expand: true,
-                    // dot: true,
                     flatten: true,
-                    cwd: '<%= paths.app %>/vendors',
-                    dest: '<%= paths.dist %>/font',
-                    src: ['ace-v1.2/font/**/*']
+                    cwd: '<%= paths.app %>',
+                    dest: '<%= paths.dist %>/fonts',
+                    src: ['components/font-awesome/fonts/**/*']
                 }]
             }
         },
@@ -273,7 +272,7 @@ module.exports = function(grunt) {
         'filerev',
         'usemin',
         'copy:static',
-        'copy:vendor'
+        'copy:font'
     ]);
 
     grunt.registerTask('build:staging', [
