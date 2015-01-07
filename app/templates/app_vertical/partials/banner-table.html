@@ -18,11 +18,11 @@
         <td>{{banner.itemStatus?'是':'否'}}</td>
         <td><img ng-src="{{banner.banner}}"></td>
         <td ng-show="mode=='index'">
-            <a ng-click="editBannerHandler(banner)"><i class="icon-edit"></i></a>
-            &nbsp;&nbsp;<a ng-click="delBannerHandler(banner)"><i class="icon-trash"></i></a>
+            <a ng-click="editBannerHandler(banner)"><i class="fa fa-edit"></i></a>
+            &nbsp;&nbsp;<a ng-click="delBannerHandler(banner)"><i class="fa fa-trash"></i></a>
         </td>
         <td ng-show="mode=='position'">
-            <a><i class="icon-move"></i></a>
+            <a><i class="fa fa-arrows"></i></a>
         </td>
     </tr>
 </table>

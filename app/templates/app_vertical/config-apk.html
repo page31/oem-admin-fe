@@ -64,7 +64,9 @@
             <td>{{apk.title}}</td>
             <td>{{apk.packageName}}</td>
             <td>{{apk.versionName}}</td>
-            <td><a ng-href="{{apk.downloadUrl}}" target="_blank">下载</a>&nbsp;&nbsp;<a ng-click="deleteApkHandler(apk)">删除</a></td>
+            <td>
+                <a ng-href="{{apk.downloadUrl}}" target="_blank"><i class="fa fa-download"></i></a>
+                &nbsp;&nbsp;<a ng-click="deleteApkHandler(apk)"><i class="fa fa-remove"></i></a></td>
         </tr>
     </table>
 </div>
