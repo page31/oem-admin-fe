@@ -232,7 +232,7 @@ define([], function(rules) {
     }
 
     // 'validation', 'validation.rule'
-    angular.module('formly', ['ui.bootstrap'])
+    angular.module('formly', ['ui.bootstrap', 'validation', 'validation.rule'])
         .directive('formlyField', formlyField)
         .directive('formlyForm', formlyForm)
         .factory('formlyHelper', function($modal, $rootScope) {
@@ -278,9 +278,8 @@ define([], function(rules) {
                 '    <div class="controls">PLACEHOLDER</div>\n' +
                 '</div>'
             );
-        });
-
-    /*.directive('formlySubmit', ['$injector',
+        })
+        .directive('formlySubmit', ['$injector',
             function($injector) {
 
                 var $validationProvider = $injector.get('$validation'),
@@ -300,6 +299,9 @@ define([], function(rules) {
                                     // quick fix: tabset
                                     form = $('#' + attrs.target).scope().$$childTail[attrs.formlySubmit];
                                 }
+                                if (!form) {
+                                    form = element.parents('.modal-dialog').find('.formly');
+                                }
                                 $validationProvider.validate(form).success(function() {
                                     if (attrs.target) {
                                         $parse(attrs.ngClick)($('#' + attrs.target).scope());
@@ -313,8 +315,9 @@ define([], function(rules) {
                     }
                 }
             }
-        ])*/
-    /*.config(function($validationProvider) {
+        ])
+        .config(function($validationProvider) {
+            return;
             $validationProvider.setErrorHTML(function(msg) {
                 return "<p class=\"i-form-help-block\"><span class=\"w-text-warning\">" + msg + "</span></p>";
             });
@@ -330,5 +333,5 @@ define([], function(rules) {
                 }
                 return true;
             };
-        })*/
+        });
 });

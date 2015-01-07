@@ -373,28 +373,7 @@ define([], function() {
     systemApp.controller('systemLogCtrl', function($scope, apiHelper, $timeout, $filter) {
 
         $timeout(function() {
-            function updateDateRange(start, end) {
-                $scope.startDate = start._d.getTime();
-                $scope.endDate = end._d.getTime();
-                $('#reportrange span').html(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-            }
-            $('#reportrange').daterangepicker({
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                        'Last 7 Days': [moment().subtract('days', 6), moment()],
-                        'Last 30 Days': [moment().subtract('days', 29), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                    },
-                    startDate: moment().subtract('days', 29),
-                    endDate: moment()
-                },
-                function(start, end) {
-                    updateDateRange(start, end);
-                }
-            );
-            updateDateRange(moment().subtract('days', 29), moment());
+            baseDateRangeInit($scope, [moment().subtract('days', 29), moment()]);
             $scope.fetchLog();
         });
 

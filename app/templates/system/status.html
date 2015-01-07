@@ -2,19 +2,10 @@
     <h2>监控 API 状态</h2>
     <p class="text-mute">监控 API 合作方使用的 API 状态</p>
 
-    <div>
-        <h3>设置提醒发送邮箱</h3>
-        <p class="text-mute">当 API 请求超出授权权限标准时间向该邮箱发送邮件</p>
-        <div class="input-row">
-            <input type="text" placeholder="请输入邮箱">
-            <button>保存</button>
-        </div>
-
-        <h3>设置合作方 API 运行状态</h3>
-        <!--  dropdown menu for partner -->
-        <select ng-model="currentConfigAlias" ng-options="i.configAlias as i.configName for i in $root.authMeta.authorizedOem"></select>
-        <div s-table row-list="tableData"
-            head-list="['接口名称', '限额总量', '目前已使用', '距离下次重置']">
-        </div>
+    <h3>设置合作方 API 运行状态</h3>
+    <!--  dropdown menu for partner -->
+    <select ng-model="currentConfigAlias" ng-options="i.configAlias as i.configName for i in $root.authMeta.authorizedOem"></select>
+    <div s-table row-list="tableData"
+        head-list="['接口名称', '限额总量', '目前已使用', '距离下次重置']">
     </div>
 </div>

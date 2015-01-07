@@ -1,13 +1,28 @@
-<table class="pmt-standard-table" ng-if="$root.currentConfig && currentAppReport.length">
-    <tr>
-        <th>日期</th>
-        <th>包名</th>
-        <th>下载量</th>
-    </tr>
-    <tr ng-repeat="i in currentAppReport">
-        <td>{{i.date}}</td>
-        <td>{{i.packageName}}</td>
-        <td>{{i.downloadCount}}</td>
-    </tr>
-</table>
-<p ng-if="$root.currentConfig && !currentAppReport.length">暂无数据</p>
+<div>
+    <h2>导出应用下载数据</h2>
+    <p>导出该渠道中的 Top 500 下载量的应用数据</p>
+
+    <div class="fr-opbar">
+        <span id="reportrange">
+            <i class="fa fa-calendar fa-lg"></i>
+            <span></span>
+            <b class="caret"></b>
+        </span>
+        <button class="w-btn" ng-click="fetchAppDown()">查询</button>
+        <button class="w-btn" ng-click="exportCSV()"> 导出 CSV </button>
+    </div>
+
+    <table class="pmt-standard-table" ng-if="$root.currentConfig && currentAppReport.length">
+        <tr>
+            <th>日期</th>
+            <th>包名</th>
+            <th>下载量</th>
+        </tr>
+        <tr ng-repeat="i in currentAppReport">
+            <td>{{i.date}}</td>
+            <td>{{i.packageName}}</td>
+            <td>{{i.downloadCount}}</td>
+        </tr>
+    </table>
+    <p ng-if="$root.currentConfig && !currentAppReport.length">暂无数据</p>
+</div>

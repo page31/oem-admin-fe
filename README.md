@@ -7,8 +7,9 @@ Firstly, More Authentication and Permission Control for Admin.
 
 - 更新样式
 - 引入 validator
-- 处理 vendors 功能
-- banner 的 mapper
+- 加入buzy btn 为提交操作
+- log json 格式化
+- log 页面加分页
 
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:

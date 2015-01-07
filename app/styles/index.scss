@@ -5,13 +5,32 @@
     h2 {
         font-size: 20px;
     }
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
+.daterange-span-wrapper {
+    border: 1px solid;
+    padding: 8px 5px;
+    margin-right: 10px;
 }
 
 .pmt-content-wrapper {
     width: 640px;
     float: right;
+    position: relative;
+    .fr-opbar {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
 }
 
+table a:not(.btn), .table a:not(.btn) {
+    text-decoration: none;
+}
 
 // fixed for formly components
 .pmt-form-row {

@@ -5,7 +5,6 @@
     <tr ng-repeat="row in dataList track by $index">
         <td ng-repeat="i in row track by $index">{{i}}</td>
         <td ng-if="dataList.editable || dataList.deletable">
-            <!-- Add if check -->
             <a ng-click="$root.onEdit(dataList.type, row)">
                 <i class="icon-edit"></i>
             </a>

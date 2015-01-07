@@ -39,6 +39,30 @@ require(['routes',
         $rootScope.$state = $state;
     });
 
+    window.baseDateRangeInit = function($scope, init) {
+        function updateDateRange(start, end) {
+            $scope.startDate = start._d.getTime();
+            $scope.endDate = end._d.getTime();
+            $('#reportrange span').html(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+        }
+        $('#reportrange').daterangepicker({
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), moment()],
+                    'Last 30 Days': [moment().subtract('days', 29), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                }
+            },
+            function(start, end) {
+                updateDateRange(start, end);
+            }
+        );
+
+        updateDateRange(init[0], init[1]);
+    };
+
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)
     oemApp.directive('sTable', function() {
         return {
