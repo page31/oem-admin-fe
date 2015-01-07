@@ -92,7 +92,7 @@ module.exports = function(grunt) {
                     cwd: '<%= paths.app %>',
                     dest: '<%= paths.dist %>',
                     src: [
-                        'font/**/*', 'images/**/*', 'assets/**/*', 'components/font-awesome/fonts/**/*'
+                        'font/**/*', 'images/**/*', 'assets/**/*', 'vendors/**/*'
                     ]
                 }]
             },
