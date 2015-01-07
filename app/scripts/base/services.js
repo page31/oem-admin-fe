@@ -1,10 +1,11 @@
 define([
     'base/services/pmtNotice', // 类 window.alert， 还有 open-api 用的 http feedback indicator 等
     'base/services/pmtBusy', // 不太好用的 异步操作的 busy indicator
-    'base/services/pmtTopNotice' // 页面顶部的通知条（如放假通知等）
+    'base/services/pmtTopNotice', // 页面顶部的通知条（如放假通知等）
+    'base/services/pmtAccount'
 ], function() {
     'use strict';
-    angular.module('pmtServices', ['pmtNotice', 'pmtBusy', 'pmtTopNotice'])
+    angular.module('pmtServices', ['pmtNotice', 'pmtBusy', 'pmtTopNotice', 'pmtAccount'])
         .factory('downloadFile', function() {
             return function downloadFile(url) {
                 var iFrame = $('#download-file-iframe');

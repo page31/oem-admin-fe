@@ -5,20 +5,20 @@
     <title>OEM/OpenAPI 运营平台</title>
     <!-- build:css /styles/oem.css -->
     <link rel="stylesheet" href="vendors/lumen-bootstrap.css">
-    <link rel="stylesheet" href="vendors/bootswatch.min.css">
+    <!-- <link rel="stylesheet" href="vendors/bootswatch.min.css"> -->
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="vendors/daterangepicker/daterangepicker-bs3.css">
     <link rel="stylesheet" href="styles/index.css">
     <!-- endbuild -->
 </head>
-<body class="pmt-open" ng-cloak>
+<body class="pmt-open" ng-cloak ng-controller="idxCtrl">
     <div class="pmt-header">
         <div ng-include="'templates/_base/topbar.html'"></div>
     </div>
     <div class="pmt-container meta-header">
         <div ui-view="meta-header"></div>
     </div>
-    <div class="pmt-main-section pmt-container">
+    <div class="pmt-main-section pmt-container" ng-if="authorizedBean">
         <pmt-notices></pmt-notices>
         <div ui-view></div>
     </div>
@@ -43,6 +43,9 @@
     <script src="vendors/moment.js"></script>
     <script src="vendors/bootstrap.js"></script>
     <script src="vendors/daterangepicker/daterangepicker.js"></script>
+
+    <script src="vendors/WandouLabs-AccountJavaScriptSDK/dist/snappea-account-sdk.js"></script>
+    <script src="vendors/WandouLabs-AccountJavaScriptSDK/dist/snappea-account-hook.js"></script>
 
     <script src="components/ng-file-upload/angular-file-upload.js"></script>
     <!-- endbuild -->
