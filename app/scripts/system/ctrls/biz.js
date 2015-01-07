@@ -14,7 +14,7 @@ define([], function() {
                     key: 'sourceName',
                     placeholder: '例如， 联想 K900'
                 }, {
-                    label: '渠道 User Source',
+                    label: '渠道 ID',
                     key: 'sourceAlias',
                     placeholder: '例如， lenovo_K900'
                 }],
