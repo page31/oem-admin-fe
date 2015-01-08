@@ -13,16 +13,9 @@ define([], function() {
                         '<img ng-src="{{ account.avatar }}" class="pmt-account-avatar">' +
                         '<div class="pmt-account-info">' +
                         '<span class="pmt-account-nickname">{{ account.nick }}</span>' +
-                        '<span class="pmt-account-nickname" ng-if="$root.devUserInfo && $root.devUserInfo.preAuth">' +
-                        '授权登录 - {{ $root.devUserInfo.username }}</span>' +
                         '<span class="pmt-account-email">{{ account.email }}</span></div>' +
                         '<ul class="account-dropdown-menu hide">' +
-                        '<li><a href="http://www.wandoujia.com/account/settings.html" target="_self">修改账户信息</a></li>' +
-                        '<li><a href="/account/info" target="_self">修改开发者信息</a></li>' +
-                        '<li><a ng-click="changePwdHandler()">修改密码</a></li>' +
-                        '<li><a ng-click="logoutHandler()">退出登录</a></li>' +
-                        '<li ng-if="$root.devUserInfo && $root.devUserInfo.preAuth">' +
-                        '<a ng-click="logoutPreAuthHandler()">退出授权登录</a></li></ul></div>',
+                        '<li><a ng-click="logoutHandler()">退出登录</a></li></ul></div>',
                     link: function(scope, elem, attrs) {
                         // for logout etc
                         elem.on('mouseenter', function() {

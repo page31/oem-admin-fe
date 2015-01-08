@@ -10,6 +10,9 @@
         font-size: 16px;
     }
 }
+.pmt-account-field {
+    margin-left: 20px;
+}
 .pmt-loader-wrapper {
     position: absolute;
     height: 100%;
@@ -40,6 +43,19 @@
         top: 20px;
         right: 20px;
     }
+}
+
+pmt-notices {
+  position: absolute;
+  z-index: 99999;
+  right: 10px;
+  margin-top: -40px;
+  top: 0;
+  bottom: initial;
+
+  .notice {
+    margin-bottom: 2px;
+  }
 }
 
 table a:not(.btn), .table a:not(.btn) {

@@ -6,6 +6,11 @@ define([], function() {
             label: 'OEM 渠道',
             controlTpl: 'system/channel-list-snippet.html'
         };
+        var channelIdField = {
+            label: '渠道 ID',
+            key: 'sourceAlias',
+            placeholder: '例如， lenovo_K900'
+        };
         _.extend($scope.FORMMAP, {
             channel: {
                 modalTitle: 'OEM 渠道',
@@ -13,10 +18,6 @@ define([], function() {
                     label: '渠道名称',
                     key: 'sourceName',
                     placeholder: '例如， 联想 K900'
-                }, {
-                    label: '渠道 ID',
-                    key: 'sourceAlias',
-                    placeholder: '例如， lenovo_K900'
                 }],
                 del: function(item, scope) {
                     var self = this;
@@ -42,13 +43,25 @@ define([], function() {
                         // use ref to add updated/added res back
                         if (self._editType === 'add') {
                             // Todo: duplicate columnsAlias check
-                            columnList.push(r);
+                            columnList.unshift(r);
                         } else {
                             _.replaceWith(columnList, r, self._raw);
                         }
                         self._modal.close();
                     });
                     console.log(this.formlyData);
+                },
+                initCb: function() {
+                    var self = this;
+                    if (self._editType === 'add') {
+                        if (self.formFields.length == 1) {
+                            self.formFields.splice(1, 0, channelIdField);
+                        }
+                    } else {
+                        if (self.formFields.length == 2) {
+                            self.formFields.splice(1, 1);
+                        }
+                    }
                 }
             },
             oemPartner: {
@@ -79,7 +92,7 @@ define([], function() {
                         }
                     }).then(function(r) {
                         if (self._editType === 'add') {
-                            $scope.oemPartnerList.push(r);
+                            $scope.oemPartnerList.unshift(r);
                         } else {
                             _.replaceWith($scope.oemPartnerList, r, self._raw);
                         }
@@ -147,6 +160,9 @@ define([], function() {
                     var self = this;
                     /* trans _privileges */
                     var _privileges = self.formlyData.privileges;
+                    if (!self.formlyData.type) {
+                        self.formlyData.type = 'NORMAL';
+                    }
                     self.$watch('$root.tokenMeta.candidatePrivileges', function(v) {
                         if (!v) return;
                         var ret = _.clone(v);
@@ -175,7 +191,7 @@ define([], function() {
                         }
                     }).then(function(r) {
                         if (self._editType === 'add') {
-                            $scope.apiPartnerList.push(r);
+                            $scope.apiPartnerList.unshift(r);
                         } else {
                             _.replaceWith($scope.apiPartnerList, r, self._raw);
                         }
@@ -349,11 +365,6 @@ define([], function() {
         apiHelper('fetchAuths').then(function(r) {
             $scope.authList = r.beans;
         });
-
-        $scope.tableData = [
-            ['daniel@wandoujia.com', ' 内部运营', '无', 4],
-            ['daniel@wandoujia.com', ' 内部运营', '无', 5]
-        ];
     });
 
     systemApp.controller('systemStatusCtrl', function($scope, apiHelper) {

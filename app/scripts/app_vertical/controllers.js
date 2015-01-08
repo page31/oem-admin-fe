@@ -138,10 +138,6 @@ define([
         };
     });
 
-    app.controller('configBannerCtrl', function($scope, apiHelper) {
-
-    });
-
     app.controller('configForbiddenCtrl', function($scope, apiHelper) {
         $scope.$parent.currentConfigType = 'forbiddenApps';
         $scope.$watch('currentConfig.alias', function(v) {
