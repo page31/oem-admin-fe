@@ -5,6 +5,7 @@ define({
         var apiHelper = this.apiHelper,
             $scope = this.$;
         $scope.isAjaxing = false;
+        $scope.$parent.currentConfigType = 'banner';
 
         $scope.isShowBannerForm = false;
 
@@ -41,6 +42,7 @@ define({
         // prefill $scope.bannerInfo
         var $scope = this.$;
         $scope.bannerInfo = _.clone(i);
+        $scope.bannerPreviewUrl = '';
         $scope.bannerInfo.bannerPosition = $scope.findBeforeMapBanner($scope.bannerInfo.bannerPosition);
         $scope.mode = 'edit';
         // reset form state
@@ -52,20 +54,28 @@ define({
         // handle the multipart file
         var $scope = this.$;
         var self = this;
+        var bannerInfo = $scope.bannerInfo;
         if ($scope.isAjaxing) return;
-        if (!$scope.bannerInfo.banner) return;
+        if (!bannerInfo.banner) return;
+        if ($scope.isBannerSizeError) return;
+        if (bannerInfo.startTime && bannerInfo.endTime) {
+            if (bannerInfo.startTime > bannerInfo.endTime) {
+                window.alert('开始时间不能大于结束时间');
+                return;
+            }
+        }
         var fd = new FormData();
-        if (!_.isString($scope.bannerInfo.banner)) {
+        if (!_.isString(bannerInfo.banner)) {
             // quick fix banner file input
-            fd.append('bannerFile', $scope.bannerInfo.banner);
+            fd.append('bannerFile', bannerInfo.banner);
         }
         $('#bannerForm #banner').val('');
-        delete $scope.bannerInfo.banner;
-        var _tmpBannerInfo = _.clone($scope.bannerInfo);
+        delete bannerInfo.banner;
+        var _tmpBannerInfo = _.clone(bannerInfo);
         _tmpBannerInfo.bannerPosition = $scope.tabMapping[_tmpBannerInfo.bannerPosition];
         fd.append('bannerInfo', JSON.stringify(_tmpBannerInfo));
         fd.append('configAlias', $scope.currentConfig.alias);
-        fd.append('tabAlias', $scope.bannerInfo.bannerPosition);
+        fd.append('tabAlias', bannerInfo.bannerPosition);
         // bannerSourcePosition
         $scope.isAjaxing = true;
         this.apiHelper('setBanner', fd, {
@@ -81,6 +91,8 @@ define({
             $scope.isAjaxing = false;
             $scope.currentConfig.banners = resp;
             // self.$.fetchBannerAll($scope.currentConfig.alias);
+        }, function() {
+            $scope.isAjaxing = false;
         });
 
         // Todo: watch type to toggle input
@@ -150,21 +162,32 @@ define({
             }
         },
         'bannerInfo.banner': function(val) {
-            // if (!val) return;
-            /*var $scope = this.$scope;
-            if ($scope.bannerInfo.banner && !_.isString($scope.bannerInfo.banner)) {
-                previewImg($scope.bannerInfo.banner, $scope);
+            if (!val) return;
+            var $scope = this.$scope;
+            $scope.bannerPreviewUrl = '';
+            $scope.isBannerSizeError = false;
+            if (!_.isString(val)) {
+                previewImg(val, $scope);
             }
 
             function previewImg(file, $scope) {
+                $scope.isBannerSizeError = false;
                 var fileReader = new FileReader();
 
                 fileReader.onloadend = function() {
+                    var img = new Image();
+                    img.onload = function() {
+                        if (img.width === 720 && img.height === 200) return;
+                        $scope.isBannerSizeError = true;
+                        $scope.$apply();
+                    };
+                    img.src = fileReader.result;
                     $scope.bannerPreviewUrl = fileReader.result;
+                    $scope.$apply();
                 };
 
                 fileReader.readAsDataURL(file);
-            }*/
+            }
         }
     },
     filterBannerPostion: function(val) {

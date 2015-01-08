@@ -4,6 +4,14 @@
         <form class="pmt-form pmt-form-stacked" name="bannerForm" id="bannerForm"
             novalidate validate-submit="addBanner()" ng-init="bannerInfo={}">
 
+            <div inputfield labeltext="横幅标题：" labelfor="title">
+                <input class="pmt-form-width-large" type="text"
+                    name="title" ng-model="bannerInfo.title" id="title"
+                    required ng-minlength="2">
+                <div message for="title"></div>
+            </div>
+
+
             <div inputfield labeltext="所在区域：" labelfor="position">
                 <select name="position" ng-model="bannerInfo.bannerPosition" id="position"
                     required ng-options="i.alias as i.name for i in authorizedBean.authorizedLevel2.banner">
@@ -20,27 +28,29 @@
                 <div message for="type"></div>
             </div>
 
-            <div inputfield labeltext="对应链接：" labelfor="url">
+            <div inputfield labeltext="对应链接：" labelfor="url"
+                ng-if="bannerInfo.type == '4'">
                 <input class="pmt-form-width-large" type="url" http-prefix
                     name="url" ng-model="bannerInfo.url" id="url"
                     required ng-minlength="2">
                 <div message for="url"></div>
             </div>
 
-            <div inputfield labeltext="专题 Alias：" labelfor="alias">
+            <!-- <div inputfield labeltext="专题 Alias：" labelfor="alias">
                 <input class="pmt-form-width-large" type="text"
                     name="alias" ng-model="bannerInfo.alias" id="alias" ng-minlength="2">
                 <div message for="alias"></div>
-            </div>
+            </div> -->
 
-            <div inputfield labeltext="应用 Banner 包名：" labelfor="packageName">
+            <div inputfield labeltext="应用 Banner 包名："
+                labelfor="packageName" ng-if="bannerInfo.type == '1'">
                 <input class="pmt-form-width-large" type="text"
                     name="packageName" ng-model="bannerInfo.packageName" id="packageName"
                     required ng-minlength="2">
                 <div message for="packageName"></div>
             </div>
 
-            <div inputfield labeltext="是否为当前活动页：" labelfor="itemStatus">
+            <!-- <div inputfield labeltext="是否为当前活动页：" labelfor="itemStatus">
                 <select name="itemStatus" id="itemStatus"
                     ng-model="bannerInfo.itemStatus" required>
                     <option value="">请选择</option>
@@ -48,6 +58,7 @@
                     <option value="0">否</option>
                 </select>
                 <div message for="itemStatus"></div>
+            </div> -->
 
             <div inputfield labeltext="投放开始时间：" labelfor="startTime">
                 <input type="text" pmt-date-picker ng-model="bannerInfo.startTime" id="startTime"
@@ -61,13 +72,17 @@
                 <div message for="endTime"></div>
             </div>
 
-            <div inputfield labeltext="上传 banner" labelfor="banner">
-                <img ng-src="{{bannerInfo.banner}}" ng-if="editMode"
+            <div inputfield labeltext="上传横幅" labelfor="banner">
+                <p> 大小为 740x200 px, 为了兼容小屏幕手机，请尽量将主要内容设计在居中的 500x200 px 大小内</p>
+                <img ng-src="{{bannerInfo.banner}}" ng-if="editMode && !bannerPreviewUrl"
                     style="max-height: 100px;margin-bottom: 20px;">
                 <br>
-                <input class="pmt-form-width-large"
-                    type="file" required name="banner" id="banner">
+                <input class="pmt-form-width-large" type="file" accept="image/*"
+                    required name="banner" id="banner" file-model="bannerInfo.banner">
                 <div message for="banner"></div>
+                <p ng-show="isBannerSizeError">图片大小不符合740*200</p>
+                <img ng-src="{{bannerPreviewUrl}}"
+                    style="max-height: 100px;margin-top: 20px;">
             </div>
 
             <div class="pmt-form-row">
