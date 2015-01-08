@@ -3,20 +3,31 @@ OEM-ADMIN-FE
 
 Firstly, More Authentication and Permission Control for Admin.
 
-### Todo
-- token list pagintion~(插入unshift)
+### Done
+
 - edit 修改 OEM edit 隐藏  渠道 User Source
 - 报错的 z-index
+- account 的下拉~ (和左 padding)
+- token list pagintion~(插入unshift)
+- banner 图片尺寸检测 - done
+- banner 联动 with type
+
+
+
+### Todo
+
+- banner 上传的500
+- 验证 validator
+- 加上验证 for uid
+- banner 的投放时间（不填的时候, 0, endTime, startTime, 时间戳）
+
+- not required validator
 - 「接口访问频率权限」下拉框不修改时，提交报错(, 初始值)
 - 初始值 的oem
-- banner 联动 with type
-- banner 图片尺寸检测
-- account 的下拉~ (和左 padding)
 - data 中的 highcharts
 - 页面加分页，看totalCount来确定
 
 - 更新样式
-- 引入 validator
 - 加入buzy btn 为提交操作
 - log json 格式化
 

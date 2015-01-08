@@ -48,13 +48,17 @@
                     <option value="0">否</option>
                 </select>
                 <div message for="itemStatus"></div>
+
+            <div inputfield labeltext="投放开始时间：" labelfor="startTime">
+                <input type="text" pmt-date-picker ng-model="bannerInfo.startTime" id="startTime"
+                    name="startTime" picker="{timepicker: true, format: 'Y/m/d H:i'}">
+                <div message for="startTime"></div>
             </div>
 
-            <div inputfield labeltext="对应标题：" labelfor="title">
-                <input class="pmt-form-width-large" type="text"
-                    name="title" ng-model="bannerInfo.title" id="title"
-                    required ng-minlength="2">
-                <div message for="title"></div>
+            <div inputfield labeltext="投放结束时间：" labelfor="endTime">
+                <input type="text" pmt-date-picker ng-model="bannerInfo.endTime" id="endTime"
+                    name="endTime" picker="{timepicker: true, format: 'Y/m/d H:i'}">
+                <div message for="endTime"></div>
             </div>
 
             <div inputfield labeltext="上传 banner" labelfor="banner">
