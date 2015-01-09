@@ -21,6 +21,12 @@
                     </td>
                 </tr>
             </table>
+
+            <div class="pmt-pagination-wrapper">
+                <pagination total-items="oemTotalCount"
+                    ng-model="page.oem" class="pagination-sm">
+                </pagination>
+            </div>
         </tab>
         <tab heading="API 合作方">
             <button class="w-btn" ng-click="$root.onAdd('apiPartner')"> 添加 API 合作方</button>
@@ -42,6 +48,12 @@
                     </td>
                 </tr>
             </table>
+
+            <div class="pmt-pagination-wrapper">
+                <pagination total-items="apiTotalCount"
+                    ng-model="page.api" class="pagination-sm">
+                </pagination>
+            </div>
         </tab>
     </tabset>
 </div>

@@ -35,8 +35,46 @@ require(['routes',
         $urlRouterProvider.otherwise('/system');
     });
 
-    oemApp.run(function($state, $rootScope) {
+    oemApp.config(function(paginationConfig) {
+        _.extend(paginationConfig, {
+            maxSize: 6,
+            itemsPerPage: 20,
+            boundaryLinks: false,
+            previousText: '上一页',
+            nextText: '上一页'
+        });
+    });
+
+    oemApp.run(function($state, $rootScope, apiHelper) {
         $rootScope.$state = $state;
+
+        $rootScope.pagizHandler = function(endpoint, opts, handler, $scope, name) {
+
+            if (!handler) {
+                handler = function(r) {
+                    $scope[name + 'List'] = r.beans;
+                    $scope[name + 'TotalNum'] = r.totalCount;
+                }
+            }
+
+            var _wrap = function(page) {
+                apiHelper(endpoint, _.extend({}, opts, {
+                    params: {
+                        start: (+page - 1) * 20
+                    }
+                })).then(function(r) {
+                    handler(r);
+                    window.scrollTo(0, 0);
+                });
+            };
+
+            $scope.$watch(name + 'Page', function(v) {
+                if (!v) return;
+                _wrap(v);
+            });
+
+            $scope[name + 'Page'] = 1;
+        };
     });
 
     window.baseDateRangeInit = function($scope, init) {

@@ -203,12 +203,42 @@ define([], function() {
         apiHelper('fetchTokenMeta').then(function(r) {
             $scope.$root.tokenMeta = r;
         });
-        apiHelper('fetchApiPartners').then(function(r) {
-            $scope.apiPartnerList = r.beans;
+
+        function fetchApiPartners(page) {
+            apiHelper('fetchApiPartners', {
+                params: {
+                    start: (+page - 1) * 20
+                }
+            }).then(function(r) {
+                $scope.apiPartnerList = r.beans;
+                $scope.apiTotalCount = r.totalCount;
+                window.scrollTo(0, 0);
+            });
+        }
+        $scope.$watch('page.api', function(v) {
+            if (!v) return;
+            fetchApiPartners(v);
         });
-        apiHelper('fetchOemPartners').then(function(r) {
-            $scope.oemPartnerList = r.beans;
+
+        function fetchOemPartners(page) {
+            apiHelper('fetchOemPartners', {
+                params: {
+                    start: (+page - 1) * 20
+                }
+            }).then(function(r) {
+                $scope.oemPartnerList = r.beans;
+                $scope.oemTotalCount = r.totalCount;
+                window.scrollTo(0, 0);
+            });
+        }
+        $scope.$watch('page.oem', function(v) {
+            if (!v) return;
+            fetchOemPartners(v);
         });
+        $scope.page = {
+            oem: 1,
+            api: 1
+        };
     });
 
     systemApp.controller('systemAccountCtrl', function($scope, apiHelper, $timeout) {
@@ -362,9 +392,7 @@ define([], function() {
             }
         };
 
-        apiHelper('fetchAuths').then(function(r) {
-            $scope.authList = r.beans;
-        });
+        $scope.pagizHandler('fetchAuths', null, null, $scope, 'auth');
     });
 
     systemApp.controller('systemStatusCtrl', function($scope, apiHelper) {
@@ -388,19 +416,27 @@ define([], function() {
             $scope.fetchLog();
         });
 
-        $scope.fetchLog = function() {
+        $scope.fetchLog = function(page) {
             apiHelper('fetchLog', {
                 params: {
                     startTime: $scope.startDate,
-                    endTime: $scope.endDate
+                    endTime: $scope.endDate,
+                    start: page ? (page * 20 - 20) : 0
                 }
             }).then(function(r) {
                 $scope.tableData = _.map(_.map2Arr(r.beans, ['timeStamp', 'username', 'content']), function(row) {
                     row[0] = $filter('date')(row[0]);
                     return row;
                 });
+                $scope.logTotalNum = r.totalCount;
+                window.scrollTo(0, 0);
             });
         }
+
+        $scope.$watch('logPage', function(v) {
+            if (!v) return;
+            $scope.fetchLog(v);
+        });
     });
 
     systemApp.controller('systemColumnCtrl', function($scope, apiHelper) {
@@ -458,8 +494,6 @@ define([], function() {
             $scope.columnList = r.beans;
         });
 
-        $scope.tableData = [
-            ['华硕', '华硕周周 Zen 项', '']
-        ];
+        $scope.pagizHandler('fetchColumns', null, null, $scope, 'column');
     });
 })

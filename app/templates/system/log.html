@@ -14,4 +14,10 @@
     <div s-table row-list="tableData"
         head-list="['时间', '账户', '日志内容']">
     </div>
+
+    <div class="pmt-pagination-wrapper">
+        <pagination total-items="logTotalNum"
+            ng-model="logPage" class="pagination-sm">
+        </pagination>
+    </div>
 </div>
