@@ -13,30 +13,16 @@
     </div>
 
     <!-- Todo: highcharts -->
-    <div class="chart-wrapper"></div>
+    <div class="chart-wrapper" id="main-chart"></div>
 
     <table class="pmt-standard-table" ng-if="$root.currentConfig && currentReportData.length">
         <tr>
             <th>日期</th>
-            <th>请求量</th>
-            <th>下载量</th>
-            <th>收入</th>
-            <th>分成</th>
-            <th>DAU</th>
-            <th>DLU</th>
-            <th>MAU</th>
-            <th>启动次数</th>
+            <th ng-repeat="i in metricsList">{{i.alias}}</th>
         </tr>
         <tr ng-repeat="i in currentReportData">
             <td>{{i.date}}</td>
-            <td>{{i.requestsCount}}</td>
-            <td>{{i.downloadCount}}</td>
-            <td>{{i.profit}}</td>
-            <td>{{i.share}}</td>
-            <td>{{i.dayActiveUsers}}</td>
-            <td>{{i.dayLaunchUsers}}</td>
-            <td>{{i.monthActiveUsers}}</td>
-            <td>{{i.launchCount}}</td>
+            <td ng-repeat="ii in metricsList">{{i[ii.name]}}</td>
         </tr>
     </table>
     <p ng-if="$root.currentConfig && !currentReportData.length">暂无数据</p>

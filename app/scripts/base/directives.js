@@ -33,42 +33,6 @@ define([
                 };
             }
         ])
-        .directive('pager', [
-
-            function() {
-                return {
-                    restrict: 'EA',
-                    scope: {
-                        pagedata: '='
-                    },
-                    replace: true,
-                    template: '<div class="pmt-pagination"></div>',
-                    link: function(scope, elem, attrs) {
-                        scope.$watch('pagedata', function() {
-                            var pagedata = scope.pagedata;
-                            var pagerStr = '';
-                            var linkTpl = '<a href="HREF" CLASS>TEXT</a>';
-                            var omitTpl = '<span>&nbsp;・・・&nbsp;</span>';
-                            angular.forEach(pagedata, function(value, key) {
-                                if (value.type === 'link') {
-                                    pagerStr += linkTpl
-                                        .replace('HREF', value.href)
-                                        .replace('TEXT', value.text);
-                                    if (value.xclass) {
-                                        pagerStr = pagerStr.replace('CLASS', 'class="' + value.xclass + '"');
-                                    } else {
-                                        pagerStr = pagerStr.replace('CLASS', '');
-                                    }
-                                } else {
-                                    pagerStr += omitTpl;
-                                }
-                            });
-                            elem.html(pagerStr);
-                        });
-                    }
-                };
-            }
-        ])
         .directive('pmtPopup', [
 
             function() {

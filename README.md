@@ -11,7 +11,8 @@ Firstly, More Authentication and Permission Control for Admin.
 - token list pagintion~(插入unshift)
 - banner 图片尺寸检测 - done
 - banner 联动 with type
-
+- 加上账户登录(权限控制限制)
+- 页面加分页，看totalCount来确定 ()
 
 
 ### Todo
@@ -25,14 +26,11 @@ Firstly, More Authentication and Permission Control for Admin.
 - 「接口访问频率权限」下拉框不修改时，提交报错(, 初始值)
 - 初始值 的oem
 - data 中的 highcharts
-- 页面加分页，看totalCount来确定
 
 - 更新样式
 - 加入buzy btn 为提交操作
-- log json 格式化
 
 - banner 的图片预览
-- 加上账户登录(权限控制限制)
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:
 
