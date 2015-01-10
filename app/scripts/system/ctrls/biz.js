@@ -263,10 +263,16 @@ define([], function() {
             modalTitle: '账户',
             formFields: [{
                     label: '豌豆荚账户 Uid',
-                    key: 'uid'
+                    key: 'uid',
+                    attrs: {
+                        validator: 'uid,required'
+                    }
                 }, {
                     label: '豌豆荚账户 Email',
-                    key: 'email'
+                    key: 'email',
+                    attrs: {
+                        validator: 'email,required'
+                    }
                 }, {
                     label: '账户角色',
                     key: 'group',

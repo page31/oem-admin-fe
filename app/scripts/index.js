@@ -49,10 +49,24 @@ require(['routes',
         $validationProvider.setExpression({
             optional: function(val, scope, element, attrs) {
                 return true;
+            },
+            uid: function(val) {
+                return /^\d*$/.test(val);
+            },
+            email: function(val) {
+                return /^.*@.*$/.test(val);
             }
         }).setDefaultMsg({
             optional: {
                 error: '',
+                success: ''
+            },
+            uid: {
+                error: 'uid 格式不正确',
+                success: ''
+            },
+            email: {
+                error: '请填写正确的邮箱地址',
                 success: ''
             }
         });
