@@ -132,11 +132,17 @@ define([], function() {
                 }, {
                     label: 'API 方下载豌豆荚 APK  包的 URL (可选)',
                     key: 'wandoujiaDownloadUrl',
-                    placeholder: '用于追踪 API 合作方为豌豆荚这款应用带来的装机量'
+                    placeholder: '用于追踪 API 合作方为豌豆荚这款应用带来的装机量',
+                    attrs: {
+                        validator: 'optional'
+                    }
                 }, {
                     label: '优质应用变更时通知合作方的 API 地址（可选）',
                     key: 'superiorChangeNotifyUrl',
-                    placeholder: '由合作方提供，在优质应用变更时调用'
+                    placeholder: '由合作方提供，在优质应用变更时调用',
+                    attrs: {
+                        validator: 'optional'
+                    }
                 }, {
                     label: '接口访问频率权限',
                     key: 'type',
@@ -402,7 +408,8 @@ define([], function() {
             apiHelper('fetchQuota', {
                 params: {
                     configAlias: val
-                }
+                },
+                buzy: 'global'
             }).then(function(r) {
                 $scope.tableData = _.map2Arr(r, ['name', 'totalCount', 'usedCount', 'nextReset']);
             });

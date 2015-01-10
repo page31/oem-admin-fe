@@ -8,9 +8,24 @@ define([], function() {
     angular.module('pmtBusy.interceptor', [])
         .provider('busyInterceptor', function() {
 
+            function removeActIndicator() {
+                // check queue inprogress action request
+                console.log('removeActIndicator');
+                angular.element(document.getElementsByClassName('pmt-loader-wrapper')).remove();
+            }
+
+            function addActIndicator() {
+                console.log('addActIndicator');
+                $('body').append($('<div class="pmt-loader-wrapper"></div>'));
+            }
+
             this.$get = function($rootScope, $q) {
                 function handleResponse(r) {
                     if (!r.config) return;
+                    var config = r.config;
+                    if (config.method === 'POST' || (config.url.indexOf('delete') > -1)) {
+                        removeActIndicator();
+                    }
                     if (!r.config.busy) return;
 
                     if (r.config.busy === 'global') {
@@ -34,6 +49,9 @@ define([], function() {
                                     busy: config.busy
                                 });
                             }
+                        }
+                        if (config.method === 'POST' || (config.url.indexOf('delete') > -1)) {
+                            addActIndicator();
                         }
                         return config || $q.when(config);
                     },

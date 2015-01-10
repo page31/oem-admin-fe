@@ -45,6 +45,19 @@ require(['routes',
         });
     });
 
+    oemApp.config(function($validationProvider) {
+        $validationProvider.setExpression({
+            optional: function(val, scope, element, attrs) {
+                return true;
+            }
+        }).setDefaultMsg({
+            optional: {
+                error: '',
+                success: ''
+            }
+        });
+    });
+
     oemApp.run(function($state, $rootScope, apiHelper) {
         $rootScope.$state = $state;
 

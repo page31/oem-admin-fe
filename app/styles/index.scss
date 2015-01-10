@@ -1,6 +1,26 @@
 @import "biz_module/app_vertical";
 @import "biz_module/system";
 
+
+.btn-primary {
+    background-color: #3baa24;
+    border-color: #2f7c2f;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
+    background-color: #3baa24;
+    border-color: #549954;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background-color: #3baa24;
+    border-color: #549954;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #3baa24;
+    border-color: #549954;
+}
+
 .pmt-main-section {
     h2 {
         font-size: 20px;

@@ -320,16 +320,15 @@ define([], function(rules) {
 
             $validationProvider.setDefaultMsg({
                 required: {
-                    error: '必填项', // Todo: msg from attr info
+                    error: '必填项',
                     success: ''
                 }
             });
-            return;
             $validationProvider.setErrorHTML(function(msg) {
                 return "<p class=\"i-form-help-block\"><span class=\"w-text-warning\">" + msg + "</span></p>";
             });
 
-            $validationProvider.setExpression(rules.expression).setDefaultMsg(rules.defaultMsg);
+            // $validationProvider.setExpression(rules.expression).setDefaultMsg(rules.defaultMsg);
             $validationProvider.showSuccessMessage = false;
 
             $validationProvider.checkValid = function(form) {

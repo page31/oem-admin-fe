@@ -13,24 +13,22 @@ Firstly, More Authentication and Permission Control for Admin.
 - banner 联动 with type
 - 加上账户登录(权限控制限制)
 - 页面加分页，看totalCount来确定 ()
-
+- not required validator
+- 验证 validator
+- 更新样式
+- data 中的 highcharts
 
 ### Todo
 
-- banner 上传的500
-- 验证 validator
+- 加入buzy btn 为提交操作
 - 加上验证 for uid
-- banner 的投放时间（不填的时候, 0, endTime, startTime, 时间戳）
+- banner 的图片预览
 
-- not required validator
+- api 合作方 edit 404 错误
+- banner 上传的500
+- banner 的投放时间（不填的时候, 0, endTime, startTime, 时间戳）
 - 「接口访问频率权限」下拉框不修改时，提交报错(, 初始值)
 - 初始值 的oem
-- data 中的 highcharts
-
-- 更新样式
-- 加入buzy btn 为提交操作
-
-- banner 的图片预览
 
 ### 重构 app-vertical 根据新的 BACKEND API Combination:
 
