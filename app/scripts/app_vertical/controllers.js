@@ -30,6 +30,27 @@ define([
             setCurrentConfig(resp, $state.params.alias);
             $scope.$root.authorizedOem = resp;
         });
+
+        $scope.handleErrResp = function(response) {
+            var errTypeMap = {
+                offlineError: '不存在或下线应用',
+                blacklist: '黑名单应用',
+                repeatError: '重复应用'
+            };
+            var _msg = '';
+            if (response.data) {
+                _.each(['offlineError', 'blacklist', 'repeatError'], function(type) {
+                    if (response.data[type]) {
+                        _msg += '包名中包含了' + errTypeMap[type] + ': ' + response.data[type].join(', ');
+                    }
+                });
+            }
+            $scope.apiRelatedErrMsg = _msg;
+            $('<p class="w-text-warning">' + _msg + '</p>').insertBefore($('.pmt-content-wrapper form:visible .w-btn-primary'));
+        };
+        $scope.cleanErrMsg = function() {
+            $('.pmt-content-wrapper form:visible .w-text-warning').remove();
+        };
     });
 
     app.controller('configTopAppCtrl', function($scope, apiHelper) {
@@ -71,9 +92,10 @@ define([
                     content: $scope.topApptextareaVal
                 }
             }).then(function() {
+                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 $scope.currentConfig[$scope.tabMapping[$scope.topAppType.alias]] = $scope.topApptextareaVal;
-            });
+            }, $scope.handleErrResp);
         };
     });
 
@@ -155,9 +177,10 @@ define([
                     content: $scope.forbiddenTextareaVal
                 }
             }).then(function() {
+                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 $scope.currentConfig.forbiddenApps = $scope.forbiddenTextareaVal;
-            });
+            }, $scope.handleErrResp);
         };
     });
 
@@ -183,10 +206,11 @@ define([
                     content: $scope.bdColumnTextareaVal
                 })
             }).then(function(r) {
+                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 console.log(r);
                 $scope.currentBdColumn.content = $scope.bdColumnTextareaVal;
-            });
+            }, $scope.handleErrResp);
         };
     });
 
