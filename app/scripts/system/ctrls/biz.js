@@ -313,7 +313,7 @@ define([], function() {
                     }
                 }).then(function(r) {
                     if (self._editType === 'add') {
-                        $scope.authList.push(r);
+                        $scope.authList.unshift(r);
                     } else {
                         _.replaceWith($scope.authList, r, self._raw);
                     }
