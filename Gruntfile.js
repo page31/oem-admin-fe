@@ -37,10 +37,10 @@ var connectOpt = {
             middleware: function(connect) {
                 return [
                     function injectAPIHost(req, res, next) {
-                        var apiPath = '/scripts/base/services/api.js';
+                        var apiPath = '/scripts/index.js';
                         if (req.url === apiPath) {
                             require('fs').readFile('app' + apiPath, 'utf8', function(err, data) {
-                                res.end(data.replace('/api/v1', 'http://muce3.wandoulabs.com/api/v1'));
+                                res.end(data.replace("window._ServerUrl = ''", "window._ServerUrl = 'http://test.wandoujia.com'"));
                             });
                         } else {
                             next();
