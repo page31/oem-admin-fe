@@ -425,7 +425,7 @@ define([], function() {
     systemApp.controller('systemLogCtrl', function($scope, apiHelper, $timeout, $filter) {
 
         $timeout(function() {
-            baseDateRangeInit($scope, [moment().subtract('days', 29), moment()]);
+            baseDateRangeInit($scope, [moment().subtract('days', 7), moment()]);
             $scope.fetchLog();
         });
 
@@ -438,7 +438,7 @@ define([], function() {
                 }
             }).then(function(r) {
                 $scope.tableData = _.map(_.map2Arr(r.beans, ['timeStamp', 'username', 'content']), function(row) {
-                    row[0] = $filter('date')(row[0]);
+                    row[0] = $filter('date')(row[0], 'yyyy-MM-dd HH:mm');
                     return row;
                 });
                 $scope.logTotalNum = r.totalCount;

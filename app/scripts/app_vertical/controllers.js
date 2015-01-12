@@ -5,7 +5,6 @@ define([
 
     app.controller('configIdxCtrl', function($scope, apiHelper, $state, $configData) {
         // 全局数据：$root.authorizedOem， authorizedBean， currentConfig
-        $scope.holderText = 'com.companyname.appname1\ncom.companyname.appname2';
         $scope.currentConfigType = '';
 
         function setCurrentConfig(configs, alias) {
@@ -50,7 +49,10 @@ define([
         $scope.$watch('topAppType', callFn);
 
         $scope.$watch('topAppType.alias', function(val) {
-            $scope.tipText = '输入需优先展示的应用包名，以换行分隔，输入靠前的应用将相应靠前展示';
+            var normalTip = '输入需优先展示的应用包名，以换行分隔，输入靠前的应用将相应靠前展示';
+            var normalHolder = 'com.companyname.appname1\ncom.companyname.appname2';
+            $scope.holderText = normalHolder;
+            $scope.tipText = normalTip;
             if (val === 'categoryTabs') { // 具体分类页
                 $scope.tipText = '请输入应用包名，以换行分隔，以下应用将在其所在的具体分类页 (例如 新闻) 靠前展示';
             }

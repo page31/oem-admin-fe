@@ -1,4 +1,4 @@
-window._ServerUrl = ''; // http://test.wandoujia.com
+window._ServerUrl = 'http://test.wandoujia.com'; // http://test.wandoujia.com
 require(['routes',
     'templates',
     'system/index',
@@ -41,7 +41,7 @@ require(['routes',
             itemsPerPage: 20,
             boundaryLinks: false,
             previousText: '上一页',
-            nextText: '上一页'
+            nextText: '下一页'
         });
     });
 
