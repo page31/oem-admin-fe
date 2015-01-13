@@ -33,9 +33,12 @@ define(['app_vertical/services'], function() {
                 color: '#303030'
             }
         },
+        credits: {
+            enabled: false
+        },
         plotOptions: {
             series: {
-                connectNulls: true
+                connectNulls: false
             }
         }
     };
@@ -79,11 +82,27 @@ define(['app_vertical/services'], function() {
                 };
             });
 
+            function caluDaterange(last, first) {
+                var diff = new Date(last).getTime() - new Date(first).getTime();
+                return diff / (1000 * 60 * 60 * 24);
+            }
+
+            function fixUpEmptySeries(name, resp) {
+                var first = resp[0].date;
+                var daterange = _.range(caluDaterange(_.last(resp).date, resp[0].date) + 1);
+                return _.map(daterange, function(i) {
+                    var t = _.find(resp, function(ii) {
+                        return new Date(ii.date).getTime() === new Date(first).getTime() + (1000 * 60 * 60 * 24) * i;
+                    });
+                    return t ? t[name] : null;
+                });
+            }
+
             chartOptions.series = _.map($scope.metricsList, function(i) {
                 return {
                     pointInterval: 86400000,
                     pointStart: new Date(v[0].date).getTime(),
-                    data: _.pluck(v, i.name),
+                    data: fixUpEmptySeries(i.name, v), //  _.pluck(v, i.name),
                     name: i.alias
                 };
             });
