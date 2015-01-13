@@ -177,7 +177,7 @@ define({
                 fileReader.onloadend = function() {
                     var img = new Image();
                     img.onload = function() {
-                        if (img.width === 720 && img.height === 200) return;
+                        if (img.width === 740 && img.height === 200) return;
                         $scope.isBannerSizeError = true;
                         $scope.$apply();
                     };

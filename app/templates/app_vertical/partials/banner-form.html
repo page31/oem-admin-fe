@@ -80,7 +80,7 @@
                 <input class="pmt-form-width-large" type="file" accept="image/*"
                     required name="banner" id="banner" file-model="bannerInfo.banner">
                 <div message for="banner"></div>
-                <p ng-show="isBannerSizeError">图片大小不符合740*200</p>
+                <p ng-show="isBannerSizeError" class="w-text-warning">图片大小不符合740*200</p>
                 <img ng-src="{{bannerPreviewUrl}}"
                     style="max-height: 100px;margin-top: 20px;">
             </div>

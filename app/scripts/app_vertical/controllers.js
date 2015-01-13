@@ -85,6 +85,7 @@ define([
 
         // 检查包名输入错误，请重新输入
         $scope.setTopApp = function() {
+            $scope.cleanErrMsg();
             apiHelper('setConfigVal', {
                 data: {
                     configAlias: $scope.currentConfig.alias,
@@ -92,7 +93,6 @@ define([
                     content: $scope.topApptextareaVal
                 }
             }).then(function() {
-                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 $scope.currentConfig[$scope.tabMapping[$scope.topAppType.alias]] = $scope.topApptextareaVal;
             }, $scope.handleErrResp);
@@ -108,6 +108,8 @@ define([
                 data: {
                     configAlias: $scope.currentConfig.alias
                 },
+                busy: 'ignore',
+                feedback: 'ignore',
                 file: file
             }).progress(function(evt) {
                 $scope.progressSize = evt.position;
@@ -170,6 +172,7 @@ define([
         });
 
         $scope.setForiddenHandler = function() {
+            $scope.cleanErrMsg();
             apiHelper('setConfigVal', {
                 data: {
                     configAlias: $scope.currentConfig.alias,
@@ -177,7 +180,6 @@ define([
                     content: $scope.forbiddenTextareaVal
                 }
             }).then(function() {
-                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 $scope.currentConfig.forbiddenApps = $scope.forbiddenTextareaVal;
             }, $scope.handleErrResp);
@@ -201,12 +203,12 @@ define([
         $scope.$watch('currentBdColumn', callFn, true);
 
         $scope.setColumnHandler = function() {
+            $scope.cleanErrMsg();
             apiHelper('setColumn', {
                 data: _.extend({}, $scope.currentBdColumn, {
                     content: $scope.bdColumnTextareaVal
                 })
             }).then(function(r) {
-                $scope.cleanErrMsg();
                 // update bdconfigs data & currentConfig
                 console.log(r);
                 $scope.currentBdColumn.content = $scope.bdColumnTextareaVal;

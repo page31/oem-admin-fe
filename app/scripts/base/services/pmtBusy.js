@@ -51,7 +51,9 @@ define([], function() {
                             }
                         }
                         if (config.method === 'POST' || (config.url.indexOf('delete') > -1)) {
-                            addActIndicator();
+                            if (config.busy != 'ignore') {
+                                addActIndicator();
+                            }
                         }
                         return config || $q.when(config);
                     },

@@ -90,7 +90,7 @@ define([], function() {
 
             function responseErrorHandler(response) {
                 unwrapResponse(response);
-                if ($rootScope.hasAuthed) {
+                if ($rootScope.hasAuthed && response.config.feedback !== 'ignore') {
                     try {
                         var errTypeMap = {
                             offlineError: '不存在或下线应用',

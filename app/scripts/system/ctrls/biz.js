@@ -268,10 +268,10 @@ define([], function() {
                         validator: 'uid,required'
                     }
                 }, {
-                    label: '豌豆荚账户 Email',
+                    label: '豌豆荚账户',
                     key: 'email',
                     attrs: {
-                        validator: 'email,required'
+                        validator: 'required'
                     }
                 }, {
                     label: '账户角色',
