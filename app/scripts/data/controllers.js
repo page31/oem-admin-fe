@@ -69,6 +69,10 @@ define(['app_vertical/services'], function() {
             });
         };
 
+        $scope.exportCSV = function(e) {
+            $scope._exportCsv.apply(e.target, [$('.pmt-standard-table:visible'), '查看数据-豌豆荚-Partners.csv']);
+        };
+
         $scope.$watch('currentReportData', function(v) {
             if (!v) return;
             if (!v.length) return;
@@ -139,6 +143,10 @@ define(['app_vertical/services'], function() {
                     $scope.currentAppReport = $scope.allAppReport[$scope.$root.currentConfig.alias];
                 }
             });
+        };
+
+        $scope.exportCSV = function(e) {
+            $scope._exportCsv.apply(e.target, [$('.pmt-standard-table:visible'), '应用下载数据-豌豆荚-Partners.csv']);
         };
 
         $rootScope.$watch('currentConfig.alias', function(val) {
