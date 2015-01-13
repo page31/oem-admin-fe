@@ -32,7 +32,7 @@ require(['routes',
 
     /* base routes defined here */
     oemApp.config(function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/system');
+        $urlRouterProvider.otherwise('/app_vertical');
     });
 
     oemApp.config(function(paginationConfig) {

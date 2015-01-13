@@ -333,6 +333,10 @@ define([], function() {
                     if (!val) return;
                     if (val.alias === 'GROUP_USER_V') {
                         self.formFields[3] = onlyOemChoiceField;
+                        var s = self.formlyData.authorizedOem;
+                        if (s && s.length && $scope.$root.authMeta) {
+                            self.formlyData.authorizedOem = $scope.$root.authMeta.authorizedOem[0];
+                        }
                     } else {
                         self.formFields[3] = allOemChoicesField;
                         if (old) {
@@ -357,7 +361,7 @@ define([], function() {
                         if (self.formlyData.group.alias === 'GROUP_USER_V') {
                             self.formlyData.authorizedOem = _.find($scope.$root.authMeta.authorizedOem, function(i) {
                                 return i.configAlias == self.formlyData.authorizedOem[0].configAlias;
-                            });
+                            }) || $scope.$root.authMeta.authorizedOem[0];
                         } else {
                             _.each(self.formlyData.authorizedOem, function(i) {
                                 var x = _.find(v, function(ii) {
