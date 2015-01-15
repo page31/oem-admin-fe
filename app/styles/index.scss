@@ -1,10 +1,17 @@
 @import "biz_module/app_vertical";
 @import "biz_module/system";
 
+.mini-select {
+    display: inline-block;
+    width: 100px;
+    font-size: 12px;
+    height: 30px;
+    padding: 4px;
+}
 
 a.w-btn {
-  text-decoration: none;
-  color: #000;
+    text-decoration: none;
+    color: #000;
 }
 
 .btn-primary {
