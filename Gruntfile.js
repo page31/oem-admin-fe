@@ -90,7 +90,7 @@ module.exports = function(grunt) {
                     expand: true,
                     dot: true,
                     cwd: '<%= paths.app %>',
-                    dest: '<%= paths.dist %>',
+                    dest: '<%= paths.dist %>/partner',
                     src: [
                         'font/**/*', 'images/**/*', 'assets/**/*', 'vendors/**/*'
                     ]
@@ -101,9 +101,14 @@ module.exports = function(grunt) {
                     expand: true,
                     flatten: true,
                     cwd: '<%= paths.app %>',
-                    dest: '<%= paths.dist %>/fonts',
+                    dest: '<%= paths.dist %>/partner/fonts',
                     src: ['components/font-awesome/fonts/**/*']
                 }]
+            }
+        },
+        uglify: {
+            options: {
+                preserveComments: 'some'
             }
         },
 
@@ -141,7 +146,7 @@ module.exports = function(grunt) {
                 singleQuotes: true,
             },
             dist: {
-                src: '.tmp/concat/scripts/app.js'
+                src: '.tmp/concat/partner/scripts/app.js'
             }
         },
         filerev: {
