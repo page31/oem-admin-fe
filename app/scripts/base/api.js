@@ -82,7 +82,7 @@ define([], function() {
 
             function requestHandler(config) {
                 // don't replace url when not in open domain
-                if (config.url.indexOf('open.wandoujia.com/api') > -1) {
+                if (config.url.indexOf('/api') > -1 && (location.origin === 'http://open.wandoujia.com')) {
                     config.url = config.url.replace('/api', '/api/partner');
                 }
                 return config;
