@@ -44,6 +44,12 @@ define({
         $scope.bannerInfo = _.clone(i);
         $scope.bannerPreviewUrl = '';
         $scope.bannerInfo.bannerPosition = $scope.findBeforeMapBanner($scope.bannerInfo.bannerPosition);
+        if (!$scope.bannerInfo.startTime) {
+            $scope.bannerInfo.startTime = null
+        }
+        if (!$scope.bannerInfo.endTime) {
+            $scope.bannerInfo.endTime = null
+        }
         $scope.mode = 'edit';
         // reset form state
         $scope.bannerForm.$setPristine(true);
@@ -63,6 +69,12 @@ define({
                 window.alert('开始时间不能大于结束时间');
                 return;
             }
+        }
+        if (!bannerInfo.startTime) {
+            bannerInfo.startTime = 0;
+        }
+        if (!bannerInfo.endTime) {
+            bannerInfo.endTime = 0;
         }
         var fd = new FormData();
         if (!_.isString(bannerInfo.banner)) {
@@ -120,7 +132,7 @@ define({
         this.apiHelper('adjustBanner', {
             data: {
                 idList: idList,
-                bannerPosition: $scope.findBeforeMapBanner($scope.currentBannerPosition),
+                bannerPosition: $scope.tabMapping[$scope.currentBannerPosition],
                 tabAlias: $scope.currentBannerPosition,
                 configAlias: $scope.currentConfig.alias
             }
@@ -191,12 +203,17 @@ define({
         }
     },
     filterBannerPostion: function(val) {
+        if (!val) return;
         var $scope = this.$scope;
 
-        // local filter
-        var mapPosition = $scope.tabMapping[val];
-        $scope.bannerList = _.filter($scope.currentConfig.banners, function(i) {
-            return i.bannerPosition === mapPosition;
+        this.apiHelper('fetchAdjustBanner', {
+            params: {
+                bannerPosition: $scope.tabMapping[val],
+                tabAlias: val,
+                configAlias: $scope.currentConfig.alias
+            }
+        }).then(function(data) {
+            $scope.bannerList = data;
         });
     }
 });

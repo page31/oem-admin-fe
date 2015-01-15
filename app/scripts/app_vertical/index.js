@@ -95,6 +95,7 @@ define([
             'setBanner': 'POST /banner',
             'fetchSpecBanner': 'GET /banner/adjust',
             'adjustBanner': 'POST /banner/adjust',
+            'fetchAdjustBanner': 'GET /banner/adjust',
             'delBanner': 'GET /banner/delete'
         }, {
             urlPrefix: window._ServerUrl + '/api/apps'

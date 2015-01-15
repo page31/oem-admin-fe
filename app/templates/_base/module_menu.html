@@ -4,7 +4,7 @@
             <a class="nav-item" ng-class="{ active: $state.includes('appVertical') }"
                 ui-sref="appVertical.topApp">管理应用</a>
         </li>
-        <li>
+        <li ng-show="checkViewDataPerm()">
             <a class="nav-item" ng-class="{ active: $state.includes('data') }"
                 ui-sref="data.index">查看数据</a>
         </li>

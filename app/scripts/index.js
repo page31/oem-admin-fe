@@ -146,10 +146,16 @@ require(['routes',
                     $scope.authorizedBean = resp.authorityBean.authorizedItems;
                     $scope.tabMapping = resp.tabMapping;
                     $scope.authorizedGroup = resp.authorityBean.group;
+                    $scope.checkViewDataPerm = checkViewDataPerm;
                 });
             }, 10);
         }
 
+        function checkViewDataPerm() {
+            return _.any($scope.authorizedBean.authorizedLevel1, function(i) {
+                return i.alias === 'viewReport';
+            });
+        }
     });
 
     // Todo: 探索下 directive(Name 哪些会被过滤掉，attribute 大小写等)

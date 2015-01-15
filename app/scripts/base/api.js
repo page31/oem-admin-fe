@@ -81,9 +81,9 @@ define([], function() {
             }
 
             function requestHandler(config) {
-                if (config.url.indexOf('templates') === -1) {
-                    var _params = $location.search();
-                    config.params = _.extend({}, $location.search(), config.params);
+                // don't replace url when not in open domain
+                if (config.url.indexOf('open.wandoujia.com/api') > -1) {
+                    config.url = config.url.replace('/api', '/api/partner');
                 }
                 return config;
             }
