@@ -16,6 +16,15 @@
 @import "../component/dropdown";
 @import "../component/progress";
 
+
+.appinfo-row-table {
+  width: 100%;
+  background: #fafafa;
+  line-height: 80px;
+  text-align: center;
+  margin: 10px 0;
+}
+
 .pmt-account-field{
   z-index: 1000;
 }

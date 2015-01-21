@@ -60,6 +60,15 @@ define([
                     }
                 }
             },
+            'appVertical.oemAppReplace': {
+                url: '/:alias/replace-app',
+                views: {
+                    'config': {
+                        templateUrl: 'templates/app_vertical/config-replace-app.html',
+                        controller: 'configReplaceAppCtrl'
+                    }
+                }
+            },
             'appVertical.newFeature': {
                 url: '/:alias/column',
                 views: {
@@ -96,7 +105,11 @@ define([
             'fetchSpecBanner': 'GET /banner/adjust',
             'adjustBanner': 'POST /banner/adjust',
             'fetchAdjustBanner': 'GET /banner/adjust',
-            'delBanner': 'GET /banner/delete'
+            'delBanner': 'GET /banner/delete',
+
+            // app replace
+            'confirmReplaceApp': 'POST /oemApp/confirm',
+            'delReplaceApp': 'GET /oemApp/delete'
         }, {
             urlPrefix: window._ServerUrl + '/api/apps'
         });

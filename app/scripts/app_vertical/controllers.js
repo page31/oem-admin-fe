@@ -151,7 +151,7 @@ define([
         };
 
         $scope.deleteApkHandler = function(app) {
-            if (!window.confirm('您确定要删除改 APK 吗？')) return;
+            if (!window.confirm('您确定要删除该 APK 吗？')) return;
             apiHelper('delReplaceApk', {
                 params: {
                     configAlias: $scope.currentConfig.alias,
@@ -213,6 +213,99 @@ define([
                 console.log(r);
                 $scope.currentBdColumn.content = $scope.bdColumnTextareaVal;
             }, $scope.handleErrResp);
+        };
+    });
+
+    app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload) {
+        $scope.$parent.currentConfigType = 'oemAppReplace';
+
+        function pickNameFieldFromObj(obj, fields) {
+            var ret = {};
+            _.each(fields, function(i) {
+                ret['new' + _.capitalize(i)] = obj[i];
+            });
+            return ret;
+        }
+
+        $scope.confirmReplaceAppHandler = function() {
+            apiHelper('confirmReplaceApp', {
+                data: {
+                    oemAppData: _.extend({}, {
+                        oldPackageName: $scope.currentCandidateApp.packageName,
+                        from: $scope.currentConfig.alias
+                    }, pickNameFieldFromObj($scope.currentUploadedApk, ['packageName', 'versionCode', 'versionName', 'md5', 'title', 'downloadUrl']))
+                }
+            }).then(function(r) {
+                $scope.currentConfig.oemApps.unshift(r);
+                $scope.currentCandidateApp = null;
+                $scope.queryPackageName = '';
+                $scope.cleanApkUpload();
+            }, function() {
+
+            });
+        };
+
+        $scope.queryAppHandler = function() {
+            $scope.currentCandidateApp = null;
+            $scope.notFoundCandidate = false;
+
+            $http.jsonp('http://apps.wandoujia.com/api/v1/apps/' + $scope.queryPackageName + '?callback=JSON_CALLBACK', {
+                feedback: 'ignore'
+            }).then(function(data) {
+                $scope.currentCandidateApp = data;
+            }, function() {
+                $scope.notFoundCandidate = true;
+            });
+        };
+
+        /* Upload APK related */
+        $scope.$watch('files', function(file) {
+            if (!file) return;
+            $scope.apkUploadRef = $upload.upload({
+                url: apiHelper.getUrl('setReplaceApk'),
+                data: {
+                    configAlias: $scope.currentConfig.alias
+                },
+                busy: 'ignore',
+                feedback: 'ignore',
+                file: file
+            }).progress(function(evt) {
+                $scope.progressSize = evt.position;
+                $scope.totalSize = evt.totalSize;
+            }).success(function(data, status, headers, config) {
+                $scope.cleanApkUpload();
+                if (data.status) {
+                    $notice.warning(data.description || '上传出错啦!');
+                } else {
+                    $scope.currentUploadedApk = data.apk;
+                }
+                // handler defined here
+            });
+        });
+
+        $scope.cleanApkUpload = function() {
+            $scope.currentUploadedApk = null;
+            $scope.progressSize = 0;
+            $scope.totalSize = 0;
+        };
+
+        $scope.cancelApkupload = function() {
+            $scope.apkUploadRef.abort();
+            $scope.cleanApkUpload();
+        };
+        /* End APK Uploaded */
+
+        $scope.deleteAppHandler = function(app) {
+            if (!window.confirm('您确定要删除该 APP 吗？')) return;
+            apiHelper('delReplaceApp', {
+                params: {
+                    from: $scope.currentConfig.alias,
+                    oldPackageName: app.oldPackageName
+                }
+            }).then(function() {
+                var list = $scope.currentConfig.oemApps;
+                list.splice(list.indexOf(app), 1);
+            });
         };
     });
 

@@ -1,0 +1,107 @@
+<div ng-controller="configReplaceAppCtrl">
+    <h2>替换应用</h2>
+    <p>*用一个不同包名的 APK， 替换豌豆荚上已存在的应用，当用户下载该应用时，实际下载的是替换后的应用</p>
+
+    <h3>查询要替换的原应用</h3>
+    <input type="text" ng-model="queryPackageName" style="width: 300px"
+        placehold="输入应用包名，例如 com.yourcompany.appname">
+    <button class="w-btn" ng-click="queryAppHandler()">查询</button>
+
+    <!-- app info wrap -->
+    <div ng-show="currentCandidateApp">
+        <table class="appinfo-row-table">
+            <tr>
+                <td>
+                    <img ng-src="{{currentCandidateApp.icons.px48}}">
+                </td>
+                <td>{{currentCandidateApp.title}}</td>
+                <td>{{currentCandidateApp.packageName}}</td>
+                <td>版本：{{currentCandidateApp.apks[0].versionName}}</td>
+            </tr>
+        </table>
+
+        <!-- status btn -->
+        <button class="w-btn w-btn-primary" ng-file-select
+            ng-model="files" accept=".apk" ng-show="!progressSize && !currentUploadedApk">上传替换后的应用</button>
+
+        <!-- status uploading -->
+        <div class="pmt-upload-progress" ng-if="progressSize">
+            <div class="pmt-upload-progress-wrapper">
+                <div class="progress-ctn">
+                    <div class="pmt-progress pmt-progress-striped pmt-active">
+                        <div class="pmt-progress-bar pmt-progress-bar-success"
+                            style="width: {{progressSize/totalSize | percentage}}%">
+                        </div>
+                    </div>
+                    <div class="status">
+                        <span class="speed">{{ progressSize|humanBytes }}/{{ totalSize|humanBytes }}</span>
+                    </div>
+                </div>
+                <div class="progress-cancel">
+                    <button class="w-btn" ng-click="cancelApkupload()">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- status uploaded -->
+        <div ng-if="currentUploadedApk">
+            <table style="width: 450px;line-height: 30px;">
+                <tr>
+                    <td class="title" style="width: 60px;">包名</td>
+                    <td class="pn">
+                        {{currentUploadedApk.packageName}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">版本名称</td>
+                    <td class="code">
+                        {{currentUploadedApk.versionName}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">版本号</td>
+                    <td class="code">
+                        {{currentUploadedApk.versionCode}}
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <button class="w-btn w-btn-primary"
+                    ng-click="confirmReplaceAppHandler()">提交</button>
+                <button class="w-btn"
+                    ng-click="cleanApkUpload()">重新上传</button>
+            </p>
+        </div>
+    </div>
+
+    <p class="w-text-warning" ng-show="notFoundCandidate">未查找到该应用，请确认后重新输入应用包名</p>
+
+
+    <h3>已被替换的应用</h3>
+    <p ng-show="!currentConfig.oemApps.length">暂未替换任何应用</p>
+    <table class="pmt-standard-table" ng-show="currentConfig.oemApps.length">
+        <tr>
+            <th>应用名称</th>
+            <th>豌豆荚上的原应用包名</th>
+            <th>替换后的应用包名</th>
+            <th>替换后的版本</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="app in currentConfig.oemApps">
+
+            <td>{{app.newTitle}}</td>
+            <td>{{app.oldPackageName}}</td>
+            <td>{{app.newPackageName}}</td>
+            <td>{{app.newVersionName}}</td>
+            <td>
+                <a ng-href="{{app.newDownloadUrl}}" target="_blank">
+                    <i class="fa fa-download"></i>
+                </a>
+                &nbsp;&nbsp;
+                <a ng-click="deleteAppHandler(app)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
