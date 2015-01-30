@@ -217,6 +217,7 @@ define([
     });
 
     app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload) {
+        var isReplace = false;
         $scope.$parent.currentConfigType = 'oemAppReplace';
 
         function pickNameFieldFromObj(obj, fields) {
@@ -236,7 +237,16 @@ define([
                     }, pickNameFieldFromObj($scope.currentUploadedApk, ['packageName', 'versionCode', 'versionName', 'md5', 'title', 'downloadUrl']))
                 }
             }).then(function(r) {
-                $scope.currentConfig.oemApps.unshift(r);
+                isReplace = false;
+                _.each($scope.currentConfig.oemApps, function(i) {
+                    if (i.oldPackageName === r.oldPackageName) {
+                        i = r;
+                        isReplace = true;
+                    }
+                });
+                if (!isReplace) {
+                    $scope.currentConfig.oemApps.unshift(r);
+                }
                 $scope.currentCandidateApp = null;
                 $scope.queryPackageName = '';
                 $scope.cleanApkUpload();
@@ -270,8 +280,8 @@ define([
                 feedback: 'ignore',
                 file: file
             }).progress(function(evt) {
-                $scope.progressSize = evt.position;
-                $scope.totalSize = evt.totalSize;
+                $scope.progressSize = evt.loaded;
+                $scope.totalSize = evt.total;
             }).success(function(data, status, headers, config) {
                 $scope.cleanApkUpload();
                 if (data.status) {

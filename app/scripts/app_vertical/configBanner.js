@@ -61,6 +61,7 @@ define({
         var $scope = this.$;
         var self = this;
         var bannerInfo = $scope.bannerInfo;
+        bannerInfo.itemStatus = 1; // always active status
         if ($scope.isAjaxing) return;
         if (!bannerInfo.banner) return;
         if ($scope.isBannerSizeError) return;
