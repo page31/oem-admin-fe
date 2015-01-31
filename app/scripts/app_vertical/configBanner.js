@@ -28,10 +28,12 @@ define({
             $scope = this.$;
         if (window.confirm('您确定删除吗?')) {
             apiHelper('delBanner', {
-                bannerId: i.id,
-                configAlias: $scope.currentConfig.alias,
-                tabAlias: $scope.findBeforeMapBanner(i.bannerPosition)
-            }, function() {
+                params: {
+                    bannerId: i.id,
+                    configAlias: $scope.currentConfig.alias,
+                    tabAlias: $scope.findBeforeMapBanner(i.bannerPosition)
+                }
+            }).then(function() {
                 // TODO: remove from list
                 var list = $scope.currentConfig.banners;
                 list.splice(list.indexOf(i), 1);

@@ -121,7 +121,7 @@ define([], function() {
                 // api prefix check
                 if (response.config.url.indexOf('/api/') > -1) {
                     if (_.contains(['PUT', 'POST', 'DELETE'], response.config.method)) {
-                        $notice.success('操作成功！\n设置将在十分钟内全部生效');
+                        $notice.success('操作成功！');
                     }
                     // omit for angular-file-upload callback
                     if (response.config.file) {
