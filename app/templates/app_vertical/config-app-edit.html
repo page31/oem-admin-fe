@@ -1,0 +1,90 @@
+<div ng-controller="configReplaceAppCtrl">
+    <h2>替换应用</h2>
+    <p>*用一个不同包名的 APK， 替换豌豆荚上已存在的应用，当用户下载该应用时，实际下载的是替换后的应用</p>
+
+    <h3>修改应用的基本信息</h3>
+
+    <form novalidate
+        validate-submit="submitHandler()"
+        class="pmt-form"
+        name="appForm" id="appForm">
+
+        <div class="pmt-form-row">
+            <label for="" class="pmt-form-label">应用图标</label>
+            <div class="pmt-form-controls">
+                <img ng-src="{{ vm.iconPreview }}" class="img-rounded upload-photo" style="width:120px;height:120px;" pmt-mock-upload>
+                <div class="up-field-extra pmt-form-help-inline">
+                    <div message
+                        for="icon"
+                        help="请上传.png格式透明图标，512x512分辨率，不允许上传.jpg，无需角标"
+                        xrequired="请先上传应用图标"
+                        validation="请上传应用图标"></div>
+                    <div class="pmt-input-filewrap">
+                        <input pmt-upload-button class="w-btn pmt-upload-btn" type="file" value="上传图标">
+                        <!-- <span class="pmt-form-help-inline w-text-warning">{{ $root.vm.iconWarning }}</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pmt-form-row">
+            <label for="app-title" class="pmt-form-label">应用名称</label>
+            <div class="pmt-form-controls">
+                <input type="text"
+                    id="app-title" name="title"
+                    ng-model="appInfo.newTitle"
+                    required
+                    ng-maxlength=20
+                    ng-pattern="/^([a-zA-Z0-9_ ()™（）—+-.\u4E00-\u9FA5])*$/">
+                <div message
+                    for="title"
+                    help="用户手机上显示的应用名称"
+                    maxlength="最多只可输入 20 字"
+                    validation="请输入正确的标题名称，不允许特殊字符"></div>
+            </div>
+        </div>
+
+        <div class="pmt-form-row big-textarea-row">
+            <label for="app-description" class="pmt-form-label">应用描述</label>
+            <div class="pmt-form-controls">
+                <div message
+                    for="description"
+                    help="可输入 500 字"
+                    maxlength="最多只可输入 500 字"
+                    validation="请输入正确的描述"></div>
+                <textarea text-area-elastic
+                    id="app-description" name="description"
+                    required
+                    ng-minlength=1
+                    ng-maxlength=500
+                    ng-model="appInfo.newDescription">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="pmt-form-row" pmt-screenshots-ctn>
+            <label for="" class="pmt-form-label">应用截图</label>
+            <div class="pmt-form-controls">
+                <div class="screenshot-container">
+                    <div ng-repeat="item in vm.screenshotPreviews track by $index" class="upload-screenshot-wrap" ng-mouseleave="item.showDelete = false" ng-mouseenter="item.showDelete = true"
+                    draggable id="drag-screenshot-{{$index}}" droppable drop="dropScreenHandler">
+                        <img class="img-rounded upload-screenshot" src="{{item.originalUrl}}">
+                        <i ng-click="delScreenshotHandler(item)" ng-show="item.showDelete">X</i>
+                    </div>
+                </div>
+                <div class="pmt-input-filewrap">
+                    <input pmt-upload-button class="w-btn pmt-upload-btn" type="file" value="浏览...">
+                    <div message
+                        for="screenshots"
+                        pattern="应用截图不得少于四张"
+                        help="至少上传4张图片，.jpg或.png格式，不可以上传iOS应用的截图<br>请勿携带无关角标，截图无尺寸限制，横竖皆可"
+                        validation="请上传应用截图"></div>
+                    <!-- <span class="pmt-form-help-inline w-text-warning">{{$root.vm.screenshotsWarning}}</span> -->
+                </div>
+            </div>
+        </div>
+
+        <button class="w-btn w-btn-kaiju w-btn-primary" type="submit" ng-disabled="appForm.$pristine">保存修改</button>
+        <button class="w-btn w-btn-kaiju" ui-sref="appVertical.oemAppReplace">返回</button>
+    </form>
+</div>

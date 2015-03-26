@@ -69,6 +69,15 @@ define([
                     }
                 }
             },
+            'appVertical.oemAppEdit': {
+                url: '/:alias/replace-app/:packageName',
+                views: {
+                    'config': {
+                        templateUrl: 'templates/app_vertical/config-app-edit.html',
+                        controller: 'configAppEditCtrl'
+                    }
+                }
+            },
             'appVertical.newFeature': {
                 url: '/:alias/column',
                 views: {
@@ -109,7 +118,9 @@ define([
 
             // app replace
             'confirmReplaceApp': 'POST /oemApp/confirm',
-            'delReplaceApp': 'GET /oemApp/delete'
+            'delReplaceApp': 'GET /oemApp/delete',
+            'setAppIcon': 'POST /upload/icon',
+            'setScreenshot': 'POST /upload/setScreenshot'
         }, {
             urlPrefix: window._ServerUrl + '/api/apps'
         });

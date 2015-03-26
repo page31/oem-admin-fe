@@ -216,7 +216,7 @@ define([
         };
     });
 
-    app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload) {
+    app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload, $state) {
         var isReplace = false;
         $scope.$parent.currentConfigType = 'oemAppReplace';
 
@@ -234,7 +234,11 @@ define([
                     oemAppData: _.extend({}, {
                         oldPackageName: $scope.currentCandidateApp.packageName,
                         from: $scope.currentConfig.alias
-                    }, pickNameFieldFromObj($scope.currentUploadedApk, ['packageName', 'versionCode', 'versionName', 'md5', 'title', 'downloadUrl']))
+                    }, pickNameFieldFromObj($scope.currentUploadedApk, ['packageName', 'versionCode', 'versionName', 'md5', 'title', 'downloadUrl']), {
+                        newDescription: $scope.currentCandidateApp.description,
+                        newIcon: $scope.currentCandidateApp.iconsStr,
+                        newScreenshots: $scope.currentCandidateApp.screenshotsStr
+                    })
                 }
             }).then(function(r) {
                 isReplace = false;
@@ -316,6 +320,77 @@ define([
                 var list = $scope.currentConfig.oemApps;
                 list.splice(list.indexOf(app), 1);
             });
+        };
+
+        $scope.editAppHandler = function(app) {
+            $scope.$root._app = app;
+            $state.go('appVertical.oemAppEdit', {
+                alias: $scope.currentConfig.alias,
+                packageName: app.newPackageName
+            });
+        };
+    });
+
+    app.controller('configAppEditCtrl', function($scope, apiHelper, $upload, $state) {
+
+        $scope.appInfo = _.clone($scope.$root._app);
+
+        var appInfo = {
+            from: "jide",
+            newDescription: "知乎日报，提供来自知乎社区（zhihu.com）的优质问答，还有国内一流媒体的专栏特稿。在中国，资讯类移动应用的人均阅读时长是 5 分钟。而在知乎日报，这个数字是. 您还可以在微博、微信公众号关注我们：@知乎 @知乎日报",
+            newMd5: "7cac29e3d87d192eb65269c197b1c347",
+            newPackageName: "com.solcoo.customer",
+            newTitle: "回头客儿",
+            newVersionCode: 7,
+            newVersionName: "2.2.0",
+            oldPackageName: "com.zhihu.daily.android",
+            iconInfo: {
+                "format": "png",
+                "width": 68,
+                "height": 68,
+                "storageKey": "1c80a39ccb9bc0070aa7b0f476675b4a#512#512#png",
+                "originalUrl": "http://img.wdjimg.com/mms/icon/v1/8/ed/16d6b85ec002599312228ee69c82ded8_78_78.png"
+            },
+            screenshotsInfo: [{
+                "format": "jpeg",
+                "width": 200,
+                "height": 199,
+                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
+                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
+            }, {
+                "format": "jpeg",
+                "width": 200,
+                "height": 199,
+                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
+                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
+            }, {
+                "format": "jpeg",
+                "width": 200,
+                "height": 199,
+                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
+                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
+            }, {
+                "format": "jpeg",
+                "width": 200,
+                "height": 199,
+                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
+                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
+            }]
+        };
+
+        // ovewrite
+        $scope.appInfo = appInfo;
+        vm = {};
+        vm.iconPreview = appInfo.iconInfo.originalUrl;
+        vm.screenshotPreviews = _.pluck(appInfo.screenshotsInfo, 'originalUrl');
+        $scope.vm = vm;
+
+        // vm and data @ scope
+        console.log($scope.$root._app);
+        // upload wrapp
+
+        $scope.confirmReplaceAppHandler = function() {
+
         };
     });
 
