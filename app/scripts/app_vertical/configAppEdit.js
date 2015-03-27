@@ -119,8 +119,9 @@ define(function() {
     app.controller('configAppEditCtrl', function($scope, apiHelper, $upload, $state, $q) {
 
         $scope.appInfo = _.clone($scope.$root._app);
+        var appInfo = $scope.appInfo;
 
-        var appInfo = {
+        appInfo = {
             from: "jide",
             newDescription: "知乎日报，提供来自知乎社区（zhihu.com）的优质问答，还有国内一流媒体的专栏特稿。在中国，资讯类移动应用的人均阅读时长是 5 分钟。而在知乎日报，这个数字是. 您还可以在微博、微信公众号关注我们：@知乎 @知乎日报",
             newMd5: "7cac29e3d87d192eb65269c197b1c347",
@@ -164,7 +165,6 @@ define(function() {
         };
 
         // ovewrite
-        $scope.appInfo = appInfo;
         vm = {};
         vm.iconPreview = appInfo.iconInfo.originalUrl;
         vm.screenshotsPreview = _.pluck(appInfo.screenshotsInfo, 'originalUrl');
@@ -225,7 +225,9 @@ define(function() {
                 readImg(f).then(function(imgInfo) {
                     if (checker(imgInfo)) {
                         if (!_.isUndefined(idx)) {
-                            $scope.vm[key + 'Preview'] = $scope.vm[key + 'Preview'] || [];
+                            if (idx === 0) {
+                                $scope.vm[key + 'Preview'] = [];
+                            }
                             $scope.vm[key + 'Preview'].push(imgInfo.dataUrl);
                         } else {
                             $scope.vm[key + 'Preview'] = imgInfo.dataUrl;
@@ -286,6 +288,30 @@ define(function() {
             },
             errMsg: '至少4张截图'
         });
+
+        function changeArrayItem(arr, src, dest) {
+            var tmp = arr[dest];
+            arr[dest] = arr[src];
+            arr[src] = tmp;
+        }
+
+        $scope.dropScreenHandler = function(src, dest) {
+            src = src.replace('drag-screenshot-', '');
+            dest = dest.replace('drag-screenshot-', '');
+            changeArrayItem(vm.screenshotsPreview, src, dest);
+            changeArrayItem($scope.appInfo.newScreenshots, src, dest);
+        };
+
+        /*$('.screenshot-container>div').each(function() {
+            $('<i>X</i>').appendTo($(this)).hide();
+        }).on('mouseenter', function() {
+            $(this).find('i').show();
+        }).on('mouseleave', function() {
+            $(this).find('i').show();
+        });
+        $('.screenshot-container>div i').on('click', function() {
+            debugger;
+        });*/
 
         $scope.submitHandler = function() {
             console.log($scope.appInfo);

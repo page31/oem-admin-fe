@@ -71,10 +71,10 @@
                     ng-mouseenter="item.showDelete = true"
                     draggable id="drag-screenshot-{{$index}}"
                     droppable drop="dropScreenHandler" -->
-                    <div ng-repeat="item in vm.screenshotsPreview track by $index"
-                        class="upload-screenshot-wrap">
+                    <div class="upload-screenshot-wrap" draggable droppable
+                        id="drag-screenshot-{{$index}}" drop="dropScreenHandler"
+                        ng-repeat="item in vm.screenshotsPreview track by $index" >
                         <img class="img-rounded upload-screenshot" src="{{item}}">
-                        <!-- <i ng-click="delScreenshotHandler(item)" ng-show="item.showDelete">X</i> -->
                     </div>
                 </div>
                 <div class="pmt-input-filewrap">
