@@ -127,3 +127,41 @@
     }
   }
 }
+
+
+.upload-screenshot {
+  max-width: 140px;
+  max-height: 233px;
+  margin: 0 10px 10px 0;
+  cursor: move;
+}
+.screenshot-container {
+    font-size: 0;
+    @include pie-clearfix;
+}
+.upload-screenshot-wrap{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    &.drag{
+      opacity: 0.5;
+    }
+    &.over{
+      outline: 2px dashed #999;
+    }
+    i{
+        position: absolute;
+        color: #FFF;
+        font-size: 14px;
+        font-style: normal;
+        right: 10px;
+        top: -5px;
+        cursor: pointer;
+        background: grey;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        border-radius: 10px;
+        line-height: 20px;
+    }
+}

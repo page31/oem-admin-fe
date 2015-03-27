@@ -12,7 +12,11 @@ define([], function() {
 
                         element.bind('change', function() {
                             scope.$apply(function() {
-                                modelSetter(scope, element[0].files[0]);
+                                if (element[0].files.length === 1) {
+                                    modelSetter(scope, element[0].files[0]);
+                                } else {
+                                    modelSetter(scope, element[0].files);
+                                }
                             });
                         });
                     }

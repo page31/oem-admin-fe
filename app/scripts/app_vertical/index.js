@@ -120,7 +120,7 @@ define([
             'confirmReplaceApp': 'POST /oemApp/confirm',
             'delReplaceApp': 'GET /oemApp/delete',
             'setAppIcon': 'POST /upload/icon',
-            'setScreenshot': 'POST /upload/setScreenshot'
+            'setScreenshot': 'POST /upload/screenshot'
         }, {
             urlPrefix: window._ServerUrl + '/api/apps'
         });

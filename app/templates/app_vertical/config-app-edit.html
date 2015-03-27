@@ -20,8 +20,8 @@
                         xrequired="请先上传应用图标"
                         validation="请上传应用图标"></div>
                     <div class="pmt-input-filewrap">
-                        <input pmt-upload-button class="w-btn pmt-upload-btn" type="file" value="上传图标">
-                        <!-- <span class="pmt-form-help-inline w-text-warning">{{ $root.vm.iconWarning }}</span> -->
+                        <input pmt-upload-button type="file" value="上传图标" file-model="vm.icon">
+                        <span class="pmt-form-help-inline w-text-warning">{{ vm.iconErr }}</span>
                     </div>
                 </div>
             </div>
@@ -66,25 +66,31 @@
             <label for="" class="pmt-form-label">应用截图</label>
             <div class="pmt-form-controls">
                 <div class="screenshot-container">
-                    <div ng-repeat="item in vm.screenshotPreviews track by $index" class="upload-screenshot-wrap" ng-mouseleave="item.showDelete = false" ng-mouseenter="item.showDelete = true"
-                    draggable id="drag-screenshot-{{$index}}" droppable drop="dropScreenHandler">
-                        <img class="img-rounded upload-screenshot" src="{{item.originalUrl}}">
-                        <i ng-click="delScreenshotHandler(item)" ng-show="item.showDelete">X</i>
+
+                    <!-- ng-mouseleave="item.showDelete = false"
+                    ng-mouseenter="item.showDelete = true"
+                    draggable id="drag-screenshot-{{$index}}"
+                    droppable drop="dropScreenHandler" -->
+                    <div ng-repeat="item in vm.screenshotsPreview track by $index"
+                        class="upload-screenshot-wrap">
+                        <img class="img-rounded upload-screenshot" src="{{item}}">
+                        <!-- <i ng-click="delScreenshotHandler(item)" ng-show="item.showDelete">X</i> -->
                     </div>
                 </div>
                 <div class="pmt-input-filewrap">
-                    <input pmt-upload-button class="w-btn pmt-upload-btn" type="file" value="浏览...">
-                    <div message
-                        for="screenshots"
-                        pattern="应用截图不得少于四张"
+                    <input pmt-upload-button type="file" value="浏览..."
+                        multiple file-model="vm.screenshots">
+                    <div messagec for="screenshots"
                         help="至少上传4张图片，.jpg或.png格式，不可以上传iOS应用的截图<br>请勿携带无关角标，截图无尺寸限制，横竖皆可"
                         validation="请上传应用截图"></div>
-                    <!-- <span class="pmt-form-help-inline w-text-warning">{{$root.vm.screenshotsWarning}}</span> -->
+                    <span class="pmt-form-help-inline w-text-warning">
+                        {{vm.screenshotsErr}}
+                    </span>
                 </div>
             </div>
         </div>
 
-        <button class="w-btn w-btn-kaiju w-btn-primary" type="submit" ng-disabled="appForm.$pristine">保存修改</button>
+        <button class="w-btn w-btn-kaiju w-btn-primary" type="submit">保存修改</button>
         <button class="w-btn w-btn-kaiju" ui-sref="appVertical.oemAppReplace">返回</button>
     </form>
 </div>
