@@ -111,68 +111,57 @@ define(function() {
             $scope.$root._app = app;
             $state.go('appVertical.oemAppEdit', {
                 alias: $scope.currentConfig.alias,
-                packageName: app.newPackageName
+                packageName: app.oldPackageName
             });
         };
     });
 
-    app.controller('configAppEditCtrl', function($scope, apiHelper, $upload, $state, $q) {
+    app.controller('configAppEditCtrl', function($scope, apiHelper, $upload, $state, $q, $http) {
+        var appInfo;
 
-        $scope.appInfo = _.clone($scope.$root._app);
-        var appInfo = $scope.appInfo;
+        var pn = $state.params.packageName;
 
-        appInfo = {
-            from: "jide",
-            newDescription: "知乎日报，提供来自知乎社区（zhihu.com）的优质问答，还有国内一流媒体的专栏特稿。在中国，资讯类移动应用的人均阅读时长是 5 分钟。而在知乎日报，这个数字是. 您还可以在微博、微信公众号关注我们：@知乎 @知乎日报",
-            newMd5: "7cac29e3d87d192eb65269c197b1c347",
-            newPackageName: "com.solcoo.customer",
-            newTitle: "回头客儿",
-            newVersionCode: 7,
-            newVersionName: "2.2.0",
-            oldPackageName: "com.zhihu.daily.android",
-            iconInfo: {
-                "format": "png",
-                "width": 68,
-                "height": 68,
-                "storageKey": "1c80a39ccb9bc0070aa7b0f476675b4a#512#512#png",
-                "originalUrl": "http://img.wdjimg.com/mms/icon/v1/8/ed/16d6b85ec002599312228ee69c82ded8_78_78.png"
-            },
-            screenshotsInfo: [{
-                "format": "jpeg",
-                "width": 200,
-                "height": 199,
-                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
-                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
-            }, {
-                "format": "jpeg",
-                "width": 200,
-                "height": 199,
-                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
-                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
-            }, {
-                "format": "jpeg",
-                "width": 200,
-                "height": 199,
-                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
-                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
-            }, {
-                "format": "jpeg",
-                "width": 200,
-                "height": 199,
-                "storageKey": "fb4cd71f3cf53489ae950d482f554172#430#430#jpeg",
-                "originalUrl": "http://img.wdjimg.com/mms/screenshot/1/31/371059fd21ab05226a067aed9bc80311_320_568.jpeg"
-            }]
-        };
+        apiHelper('fetchAppDetail', {
+            params: {
+                packageName: pn,
+                configAlias: $state.params.alias
+            }
+        }).then(function(resp) {
+            appInfo = resp;
+            if (!appInfo.newScreenshots) {
+                $http.jsonp('http://apps.wandoujia.com/api/v1/apps/' + pn + '?callback=JSON_CALLBACK', {
+                    feedback: 'ignore'
+                }).then(function(candidate) {
+                    appInfo = _.extend(appInfo, {
+                        screenshotsInfo: candidate.screenshots.normal,
+                        iconInfo: candidate.icons.px48,
+                        first: true,
+                        newDescription: candidate.description,
+                        newIcon: candidate.iconsStr,
+                        newScreenshots: candidate.screenshotsStr
+                    });
+                    init();
+                });
+            } else {
+                init();
+            }
+        });
 
-        // ovewrite
-        vm = {};
-        vm.iconPreview = appInfo.iconInfo.originalUrl;
-        vm.screenshotsPreview = _.pluck(appInfo.screenshotsInfo, 'originalUrl');
-        $scope.vm = vm;
-
-        // vm and data @ scope
-        console.log($scope.$root._app);
-        // upload wrapp
+        function init() {
+            // ovewrite
+            vm = {};
+            if (appInfo.first) {
+                vm.iconPreview = appInfo.iconInfo;
+                vm.screenshotsPreview = appInfo.screenshotsInfo;
+                delete appInfo.first;
+            } else {
+                vm.iconPreview = appInfo.iconInfo.url;
+                vm.screenshotsPreview = _.pluck(appInfo.screenshotsInfo, 'url');
+            }
+            $scope.vm = vm;
+            $scope.appInfo = appInfo;
+            $scope.appInfo.newScreenshots = $scope.appInfo.newScreenshots.split(',');
+        }
 
         function setImgUpload(key, endpoint, succ, opt) {
 
@@ -225,9 +214,6 @@ define(function() {
                 readImg(f).then(function(imgInfo) {
                     if (checker(imgInfo)) {
                         if (!_.isUndefined(idx)) {
-                            if (idx === 0) {
-                                $scope.vm[key + 'Preview'] = [];
-                            }
                             $scope.vm[key + 'Preview'].push(imgInfo.dataUrl);
                         } else {
                             $scope.vm[key + 'Preview'] = imgInfo.dataUrl;
@@ -238,7 +224,8 @@ define(function() {
                     }
                 }).then(function(resp) {
                     if (!resp) return;
-                    if (idx) {
+                    if (!_.isUndefined(idx)) {
+                        $scope.vm[key + 'Status'].processed += 1;
                         succ(resp, idx);
                     } else {
                         succ(resp);
@@ -249,11 +236,15 @@ define(function() {
             $scope.$watch('vm.' + key, function(v) {
                 if (!v) return;
                 $scope.vm[key + 'Err'] = '';
-                if (v.length) {
+                if (opt.fileLengthCheck) {
                     if (opt.fileLengthCheck && !opt.fileLengthCheck(v.length)) {
                         $scope.vm[key + 'Err'] = errMsg;
                         return;
                     }
+                    $scope.vm[key + 'Status'] = {
+                        length: v.length,
+                        processed: 0
+                    };
                     _.each(v, function(i, idx) {
                         trigger(i, idx);
                     });
@@ -276,13 +267,12 @@ define(function() {
         });
 
         setImgUpload('screenshots', 'setScreenshot', function(resp, idx) {
-            if (!idx) {
-                $scope.appInfo.newScreenshots = [];
-            }
             $scope.appInfo.newScreenshots.push(resp.storageKey);
         }, {
             fileLengthCheck: function(length) {
                 if (length >= 4) {
+                    $scope.vm['screenshots' + 'Preview'] = [];
+                    $scope.appInfo.newScreenshots = [];
                     return true;
                 }
             },
@@ -302,26 +292,19 @@ define(function() {
             changeArrayItem($scope.appInfo.newScreenshots, src, dest);
         };
 
-        /*$('.screenshot-container>div').each(function() {
-            $('<i>X</i>').appendTo($(this)).hide();
-        }).on('mouseenter', function() {
-            $(this).find('i').show();
-        }).on('mouseleave', function() {
-            $(this).find('i').show();
-        });
-        $('.screenshot-container>div i').on('click', function() {
-            debugger;
-        });*/
-
         $scope.submitHandler = function() {
             console.log($scope.appInfo);
             delete $scope.appInfo.iconInfo;
             delete $scope.appInfo.screenshotsInfo;
+            if (angular.isArray($scope.appInfo.newScreenshots)) {
+                $scope.appInfo.newScreenshots = $scope.appInfo.newScreenshots.join(',');
+            }
             apiHelper('confirmReplaceApp', {
                 data: {
                     oemAppData: $scope.appInfo
                 }
             }).then(function() {
+                // force reload
                 $state.go('appVertical.oemAppReplace');
             });
         };

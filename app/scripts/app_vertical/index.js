@@ -117,6 +117,7 @@ define([
             'delBanner': 'GET /banner/delete',
 
             // app replace
+            'fetchAppDetail': 'GET /oemApp/detail',
             'confirmReplaceApp': 'POST /oemApp/confirm',
             'delReplaceApp': 'GET /oemApp/delete',
             'setAppIcon': 'POST /upload/icon',
