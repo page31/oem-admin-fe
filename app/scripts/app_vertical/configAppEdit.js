@@ -1,7 +1,7 @@
 define(function() {
     var app = angular.module('appVerticalApp.configApp', []);
 
-    app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload, $state) {
+    app.controller('configReplaceAppCtrl', function($scope, apiHelper, $http, $upload, $state, $notice) {
         var isReplace = false;
         $scope.$parent.currentConfigType = 'oemAppReplace';
 
@@ -292,6 +292,12 @@ define(function() {
             changeArrayItem($scope.appInfo.newScreenshots, src, dest);
         };
 
+        $scope.goBack = function() {
+            $state.go('appVertical.oemAppReplace', {}, {
+                reload: true
+            });
+        };
+
         $scope.submitHandler = function() {
             console.log($scope.appInfo);
             delete $scope.appInfo.iconInfo;
@@ -305,7 +311,7 @@ define(function() {
                 }
             }).then(function() {
                 // force reload
-                $state.go('appVertical.oemAppReplace');
+                $scope.goBack();
             });
         };
     });
